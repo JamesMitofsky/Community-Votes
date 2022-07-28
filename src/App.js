@@ -6,7 +6,7 @@ import { createTheme } from "@mui/material/styles";
 import { Box, Container } from "@mui/material";
 
 export default function App() {
-  const categories = ["Votables", "Candidates", "Voters"];
+  const categories = ["votable", "candidate", "voter"];
 
   return (
     <div className="App">
@@ -14,7 +14,7 @@ export default function App() {
         <Box sx={{ flexGrow: 1 }}>
           <Navigation />
         </Box>
-        <Container>
+        <Container style={{ marginTop: 30 }}>
           <ManageCards categories={categories} />
         </Container>
       </ThemeProvider>
@@ -23,6 +23,11 @@ export default function App() {
 }
 
 const theme = createTheme({
+  typography: {
+    fontSize: 14,
+    h1: { fontSize: 35 },
+    h2: { fontSize: 25 },
+  },
   palette: {
     primary: {
       main: "#468BB2",
@@ -30,10 +35,5 @@ const theme = createTheme({
     secondary: {
       main: "#F9F0A7",
     },
-  },
-  typography: {
-    fontSize: 8,
-    h1: { fontSize: 35 },
-    h2: { fontSize: 25 },
   },
 });

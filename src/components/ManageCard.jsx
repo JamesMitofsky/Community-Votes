@@ -1,16 +1,15 @@
-import { Grid, Typography, Button, TextField } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { Grid, TextField } from "@mui/material";
 
 export default function ManageCard({ category }) {
+  const thingLabel = `What is this ${category} called?`;
+  const personLabel = `Who are the ${category}s?`;
+
   return (
-    <Grid item>
-      <Typography variant="h2">{category}</Typography>
-
-      <TextField label="Outlined" focused />
-
-      <Button startIcon={<AddIcon />} variant="contained">
-        Add {category}
-      </Button>
+    <Grid item xs={12}>
+      <TextField
+        fullWidth
+        label={category === "votable" ? thingLabel : personLabel}
+      />
     </Grid>
   );
 }
