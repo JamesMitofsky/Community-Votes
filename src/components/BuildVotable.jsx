@@ -1,8 +1,9 @@
 import { Grid, Button, Typography } from "@mui/material";
-import FormControlledInputs from "./FormControlledInputs.jsx";
 import SaveIcon from "@mui/icons-material/Save";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import Votable from "./Votable.jsx";
+import Voter from "./Voter.jsx";
+import Candidate from "./Candidate.jsx";
 
 export default function BuildVotable() {
   const [currentVoter, setCurrentVoter] = useState({
@@ -22,29 +23,23 @@ export default function BuildVotable() {
       ...currentVoter,
       [name]: value,
     });
+    console.log(currentVoter);
   }
-
-  console.log(currentVoter);
-  const categories = ["votable", "candidates", "voters"];
-  let addVoterForm = categories.map((category) => {
-    return (
-      <FormControlledInputs
-        currentVoter={currentVoter}
-        updateVoter={updateVoter}
-        key={uuidv4()}
-        category={category}
-      />
-    );
-  });
-
-  // return <Test currentVoter={currentVoter} updateVoter={updateVoter} />;
 
   return (
     <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
       <Grid item xs={12}>
         <Typography variant="h2">Create a votable!</Typography>
       </Grid>
-      {addVoterForm}
+      <Grid item xs={12}>
+        <Votable currentVoter={currentVoter} updateVoter={updateVoter} />
+      </Grid>
+      <Grid item xs={12}>
+        <Candidate currentVoter={currentVoter} updateVoter={updateVoter} />
+      </Grid>
+      <Grid item xs={12}>
+        <Voter currentVoter={currentVoter} updateVoter={updateVoter} />
+      </Grid>
       <Grid item xs={12}>
         <Button
           disabled

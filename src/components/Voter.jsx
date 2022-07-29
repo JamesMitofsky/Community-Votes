@@ -1,15 +1,7 @@
-import { FormControl, TextField, Grid, Button } from "@mui/material";
+import { FormControl, TextField, Button } from "@mui/material";
 
-export default function FormControlledInputs({
-  category,
-  currentVoter,
-  updateVoter,
-}) {
-  const helperText =
-    category !== "votable" ? `Separate ${category} with commas` : null;
-
-  const isVoter = category === "voters";
-  const isVoterElm = (
+export default function Voter({ currentVoter, updateVoter }) {
+  return (
     <>
       <FormControl fullWidth>
         <TextField
@@ -44,20 +36,5 @@ export default function FormControlledInputs({
       </FormControl>
       <Button fullWidth>Add Voter</Button>
     </>
-  );
-  const notVoterElm = (
-    <FormControl fullWidth>
-      <TextField
-        required
-        fullWidth
-        helperText={helperText}
-        label={category}
-      ></TextField>
-    </FormControl>
-  );
-  return (
-    <Grid item xs={12}>
-      {isVoter ? isVoterElm : notVoterElm}
-    </Grid>
   );
 }
