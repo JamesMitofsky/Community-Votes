@@ -6,7 +6,7 @@ import { createTheme } from "@mui/material/styles";
 import { Box, Container } from "@mui/material";
 
 export default function App() {
-  const categories = ["votable", "candidate", "voter"];
+  const categories = ["Votable", "Candidates", "Voters"];
 
   return (
     <div className="App">

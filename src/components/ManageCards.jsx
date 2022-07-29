@@ -1,10 +1,14 @@
 import { Grid, Button, Typography } from "@mui/material";
-import ManageCard from "./ManageCard.jsx";
+import FormControlledInputs from "./FormControlledInputs.jsx";
 import SaveIcon from "@mui/icons-material/Save";
 
 export default function ManageCards({ categories }) {
+  function handleSubmit() {
+    alert("we've logged your vote!");
+  }
+
   let builtCards = categories.map((category) => {
-    return <ManageCard category={category} />;
+    return <FormControlledInputs category={category} />;
   });
 
   return (
@@ -22,7 +26,13 @@ export default function ManageCards({ categories }) {
       </Grid>
       {builtCards}
       <Grid item xs={12}>
-        <Button item startIcon={<SaveIcon />} variant="contained">
+        <Button
+          onClick={handleSubmit}
+          fullWidth
+          item
+          startIcon={<SaveIcon />}
+          variant="contained"
+        >
           Save this votable
         </Button>
       </Grid>
