@@ -1,22 +1,17 @@
-import ManageCards from "./components/ManageCards.jsx";
+import AdminView from "./views/AdminView.jsx";
 import Navigation from "./components/Navigation.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
-
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 
 export default function App() {
-  const categories = ["Votable", "Candidates", "Voters"];
-
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Box sx={{ flexGrow: 1 }}>
+        <Box styles={{ flexGrow: 1 }}>
           <Navigation />
         </Box>
-        <Container style={{ marginTop: 30 }}>
-          <ManageCards categories={categories} />
-        </Container>
+        <AdminView />
       </ThemeProvider>
     </div>
   );
