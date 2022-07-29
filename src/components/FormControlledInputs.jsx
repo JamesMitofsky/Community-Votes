@@ -1,30 +1,46 @@
 import { FormControl, TextField, Grid, Button } from "@mui/material";
 
-export default function FormControlledInputs({ state, setState, category }) {
-  console.log(state);
+export default function FormControlledInputs({
+  category,
+  currentVoter,
+  updateVoter,
+}) {
   const helperText =
-    category !== "Votable" ? `Separate ${category} with commas` : null;
+    category !== "votable" ? `Separate ${category} with commas` : null;
 
-  const isVoter = category === "Voters";
+  const isVoter = category === "voters";
   const isVoterElm = (
     <>
       <FormControl fullWidth>
-        <TextField label="Voter's name" required fullWidth></TextField>
+        <TextField
+          onChange={updateVoter}
+          value={currentVoter.voterName}
+          label="Voter's name"
+          name="voterName"
+          required
+          fullWidth
+        />
       </FormControl>
       <FormControl>
         <TextField
+          onChange={updateVoter}
           type="number"
+          value={currentVoter.voterVotes}
+          name="voterVotes"
           required
           fullWidth
           label="# of votes"
-        ></TextField>
+        />
       </FormControl>
       <FormControl>
         <TextField
+          onChange={updateVoter}
+          value={currentVoter.voterEmail}
+          name="voterEmail"
           type="email"
           required
           label="Voter's email address"
-        ></TextField>
+        />
       </FormControl>
       <Button fullWidth>Add Voter</Button>
     </>
