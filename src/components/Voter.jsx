@@ -1,6 +1,13 @@
 import { FormControl, TextField, Button } from "@mui/material";
 
-export default function Voter({ currentVoter, updateVoter }) {
+export default function Voter({ currentVoter, updateVoter, submitVoter }) {
+  let formComplete =
+    currentVoter.voterName &&
+    currentVoter.voterEmail &&
+    currentVoter.voterVotes;
+
+  let incompleteForm = !formComplete;
+
   return (
     <>
       <FormControl fullWidth>
@@ -34,7 +41,9 @@ export default function Voter({ currentVoter, updateVoter }) {
           label="Voter's email address"
         />
       </FormControl>
-      <Button fullWidth>Add Voter</Button>
+      <Button disabled={incompleteForm} onClick={submitVoter} fullWidth>
+        Add Voter
+      </Button>
     </>
   );
 }

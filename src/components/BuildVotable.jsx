@@ -4,16 +4,21 @@ import { useState } from "react";
 import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
 import Candidate from "./Candidate.jsx";
+import VotersList from "./VotersList.jsx";
 
 export default function BuildVotable() {
   const [currentVoter, setCurrentVoter] = useState({
-    voterName: "James",
+    voterName: "",
     voterEmail: "",
     voterVotes: 0,
   });
 
-  function handleSubmit() {
-    alert("we've logged your vote!");
+  const [voters, setVoters] = useState([]);
+
+  function addVoterToArray() {
+    console.log("submitCurrentVoter");
+    setVoters((prevVoters) => [...prevVoters, currentVoter]);
+    setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
   }
 
   function updateVoter(event) {
@@ -38,16 +43,18 @@ export default function BuildVotable() {
         <Candidate currentVoter={currentVoter} updateVoter={updateVoter} />
       </Grid>
       <Grid item xs={12}>
-        <Voter currentVoter={currentVoter} updateVoter={updateVoter} />
+        <Voter
+          currentVoter={currentVoter}
+          updateVoter={updateVoter}
+          submitVoter={addVoterToArray}
+        />
+        <Typography variant="h3">
+          {voters.length > 0 ? "Registered Voters" : ""}
+        </Typography>
+        <VotersList voters={voters} />
       </Grid>
       <Grid item xs={12}>
-        <Button
-          disabled
-          onClick={handleSubmit}
-          fullWidth
-          startIcon={<SaveIcon />}
-          variant="contained"
-        >
+        <Button disabled fullWidth startIcon={<SaveIcon />} variant="contained">
           Submit this votable
         </Button>
       </Grid>
