@@ -17,8 +17,7 @@ export default function BuildVotable() {
   });
   function updateVoter(event) {
     const name = event.target.name;
-
-    // if the incoming name attribute doesn't exist in the currentVoter object, exit the function
+    // does incoming property exist on object
     if (currentVoter[name] === undefined) return;
 
     const value = event.target.value;
@@ -28,22 +27,25 @@ export default function BuildVotable() {
     });
   }
 
-  // STATE 2: voters accepts array of objects from State 1
+  // STATE 1.a: voters accepts array of objects from State 1
   const [voters, setVoters] = useState([]);
   function addVoterToArray() {
     setVoters((prevVoters) => [...prevVoters, currentVoter]);
     setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
   }
 
-  // STATE 3: candidates accepts array of strings
-  const [currentCandidate, setCurrentCandidate] = useState([]);
-  function updateCandidate(event) {
-    const value = event.target.value;
-    setCurrentCandidate(value);
-  }
+  // STATE 2: update current candidate field
+  // const [candidates, setCandidates] = useState("");
+  // function updateCandidates(event) {
+  //   const name = event.target.name;
+  //   const value = event.target.value;
+  //   setCandidates(value);
+  // }
 
-  // STATE 4: votable accepts a string
-  const [votable, setVotable] = useState("");
+  // STATE 2.a:
+
+  // STATE 3: votable accepts a string
+  // const [votable, setVotable] = useState("");
 
   return (
     <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
@@ -51,10 +53,10 @@ export default function BuildVotable() {
         <Typography variant="h2">Create a votable!</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Votable currentVoter={currentVoter} updateVoter={updateVoter} />
+        <Votable />
       </Grid>
       <Grid item xs={12}>
-        <Candidate currentVoter={currentVoter} updateVoter={updateVoter} />
+        <Candidate />
       </Grid>
       <Grid item xs={12}>
         <Voter
