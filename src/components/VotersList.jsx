@@ -2,7 +2,9 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
 export default function VotersList({ voters }) {
-  const listItems = voters.map((voter) => {
+  // reverse list order to display most recent first
+  const recentFirstListing = voters.reverse();
+  const listItems = recentFirstListing.map((voter) => {
     return (
       <ListItem key={uuidv4()}>
         <ListItemText primary={voter.voterName} secondary="Name" />

@@ -3,13 +3,14 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useState } from "react";
 import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
-import Candidate from "./Candidate.jsx";
 import VotersList from "./VotersList.jsx";
+import Candidate from "./Candidate.jsx";
+import CandidatesList from "./CandidatesList.jsx";
 
 export default function BuildVotable() {
   // STATES SECTION
 
-  // STATE 1: currentVoter accepts object, eventually sending to the voters array (State 2)
+  // VOTERS current - currentVoter accepts object, eventually sending to the voters array (State 2)
   const [currentVoter, setCurrentVoter] = useState({
     voterName: "",
     voterEmail: "",
@@ -28,24 +29,24 @@ export default function BuildVotable() {
     });
   }
 
-  // STATE 1.a: voters accepts array of objects from State 1
+  // VOTERS all - voters accepts array of objects from State 1
   const [voters, setVoters] = useState([]);
   function addVoterToArray() {
     setVoters((prevVoters) => [...prevVoters, currentVoter]);
     setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
   }
 
-  // STATE 2: update current candidate field
-  // const [candidates, setCandidates] = useState("");
-  // function updateCandidates(event) {
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-  //   setCandidates(value);
-  // }
+  // CANDIDATES current - update current candidate field
+  const [currentCandidate, setCurrentCandidate] = useState("");
 
-  // STATE 2.a:
+  // CANDIDATES all
+  const [candidates, setCandidates] = useState([]);
+  function addCandidate() {
+    setCandidates((prevCandidates) => [...prevCandidates, currentCandidate]);
+    setCurrentCandidate("");
+  }
 
-  // STATE 3: votable accepts a string
+  // VOTABLES - accepts a string
   // const [votable, setVotable] = useState("");
 
   return (
@@ -57,7 +58,15 @@ export default function BuildVotable() {
         <Votable />
       </Grid>
       <Grid item xs={12}>
-        <Candidate />
+        <Candidate
+          currentCandidate={currentCandidate}
+          addCandidate={addCandidate}
+          setCurrentCandidate={setCurrentCandidate}
+        />
+        <Typography variant="h3">
+          {candidates.length > 0 ? "Registered Candidates" : ""}
+        </Typography>
+        <CandidatesList candidates={candidates} />
       </Grid>
       <Grid item xs={12}>
         <Voter
