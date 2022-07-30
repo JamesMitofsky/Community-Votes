@@ -18,7 +18,8 @@ export default function BuildVotable() {
   function updateVoter(event) {
     const name = event.target.name;
     // does incoming property exist on object
-    if (currentVoter[name] === undefined) return;
+    if (currentVoter[name] === undefined)
+      throw `HOA Error: ${name} does not exist as a property of the currentVoter object.`;
 
     const value = event.target.value;
     setCurrentVoter({
