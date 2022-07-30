@@ -55,7 +55,7 @@ export default function BuildVotable() {
       </Grid>
       <Grid item xs={12}>
         <Button disabled fullWidth startIcon={<SaveIcon />} variant="contained">
-          Submit this votable
+          Save this votable
         </Button>
       </Grid>
     </Grid>
