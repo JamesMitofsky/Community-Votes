@@ -7,20 +7,14 @@ import Candidate from "./Candidate.jsx";
 import VotersList from "./VotersList.jsx";
 
 export default function BuildVotable() {
+  // STATES SECTION
+
+  // STATE 1: currentVoter accepts object, eventually sending to the voters array (State 2)
   const [currentVoter, setCurrentVoter] = useState({
     voterName: "",
     voterEmail: "",
     voterVotes: 0,
   });
-
-  const [voters, setVoters] = useState([]);
-
-  function addVoterToArray() {
-    console.log("submitCurrentVoter");
-    setVoters((prevVoters) => [...prevVoters, currentVoter]);
-    setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
-  }
-
   function updateVoter(event) {
     const name = event.target.name;
     const value = event.target.value;
@@ -28,8 +22,21 @@ export default function BuildVotable() {
       ...currentVoter,
       [name]: value,
     });
-    console.log(currentVoter);
   }
+
+  // STATE 2: voters accepts array of objects from State 1
+  const [voters, setVoters] = useState([]);
+  function addVoterToArray() {
+    console.log("submitCurrentVoter");
+    setVoters((prevVoters) => [...prevVoters, currentVoter]);
+    setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
+  }
+
+  // STATE 3: candidates accepts array of strings
+  const [currentCandidate, setCurrentCandidate] = useState([]);
+
+  // STATE 4: votable accepts a string
+  const [votable, setVotable] = useState("");
 
   return (
     <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
