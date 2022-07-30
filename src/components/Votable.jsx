@@ -5,6 +5,7 @@ export default function Votable({ currentVoter, updateVoter }) {
   return (
     <FormControl fullWidth>
       <TextField
+        autoComplete="off"
         required
         fullWidth
         helperText={helperText}

@@ -12,6 +12,7 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
     <>
       <FormControl fullWidth>
         <TextField
+          autoComplete="off"
           onChange={updateVoter}
           value={currentVoter.voterName}
           label="Voter's name"
@@ -22,6 +23,7 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
       </FormControl>
       <FormControl>
         <TextField
+          autoComplete="off"
           onChange={updateVoter}
           type="number"
           value={currentVoter.voterVotes}
@@ -33,6 +35,7 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
       </FormControl>
       <FormControl>
         <TextField
+          autoComplete="off"
           onChange={updateVoter}
           value={currentVoter.voterEmail}
           name="voterEmail"
