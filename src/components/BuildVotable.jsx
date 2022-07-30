@@ -17,6 +17,10 @@ export default function BuildVotable() {
   });
   function updateVoter(event) {
     const name = event.target.name;
+
+    // if the incoming name attribute doesn't exist in the currentVoter object, exit the function
+    if (!currentVoter.hasOwnProperty(name)) return;
+
     const value = event.target.value;
     setCurrentVoter({
       ...currentVoter,
@@ -27,13 +31,16 @@ export default function BuildVotable() {
   // STATE 2: voters accepts array of objects from State 1
   const [voters, setVoters] = useState([]);
   function addVoterToArray() {
-    console.log("submitCurrentVoter");
     setVoters((prevVoters) => [...prevVoters, currentVoter]);
     setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
   }
 
   // STATE 3: candidates accepts array of strings
   const [currentCandidate, setCurrentCandidate] = useState([]);
+  function updateCandidate(event) {
+    const value = event.target.value;
+    setCurrentCandidate(value);
+  }
 
   // STATE 4: votable accepts a string
   const [votable, setVotable] = useState("");
