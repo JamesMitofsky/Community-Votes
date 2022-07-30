@@ -19,7 +19,7 @@ export default function BuildVotable() {
     const name = event.target.name;
 
     // if the incoming name attribute doesn't exist in the currentVoter object, exit the function
-    if (!currentVoter.hasOwnProperty(name)) return;
+    if (currentVoter[name] === undefined) return;
 
     const value = event.target.value;
     setCurrentVoter({
