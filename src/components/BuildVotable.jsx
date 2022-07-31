@@ -67,7 +67,7 @@ export default function BuildVotable() {
       candidates: candidates,
       voters: voters,
     });
-  }, [candidates, voters, candidates]);
+  }, [candidates, voters, votable]);
 
   // submit button disabled if incomplete form
   const [buttonState, setButtonState] = useState(true);
