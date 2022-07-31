@@ -34,7 +34,7 @@ export default function BuildVotable() {
   // VOTERS all - voters accepts array of objects from State 1
   const [voters, setVoters] = useState([]);
   function addVoterToArray() {
-    setVoters((prevVoters) => [...prevVoters, currentVoter]);
+    setVoters((prevVoters) => [currentVoter, ...prevVoters]);
     setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
   }
 
@@ -44,7 +44,7 @@ export default function BuildVotable() {
   // CANDIDATES all
   const [candidates, setCandidates] = useState([]);
   function addCandidate() {
-    setCandidates((prevCandidates) => [...prevCandidates, currentCandidate]);
+    setCandidates((prevCandidates) => [currentCandidate, ...prevCandidates]);
     setCurrentCandidate("");
   }
 
@@ -61,8 +61,8 @@ export default function BuildVotable() {
       </Grid>
       <Grid item xs={12}>
         <Candidate
-          currentCandidate={currentCandidate}
           addCandidate={addCandidate}
+          currentCandidate={currentCandidate}
           setCurrentCandidate={setCurrentCandidate}
         />
         <Typography variant="h3">
