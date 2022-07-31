@@ -116,9 +116,6 @@ export default function BuildVotable() {
           currentCandidate={currentCandidate}
           setCurrentCandidate={setCurrentCandidate}
         />
-        <Typography variant="h3">
-          {candidates.length > 0 ? "Registered Candidates" : ""}
-        </Typography>
         <NameList names={candidates} />
       </Grid>
       <Grid item xs={12}>
@@ -127,9 +124,6 @@ export default function BuildVotable() {
           updateVoter={updateVoter}
           submitVoter={addVoterToArray}
         />
-        <Typography variant="h3">
-          {voters.length > 0 ? "Registered Voters" : ""}
-        </Typography>
         <VotersList voters={voters} />
       </Grid>
       <Grid item xs={12}>

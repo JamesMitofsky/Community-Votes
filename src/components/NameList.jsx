@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 export default function NameList({ names }) {
   const listItems = names.map((name) => {
     return (
-      <ListItem key={uuidv4()}>
+      <ListItem divider key={uuidv4()}>
         <ListItemText primary={name} />
       </ListItem>
     );
