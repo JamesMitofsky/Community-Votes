@@ -5,7 +5,8 @@ import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
 import VotersList from "./VotersList.jsx";
 import Candidate from "./Candidate.jsx";
-import CandidatesList from "./CandidatesList.jsx";
+import NameList from "./NameList.jsx";
+import callRestApi from "../functions/callRestApi.js";
 
 export default function BuildVotable() {
   // STATES SECTION
@@ -49,7 +50,14 @@ export default function BuildVotable() {
   }
 
   // VOTABLES - accepts a string
-  // const [votable, setVotable] = useState("");
+  const [currentVotable, setCurrentVotable] = useState("");
+
+  // CANDIDATES all
+  const [votables, setVotables] = useState([]);
+  function addVotable() {
+    setVotables((prevVotables) => [currentVotable, ...prevVotables]);
+    setCurrentVotable("");
+  }
 
   return (
     <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
@@ -57,7 +65,12 @@ export default function BuildVotable() {
         <Typography variant="h2">Create a votable!</Typography>
       </Grid>
       <Grid item xs={12}>
-        <Votable />
+        <Votable
+          addVotable={addVotable}
+          currentVotable={currentVotable}
+          setCurrentVotable={setCurrentVotable}
+        />
+        <NameList names={votables} />
       </Grid>
       <Grid item xs={12}>
         <Candidate
@@ -68,7 +81,7 @@ export default function BuildVotable() {
         <Typography variant="h3">
           {candidates.length > 0 ? "Registered Candidates" : ""}
         </Typography>
-        <CandidatesList candidates={candidates} />
+        <NameList names={candidates} />
       </Grid>
       <Grid item xs={12}>
         <Voter

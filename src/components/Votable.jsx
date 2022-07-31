@@ -1,16 +1,29 @@
-import { FormControl, TextField } from "@mui/material";
+import { FormControl, TextField, Button } from "@mui/material";
 
-export default function Votable({ currentVoter, updateVoter }) {
-  const helperText = "Please enter your name";
+export default function Votable({
+  addVotable,
+  currentVotable,
+  setCurrentVotable,
+}) {
+  const helperText = "Please enter candidate's name";
+  let formComplete = !currentVotable;
+
   return (
-    <FormControl fullWidth>
-      <TextField
-        autoComplete="off"
-        required
-        fullWidth
-        helperText={helperText}
-        label="Votable"
-      ></TextField>
-    </FormControl>
+    <>
+      <FormControl fullWidth>
+        <TextField
+          autoComplete="off"
+          required
+          fullWidth
+          helperText={helperText}
+          label="Votable"
+          value={currentVotable}
+          onChange={(e) => setCurrentVotable(e.target.value)}
+        ></TextField>
+      </FormControl>
+      <Button disabled={formComplete} onClick={addVotable} fullWidth>
+        Add Candidate
+      </Button>
+    </>
   );
 }
