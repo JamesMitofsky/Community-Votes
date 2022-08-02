@@ -1,17 +1,26 @@
 import AdminView from "./views/AdminView.jsx";
+import VoterView from "./views/VoterView.jsx";
+import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { Container } from "@mui/material";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Box styles={{ flexGrow: 1 }}>
-          <Navigation />
-        </Box>
-        <AdminView />
+        <Navigation />
+        <Container sx={{ marginTop: 5 }} maxWidth="md">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<VoterView />}></Route>
+              <Route path="/admin" element={<AdminView />}></Route>
+              <Route path="*" element={<UnknownAddress />}></Route>
+            </Routes>
+          </BrowserRouter>
+        </Container>
       </ThemeProvider>
     </div>
   );
