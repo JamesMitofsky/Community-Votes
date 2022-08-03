@@ -13,9 +13,9 @@ export default function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Navigation />
-        <Container sx={{ marginTop: 5 }} maxWidth="md">
-          <BrowserRouter>
+        <BrowserRouter>
+          <Navigation />
+          <Container sx={{ marginTop: 5 }} maxWidth="md">
             <Routes>
               <Route path="/" element={<LandingPage />}></Route>
               <Route path="/voter" element={<VoterView />}></Route>
@@ -23,8 +23,8 @@ export default function App() {
               <Route path="*" element={<UnknownAddress />}></Route>
               <Route path="/buildURL" element={<UrlBuilder />}></Route>
             </Routes>
-          </BrowserRouter>
-        </Container>
+          </Container>
+        </BrowserRouter>
       </ThemeProvider>
     </div>
   );
