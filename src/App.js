@@ -1,5 +1,6 @@
 import AdminView from "./views/AdminView.jsx";
 import VoterView from "./views/VoterView.jsx";
+import LandingPage from "./views/LandingPage.jsx";
 import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
 import UrlBuilder from "./views/UrlBuilder.jsx";
@@ -16,7 +17,8 @@ export default function App() {
         <Container sx={{ marginTop: 5 }} maxWidth="md">
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<VoterView />}></Route>
+              <Route path="/" element={<LandingPage />}></Route>
+              <Route path="/voter" element={<VoterView />}></Route>
               <Route path="/admin" element={<AdminView />}></Route>
               <Route path="*" element={<UnknownAddress />}></Route>
               <Route path="/buildURL" element={<UrlBuilder />}></Route>
