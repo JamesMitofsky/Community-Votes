@@ -1,6 +1,7 @@
 import NameList from "../components/NameList.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -9,10 +10,13 @@ function voterObject(voterID, votableObject) {
 }
 
 export default function VoterView() {
+  let [searchParams, setSearchParams] = useSearchParams();
+
+  // setSearchParams({ name: "james" });
   // PLACEHOLDER: get info from url
   const urlParams = {
-    votableID: "Test votableYgFjbbFmbZ",
-    voterID: "voter bobVyPYsJIWld",
+    votableID: searchParams.get("votableID"),
+    voterID: searchParams.get("voterID"),
   };
 
   // create empty state variables

@@ -2,6 +2,7 @@ import AdminView from "./views/AdminView.jsx";
 import VoterView from "./views/VoterView.jsx";
 import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
+import UrlBuilder from "./views/UrlBuilder.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { Container } from "@mui/material";
@@ -18,6 +19,7 @@ export default function App() {
               <Route path="/" element={<VoterView />}></Route>
               <Route path="/admin" element={<AdminView />}></Route>
               <Route path="*" element={<UnknownAddress />}></Route>
+              <Route path="/buildURL" element={<UrlBuilder />}></Route>
             </Routes>
           </BrowserRouter>
         </Container>
