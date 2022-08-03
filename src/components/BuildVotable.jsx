@@ -111,13 +111,6 @@ export default function BuildVotable() {
   function publishToServer(e) {
     e.preventDefault();
 
-    // convert votables to string formats
-    // const votableString = JSON.stringify(completeVotable);
-    // const votableString = {
-    //   candidates: "Greg, James",
-    //   name: "MyVotable",
-    //   voters: "Greg,greg@votable.com,2\nJames,james@votable.com,3",
-    // };
     console.log(completeVotable);
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
