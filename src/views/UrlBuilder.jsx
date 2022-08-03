@@ -6,7 +6,7 @@ export default function UrlBuilder() {
   const [votableID, setVotableID] = useState("");
   const [voterID, setVoterID] = useState("");
 
-  let constructedURL = "/?votableID=" + votableID + "&voterID=" + voterID;
+  let constructedURL = "/voter/?votableID=" + votableID + "&voterID=" + voterID;
 
   return (
     <>

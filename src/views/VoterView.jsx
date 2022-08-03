@@ -1,7 +1,6 @@
 import NameList from "../components/NameList.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -10,7 +9,8 @@ function voterObject(voterID, votableObject) {
 }
 
 export default function VoterView() {
-  let [searchParams, setSearchParams] = useSearchParams();
+  // get search parameters from the url
+  const searchParams = new URLSearchParams(window.location.search);
 
   // setSearchParams({ name: "james" });
   // PLACEHOLDER: get info from url
