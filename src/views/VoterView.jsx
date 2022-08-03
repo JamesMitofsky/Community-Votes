@@ -28,7 +28,7 @@ export default function VoterView() {
   });
   useEffect(() => {
     const instance = axios.create({
-      baseURL: "http://127.0.0.1:5000",
+      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
     });
 
     // REQUIREMENT: get id from url

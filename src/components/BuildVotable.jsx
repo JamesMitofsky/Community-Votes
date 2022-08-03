@@ -121,7 +121,7 @@ export default function BuildVotable() {
     console.log(completeVotable);
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
-      baseURL: "http://127.0.0.1:5000",
+      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
     });
 
     instance
