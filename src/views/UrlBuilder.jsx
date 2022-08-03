@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export default function UrlBuilder() {
 
   return (
     <>
-      <h1>Create Voter Ballot Link</h1>
+      <Typography variant="h1">Create Voter Ballot Link</Typography>
       <TextField
         label="Votable ID"
         value={votableID}
@@ -23,7 +23,7 @@ export default function UrlBuilder() {
       />
       {votableID && voterID && (
         <>
-          <h2>Constructed Link</h2>
+          <Typography variant="h2">Constructed Link</Typography>
           <Link target="_blank" to={constructedURL}>
             {process.env.REACT_APP_SERVER_ADDRESS + constructedURL}
           </Link>

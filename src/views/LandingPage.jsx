@@ -1,12 +1,13 @@
 import homeSVG from "../assets/home.svg";
+import { Typography } from "@mui/material";
 export default function LandingPage() {
   return (
     <>
-      <h1>Association HQ!</h1>
-      <h2>
+      <Typography variant="h1">Association HQ!</Typography>
+      <Typography variant="p">
         If there's something being voted on, the person running your elections
         will email you a link.
-      </h2>
+      </Typography>
       <img
         style={{ width: "inherit" }}
         src={homeSVG}

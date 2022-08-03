@@ -1,6 +1,7 @@
 import NameList from "../components/NameList.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Typography } from "@mui/material";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -52,12 +53,12 @@ export default function VoterView() {
   } else {
     return (
       <>
-        <h1>Hi, voter!</h1>
-        <p>
+        <Typography variant="h1">Hi, voter!</Typography>
+        <Typography variant="p">
           We can't see who see who you are yet, but if the person running your
           elections has told you something is being voted on, you might want to
           check your email.
-        </p>
+        </Typography>
       </>
     );
   }

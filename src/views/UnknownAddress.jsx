@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import signsSVG from "../assets/signs.svg";
+import { Typography } from "@mui/material";
 
 export default function UnkownAddress() {
   return (
     <>
-      <h1>
+      <Typography variant="h1">
         Whoops, sorry about that! Would you like to return{" "}
         <Link to="/">home</Link>?
-      </h1>
+      </Typography>
+
       <img style={{ width: "inherit" }} src={signsSVG} alt="" />
     </>
   );
