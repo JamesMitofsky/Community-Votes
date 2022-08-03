@@ -1,10 +1,10 @@
 import { List, ListItem, ListItemText } from "@mui/material";
 
-export default function NameList({ names }) {
-  const listItems = names.map((name) => {
+export default function NameList({ people }) {
+  const listItems = people.map((person) => {
     return (
-      <ListItem divider key={name.id}>
-        <ListItemText primary={name.name} />
+      <ListItem divider key={person.id}>
+        <ListItemText primary={person.name} />
       </ListItem>
     );
   });

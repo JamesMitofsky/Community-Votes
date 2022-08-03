@@ -151,7 +151,7 @@ export default function BuildVotable() {
         <Typography variant="h3">
           {candidates.length > 0 ? "Registered Candidates" : ""}
         </Typography>
-        <NameList names={candidates} />
+        <NameList people={candidates} />
       </Grid>
       <Grid item xs={12}>
         <Voter
