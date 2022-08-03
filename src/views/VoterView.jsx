@@ -41,11 +41,24 @@ export default function VoterView() {
       });
   }, [urlParams.voterID, urlParams.votableID]);
 
-  return (
-    <>
-      <h1>Welcome to your ballot, {voter.name} 👋</h1>
-      <h2>You have {voter.availableVotes} votes available</h2>
-      <NameList people={candidates} />
-    </>
-  );
+  if (voter.name) {
+    return (
+      <>
+        <h1>Welcome to your ballot, {voter.name} 👋</h1>
+        <h2>You have {voter.availableVotes} votes available</h2>
+        <NameList people={candidates} />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <h1>Hi, voter!</h1>
+        <p>
+          We can't see who see who you are yet, but if the person running your
+          elections has told you something is being voted on, you might want to
+          check your email.
+        </p>
+      </>
+    );
+  }
 }
