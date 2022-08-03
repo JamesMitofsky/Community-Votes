@@ -1,6 +1,7 @@
 import { Grid, Button, Typography } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
 import VotersList from "./VotersList.jsx";
@@ -17,6 +18,7 @@ export default function BuildVotable() {
     voterName: "",
     voterEmail: "",
     voterVotes: 0,
+    id: uuidv4(),
   });
   function updateVoter(event) {
     const name = event.target.name;
@@ -37,7 +39,12 @@ export default function BuildVotable() {
   const [voters, setVoters] = useState([]);
   function addVoterToArray() {
     setVoters((prevVoters) => [currentVoter, ...prevVoters]);
-    setCurrentVoter({ voterName: "", voterEmail: "", voterVotes: 0 });
+    setCurrentVoter({
+      voterName: "",
+      voterEmail: "",
+      voterVotes: 0,
+      id: uuidv4(),
+    });
   }
 
   // CANDIDATES (current) state - update current candidate field
@@ -46,7 +53,10 @@ export default function BuildVotable() {
   // CANDIDATES state — complete list
   const [candidates, setCandidates] = useState([]);
   function addCandidate() {
-    setCandidates((prevCandidates) => [currentCandidate, ...prevCandidates]);
+    setCandidates((prevCandidates) => [
+      { name: currentCandidate, id: uuidv4() },
+      ...prevCandidates,
+    ]);
     setCurrentCandidate("");
   }
 
@@ -55,19 +65,37 @@ export default function BuildVotable() {
 
   // COLLECTIVE state
   const [completeVotable, setCompleteVotable] = useState({
-    votable,
     candidates,
+    name: votable,
     voters,
   });
 
   useEffect(() => {
-    console.log("EFFECT in effect ;)");
+    // convert completeVotable object into acceptable data forms
+    const { candidatesString, votersString } = convertData(candidates, voters);
+
     setCompleteVotable({
-      votable: votable,
-      candidates: candidates,
-      voters: voters,
+      candidates: candidatesString,
+      name: votable,
+      voters: votersString,
     });
   }, [candidates, voters, votable]);
+
+  function convertData(candidates, voters) {
+    // convert array of candidate objects into string
+    let candidatesString = candidates
+      .map((candidate) => {
+        return candidate.name;
+      })
+      .join(", ");
+    // convert voters array into string
+    let votersString = voters
+      .map((voter) => {
+        return `${voter.voterName},${voter.voterEmail},${voter.voterVotes}`;
+      })
+      .join("\n");
+    return { candidatesString, votersString };
+  }
 
   // submit button disabled if incomplete form
   const [buttonState, setButtonState] = useState(true);
@@ -82,21 +110,15 @@ export default function BuildVotable() {
 
   function publishToServer(e) {
     e.preventDefault();
+
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
-      baseURL: "http://127.0.0.1:5000",
+      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
     });
 
     instance
-      .post("/votables", {
-        // dummy data for testing
-        candidates: "Greg, James",
-        name: "MyVotable",
-        voters: "Greg,greg@votable.com,2\nJames,james@votable.com,3",
-      })
-      .then(function (response) {
-        console.log(response);
-      })
+      .post("/votables", completeVotable)
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -116,7 +138,10 @@ export default function BuildVotable() {
           currentCandidate={currentCandidate}
           setCurrentCandidate={setCurrentCandidate}
         />
-        <NameList names={candidates} />
+        <Typography variant="h3">
+          {candidates.length > 0 ? "Registered Candidates" : ""}
+        </Typography>
+        <NameList people={candidates} />
       </Grid>
       <Grid item xs={12}>
         <Voter
@@ -127,6 +152,16 @@ export default function BuildVotable() {
         <VotersList voters={voters} />
       </Grid>
       <Grid item xs={12}>
+        <Button
+          type="submit"
+          onClick={publishToServer}
+          disabled={false}
+          fullWidth
+          startIcon={<SaveIcon />}
+          variant="contained"
+        >
+          Testing API calls
+        </Button>
         <Button
           type="submit"
           onClick={publishToServer}
