@@ -118,7 +118,9 @@ export default function BuildVotable() {
 
     instance
       .post("/votables", completeVotable)
-      .then(function (response) {})
+      .then(function (response) {
+        console.log(response);
+      })
       .catch(function (error) {
         console.log(error);
       });
