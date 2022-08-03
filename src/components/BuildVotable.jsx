@@ -111,7 +111,6 @@ export default function BuildVotable() {
   function publishToServer(e) {
     e.preventDefault();
 
-    console.log(completeVotable);
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
       baseURL: process.env.REACT_APP_SERVER_ADDRESS,
@@ -119,9 +118,7 @@ export default function BuildVotable() {
 
     instance
       .post("/votables", completeVotable)
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });

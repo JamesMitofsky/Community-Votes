@@ -1,15 +1,10 @@
 import NameList from "../components/NameList.jsx";
-import { v4 as uuidv4 } from "uuid";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function voterObject(voterID, votableObject) {
-  console.log(votableObject);
-
   const allVoters = votableObject.voters;
   const voter = allVoters.find((voter) => voter.id === voterID);
-
-  console.log(voter);
   return voter;
 }
 
@@ -30,17 +25,17 @@ export default function VoterView() {
     const instance = axios.create({
       baseURL: process.env.REACT_APP_SERVER_ADDRESS,
     });
-
-    // REQUIREMENT: get id from url
-    instance(`/votables/${urlParams.votableID}`, {
-      method: "get",
-    }).then(function (response) {
-      setCandidates(response.data.candidates);
-      const voter = voterObject(urlParams.voterID, response.data);
-
-      setVoter({ name: voter.name, availableVotes: voter.votes });
-    });
-  }, []);
+    instance
+      .get(`/votables/${urlParams.votableID}`)
+      .then(function (response) {
+        setCandidates(response.data.candidates);
+        const voter = voterObject(urlParams.voterID, response.data);
+        setVoter({ name: voter.name, availableVotes: voter.votes });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [urlParams.voterID, urlParams.votableID]);
 
   return (
     <>
