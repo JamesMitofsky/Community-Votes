@@ -104,7 +104,7 @@ export default function BuildVotable() {
       (prop) => prop.length > 0
     );
     if (readyToGo) {
-      setButtonState((prevButtonState) => !prevButtonState);
+      setButtonState(true);
     }
   }, [completeVotable]);
 
