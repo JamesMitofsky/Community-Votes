@@ -6,7 +6,7 @@ export default function VotableConfirmation({
   handleOpen,
   votableData,
 }) {
-  const { candidates, name, voters } = votableData.data;
+  const { candidates, name, voters, id } = votableData.data;
 
   return (
     <>
@@ -20,23 +20,24 @@ export default function VotableConfirmation({
         <Card sx={{ height: "100%" }}>
           <CardContent>
             <Typography id="modal-modal-title" variant="h2">
-              Votable Successfully Saved!
+              Your votable, "{name}"" was successfully submitted!
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              {name}
-            </Typography>
-            <Typography id="modal-modal-title" variant="h3">
-              Candidate Names
+            <Typography variant="h3">
+              {candidates.length} Candidate(s) Registered
             </Typography>
             <NameList people={candidates} />
-            <Typography id="modal-modal-title" variant="h3">
-              Voter Names
+            <Typography variant="h3">
+              {voters.length} Voters Registered
             </Typography>
             <NameList people={voters} />
+            <Typography variant="h3">Votable ID</Typography>
+            <Typography variant="p" sx={{ display: "block" }}>
+              {id}
+            </Typography>
+            <Button sx={{ mt: 5 }} variant="contained" onClick={handleOpen}>
+              Okay
+            </Button>
           </CardContent>
-          <Button variant="outlined" onClick={handleOpen}>
-            Okay
-          </Button>
         </Card>
       </Modal>
     </>
