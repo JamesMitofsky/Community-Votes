@@ -10,7 +10,6 @@ export default function VotableConfirmation({
 
   return (
     <>
-      <Button onClick={handleOpen}>Open modal</Button>
       <Modal
         sx={{ padding: "2rem" }}
         open={isOpen}
