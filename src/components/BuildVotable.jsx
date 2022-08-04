@@ -18,7 +18,7 @@ export default function BuildVotable() {
   const [currentVoter, setCurrentVoter] = useState({
     voterName: "",
     voterEmail: "",
-    voterVotes: 0,
+    voterVotes: "",
     id: uuidv4(),
   });
 
@@ -44,7 +44,7 @@ export default function BuildVotable() {
     setCurrentVoter({
       voterName: "",
       voterEmail: "",
-      voterVotes: 0,
+      voterVotes: "",
       id: uuidv4(),
     });
   }
@@ -110,6 +110,8 @@ export default function BuildVotable() {
     }
   }, [completeVotable]);
 
+  const [votableData, setVotableData] = useState({});
+
   function publishToServer(e) {
     e.preventDefault();
 
@@ -124,6 +126,16 @@ export default function BuildVotable() {
         console.log(response);
         setVotableData(response);
         setIsOpen(true);
+        // reset all states
+        setVotable("");
+        setCandidates([]);
+        setVoters([]);
+        setCurrentVoter({
+          voterName: "",
+          voterEmail: "",
+          voterVotes: "",
+          id: uuidv4(),
+        });
       })
       .catch(function (error) {
         console.log(error);
@@ -135,7 +147,6 @@ export default function BuildVotable() {
     setIsOpen((prevOpen) => !prevOpen);
     console.log("ran");
   }
-  const [votableData, setVotableData] = useState({});
 
   let votableConfirmation = isOpen ? (
     <VotableConfirmation
