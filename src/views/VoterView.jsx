@@ -42,24 +42,29 @@ export default function VoterView() {
       });
   }, [urlParams.voterID, urlParams.votableID]);
 
-  if (voter.name) {
-    return (
-      <>
-        <h1>Welcome to your ballot, {voter.name} 👋</h1>
-        <h2>You have {voter.availableVotes} votes available</h2>
-        <NameList people={candidates} />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <Typography variant="h1">Hi, voter!</Typography>
-        <Typography variant="p">
-          We can't see who see who you are yet, but if the person running your
-          elections has told you something is being voted on, you might want to
-          check your email.
-        </Typography>
-      </>
-    );
-  }
+  // if (voter.name) {
+  return (
+    <>
+      <Typography variant="h1">
+        Welcome to your ballot, {voter.name} 👋
+      </Typography>
+      <Typography variant="h2">
+        You have {voter.availableVotes} votes available 🎉
+      </Typography>
+      <NameList people={candidates} />
+    </>
+  );
+  // }
+  // else {
+  //   return (
+  //     <>
+  //       <Typography variant="h1">Hi, voter!</Typography>
+  //       <Typography variant="p">
+  //         We can't see who see who you are yet, but if the person running your
+  //         elections has told you something is being voted on, you might want to
+  //         check your email.
+  //       </Typography>
+  //     </>
+  //   );
+  // }
 }
