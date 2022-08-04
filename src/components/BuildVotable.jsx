@@ -1,4 +1,5 @@
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Typography, Backdrop } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -111,9 +112,11 @@ export default function BuildVotable() {
   }, [completeVotable]);
 
   const [votableData, setVotableData] = useState({});
+  const [backdropState, setBackdropState] = useState(false);
 
   function publishToServer(e) {
     e.preventDefault();
+    setBackdropState(true);
 
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
@@ -125,6 +128,7 @@ export default function BuildVotable() {
       .then(function (response) {
         console.log(response);
         setVotableData(response);
+        setBackdropState(false);
         setIsOpen(true);
         // reset all states
         setVotable("");
@@ -139,6 +143,7 @@ export default function BuildVotable() {
       })
       .catch(function (error) {
         console.log(error);
+        setBackdropState(false);
       });
   }
 
@@ -159,45 +164,58 @@ export default function BuildVotable() {
   );
 
   return (
-    <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
-      <Grid item xs={12}>
-        <Typography variant="h2">Create a votable!</Typography>
+    <>
+      <Grid
+        component="form"
+        container
+        rowSpacing={5}
+        style={{ display: "flex" }}
+      >
+        <Grid item xs={12}>
+          <Typography variant="h2">Create a votable!</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Votable currentVotable={votable} setCurrentVotable={setVotable} />
+        </Grid>
+        <Grid item xs={12}>
+          <Candidate
+            addCandidate={addCandidate}
+            currentCandidate={currentCandidate}
+            setCurrentCandidate={setCurrentCandidate}
+          />
+          <Typography variant="h3">
+            {candidates.length > 0 ? "Registered Candidates" : ""}
+          </Typography>
+          <NameList people={candidates} />
+        </Grid>
+        <Grid item xs={12}>
+          <Voter
+            currentVoter={currentVoter}
+            updateVoter={updateVoter}
+            submitVoter={addVoterToArray}
+          />
+          <VotersList voters={voters} />
+        </Grid>
+        <Grid item xs={12}>
+          {votableConfirmation}
+          <Button
+            type="submit"
+            onClick={publishToServer}
+            disabled={buttonState}
+            fullWidth
+            startIcon={<SaveIcon />}
+            variant="contained"
+          >
+            Save this votable
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Votable currentVotable={votable} setCurrentVotable={setVotable} />
-      </Grid>
-      <Grid item xs={12}>
-        <Candidate
-          addCandidate={addCandidate}
-          currentCandidate={currentCandidate}
-          setCurrentCandidate={setCurrentCandidate}
-        />
-        <Typography variant="h3">
-          {candidates.length > 0 ? "Registered Candidates" : ""}
-        </Typography>
-        <NameList people={candidates} />
-      </Grid>
-      <Grid item xs={12}>
-        <Voter
-          currentVoter={currentVoter}
-          updateVoter={updateVoter}
-          submitVoter={addVoterToArray}
-        />
-        <VotersList voters={voters} />
-      </Grid>
-      <Grid item xs={12}>
-        {votableConfirmation}
-        <Button
-          type="submit"
-          onClick={publishToServer}
-          disabled={buttonState}
-          fullWidth
-          startIcon={<SaveIcon />}
-          variant="contained"
-        >
-          Save this votable
-        </Button>
-      </Grid>
-    </Grid>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={backdropState}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    </>
   );
 }
