@@ -1,5 +1,5 @@
-import { Grid, Button, Typography, Backdrop } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import { Grid, Button, Typography } from "@mui/material";
+import SuccessButton from "./SuccessButton.jsx";
 import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -112,11 +112,10 @@ export default function BuildVotable() {
   }, [completeVotable]);
 
   const [votableData, setVotableData] = useState({});
-  const [backdropState, setBackdropState] = useState(false);
 
   function publishToServer(e) {
     e.preventDefault();
-    setBackdropState(true);
+    setLoading(true);
 
     // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
@@ -128,8 +127,8 @@ export default function BuildVotable() {
       .then(function (response) {
         console.log(response);
         setVotableData(response);
-        setBackdropState(false);
-        setIsOpen(true);
+        setLoading(false);
+        setSuccess(true);
         // reset all states
         setVotable("");
         setCandidates([]);
@@ -143,20 +142,22 @@ export default function BuildVotable() {
       })
       .catch(function (error) {
         console.log(error);
-        setBackdropState(false);
       });
   }
 
-  const [isOpen, setIsOpen] = useState(false);
-  function handleOpen() {
-    setIsOpen((prevOpen) => !prevOpen);
-    console.log("ran");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  function handleSuccess() {
+    setSuccess((prev) => !prev);
+  }
+  function handleLoading() {
+    setLoading((prev) => !prev);
   }
 
-  let votableConfirmation = isOpen ? (
+  let votableConfirmation = success ? (
     <VotableConfirmation
-      isOpen={isOpen}
-      handleOpen={handleOpen}
+      isOpen={success}
+      handleOpen={handleSuccess}
       votableData={votableData}
     />
   ) : (
@@ -198,24 +199,24 @@ export default function BuildVotable() {
         </Grid>
         <Grid item xs={12}>
           {votableConfirmation}
-          <Button
+          {/* <Button
             type="submit"
-            onClick={publishToServer}
             disabled={buttonState}
             fullWidth
             startIcon={<SaveIcon />}
             variant="contained"
           >
             Submit this votable
-          </Button>
+          </Button> */}
+          <SuccessButton
+            onClick={publishToServer}
+            loading={loading}
+            handleLoading={handleLoading}
+            success={success}
+            incompleteForm={buttonState}
+          />
         </Grid>
       </Grid>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backdropState}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
     </>
   );
 }
