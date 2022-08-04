@@ -29,15 +29,11 @@ export default function VotableConfirmation({
             <Typography id="modal-modal-title" variant="h2">
               Candidate Names
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <NameList people={candidates} />
-            </Typography>
+            <NameList people={candidates} />
             <Typography id="modal-modal-title" variant="h2">
               Voter Names
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              <NameList people={voters} />
-            </Typography>
+            <NameList people={voters} />
           </CardContent>
         </Card>
       </Modal>
