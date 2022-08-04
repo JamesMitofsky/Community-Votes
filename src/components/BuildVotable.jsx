@@ -206,7 +206,7 @@ export default function BuildVotable() {
             startIcon={<SaveIcon />}
             variant="contained"
           >
-            Save this votable
+            Submit this votable
           </Button>
         </Grid>
       </Grid>
