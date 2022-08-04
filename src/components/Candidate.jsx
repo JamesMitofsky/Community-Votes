@@ -5,7 +5,7 @@ export default function Candidate({
   setCurrentCandidate,
   addCandidate,
 }) {
-  const helperText = "Please enter your name";
+  const helperText = "Enter a candidate's name";
 
   let formComplete = !currentCandidate;
 

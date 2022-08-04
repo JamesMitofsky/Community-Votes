@@ -1,7 +1,7 @@
 import { FormControl, TextField } from "@mui/material";
 
 export default function Votable({ currentVotable, setCurrentVotable }) {
-  const helperText = "Please enter candidate's name";
+  const helperText = "Enter what's being voted on";
 
   return (
     <>
