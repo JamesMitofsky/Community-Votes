@@ -149,9 +149,6 @@ export default function BuildVotable() {
   function handleSuccess() {
     setSuccess((prev) => !prev);
   }
-  function handleLoading() {
-    setLoading((prev) => !prev);
-  }
 
   let votableConfirmation = success ? (
     <VotableConfirmation
@@ -199,9 +196,8 @@ export default function BuildVotable() {
         <Grid item xs={12}>
           {votableConfirmation}
           <SuccessButton
-            onClick={publishToServer}
+            publishToServer={publishToServer}
             loading={loading}
-            handleLoading={handleLoading}
             success={success}
             incompleteForm={buttonState}
           />

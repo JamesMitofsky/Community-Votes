@@ -5,9 +5,7 @@ import { green } from "@mui/material/colors";
 export default function SuccessButton({
   loading,
   success,
-  handleSuccess,
-  handleLoading,
-  text,
+  publishToServer,
   incompleteForm,
 }) {
   const buttonSx = {
@@ -27,7 +25,7 @@ export default function SuccessButton({
         variant="contained"
         sx={buttonSx}
         disabled={buttonState}
-        onClick={handleLoading}
+        onClick={publishToServer}
       >
         Accept terms
       </Button>
