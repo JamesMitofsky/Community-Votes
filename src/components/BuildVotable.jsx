@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
 import VotersList from "./VotersList.jsx";
+import VotableConfirmation from "../components/VotableConfirmation.jsx";
 import Candidate from "./Candidate.jsx";
 import NameList from "./NameList.jsx";
 // import callRestApi from "../functions/callRestApi.js";
@@ -20,6 +21,7 @@ export default function BuildVotable() {
     voterVotes: 0,
     id: uuidv4(),
   });
+
   function updateVoter(event) {
     const name = event.target.name;
     // does incoming property exist on object
@@ -104,7 +106,7 @@ export default function BuildVotable() {
       (prop) => prop.length > 0
     );
     if (readyToGo) {
-      setButtonState(true);
+      setButtonState(false);
     }
   }, [completeVotable]);
 
@@ -120,11 +122,30 @@ export default function BuildVotable() {
       .post("/votables", completeVotable)
       .then(function (response) {
         console.log(response);
+        setVotableData(response);
+        setIsOpen(true);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+
+  const [isOpen, setIsOpen] = useState(false);
+  function handleOpen() {
+    setIsOpen((prevOpen) => !prevOpen);
+    console.log("ran");
+  }
+  const [votableData, setVotableData] = useState({});
+
+  let votableConfirmation = isOpen ? (
+    <VotableConfirmation
+      isOpen={isOpen}
+      handleOpen={handleOpen}
+      votableData={votableData}
+    />
+  ) : (
+    ""
+  );
 
   return (
     <Grid component="form" container rowSpacing={5} style={{ display: "flex" }}>
@@ -154,16 +175,7 @@ export default function BuildVotable() {
         <VotersList voters={voters} />
       </Grid>
       <Grid item xs={12}>
-        <Button
-          type="submit"
-          onClick={publishToServer}
-          disabled={false}
-          fullWidth
-          startIcon={<SaveIcon />}
-          variant="contained"
-        >
-          Testing API calls
-        </Button>
+        {votableConfirmation}
         <Button
           type="submit"
           onClick={publishToServer}
