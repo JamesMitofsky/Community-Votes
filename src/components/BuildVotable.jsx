@@ -1,6 +1,5 @@
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import SuccessButton from "./SuccessButton.jsx";
-import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Votable from "./Votable.jsx";
@@ -199,15 +198,6 @@ export default function BuildVotable() {
         </Grid>
         <Grid item xs={12}>
           {votableConfirmation}
-          {/* <Button
-            type="submit"
-            disabled={buttonState}
-            fullWidth
-            startIcon={<SaveIcon />}
-            variant="contained"
-          >
-            Submit this votable
-          </Button> */}
           <SuccessButton
             onClick={publishToServer}
             loading={loading}
