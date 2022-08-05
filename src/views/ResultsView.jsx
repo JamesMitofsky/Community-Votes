@@ -1,15 +1,22 @@
-import { Typography, Button, List, ListItem } from "@mui/material";
+import { Typography, List, ListItem } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import getTotalVotes from "../functions/getTotalVotes.js";
 
 export default function ResultsView() {
   const [votablesData, setVotablesData] = useState([]);
+  const [candidates, setCandidates] = useState([]);
 
   function listItemsFromArray(array) {
     const listElms = array.map((item) => {
+      console.log(item);
+      const isCandidate = item.candidateName ? true : false;
       return (
         <ListItem divider key={item.id}>
-          {item.name}
+          {isCandidate ? item.candidateName : item.name}{" "}
+          {isCandidate
+            ? `earned ${item.votes} votes`
+            : `was allotted ${item.votes} votes`}
         </ListItem>
       );
     });
@@ -35,6 +42,14 @@ export default function ResultsView() {
       });
   }, []);
 
+  useEffect(() => {
+    votablesData.forEach((votable) => {
+      getTotalVotes(votable.id).then((candidates) => {
+        setCandidates(candidates);
+      });
+    });
+  }, [votablesData]);
+
   return (
     <>
       <Typography variant="h1">Results</Typography>
@@ -43,7 +58,7 @@ export default function ResultsView() {
       </Typography>
       {votablesData.map((votable) => {
         const votableName = votable.name;
-        const candidatesListItems = listItemsFromArray(votable.candidates);
+        const candidatesListItems = listItemsFromArray(candidates);
         const votersListItems = listItemsFromArray(votable.voters);
         return (
           <>

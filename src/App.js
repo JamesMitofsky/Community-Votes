@@ -34,14 +34,16 @@ export default function App() {
 
 const theme = createTheme({
   typography: {
+    headers: {},
     fontSize: 14,
     h1: { fontSize: 35, fontWeight: 500 },
-    h2: { fontSize: 25, marginTop: 20, fontWeight: 400 },
+    h2: { fontSize: 25, marginTop: 20, fontWeight: 500 },
     h3: { fontSize: 20, marginTop: 10, marginBottom: 0 },
   },
   palette: {
     primary: {
       main: "#468BB2",
+      dark: "#075b8a",
     },
     secondary: {
       main: "#F9F0A7",
