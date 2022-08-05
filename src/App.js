@@ -15,7 +15,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Navigation />
-          <Container sx={{ marginTop: 5 }} maxWidth="md">
+          <Container sx={{ marginTop: 2 }} maxWidth="md">
             <Routes>
               <Route path="/" element={<LandingPage />}></Route>
               <Route path="/voter" element={<VoterView />}></Route>
@@ -34,7 +34,7 @@ const theme = createTheme({
   typography: {
     fontSize: 14,
     h1: { fontSize: 35 },
-    h2: { fontSize: 25 },
+    h2: { fontSize: 25, marginTop: 30 },
     h3: { fontSize: 20 },
   },
   palette: {
