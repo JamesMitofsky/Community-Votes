@@ -169,7 +169,7 @@ export default function BuildVotable() {
         style={{ display: "flex" }}
       >
         <Grid item xs={12}>
-          <Typography variant="h2">Create a votable!</Typography>
+          <Typography variant="h1">Create a votable!</Typography>
         </Grid>
         <Grid item xs={12}>
           <Votable currentVotable={votable} setCurrentVotable={setVotable} />
@@ -180,9 +180,6 @@ export default function BuildVotable() {
             currentCandidate={currentCandidate}
             setCurrentCandidate={setCurrentCandidate}
           />
-          <Typography variant="h3">
-            {candidates.length > 0 ? "Registered Candidates" : ""}
-          </Typography>
           <NameList people={candidates} />
         </Grid>
         <Grid item xs={12}>

@@ -5,7 +5,7 @@ export default function VotersList({ voters }) {
   const listItems = voters.map((voter) => {
     console.log("newid:", voter.id);
     return (
-      <ListItem divider key={voter.id}>
+      <ListItem key={voter.id}>
         <ListItemText primary={voter.voterName} secondary="Name" />
         <ListItemText primary={voter.voterEmail} secondary="Email" />
         <ListItemText primary={voter.voterVotes} secondary="Votes" />

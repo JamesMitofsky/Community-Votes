@@ -24,8 +24,8 @@ export default function LandingPage() {
         Publishing a votable
       </Typography>
       <Typography variant="body1">
-        Votables are automatically published when you publish them from the{" "}
-        <Link to="/admin">Admin page</Link>.
+        Votables are automatically published when you publish them from the
+        Admin page.
       </Typography>
       <Typography variant="h2">
         <HowToVoteIcon />
@@ -34,16 +34,16 @@ export default function LandingPage() {
       <Typography variant="body1">
         After publishing a votable, voters will receive an email shortly from
         the app. This email will include a link which is unique to them, letting
-        them cast their allotted votes for whichever votable.
+        them cast their allotted votes on the{" "}
+        <Link to="/voter">voter page</Link>.
       </Typography>
       <Typography variant="h2">
         <NotificationsActiveIcon />
         Tallying Votes
       </Typography>
       <Typography variant="body1">
-        All votes will be tallied at the end of the voting period, and results
-        will be mailed to all voters who were eligible to vote, regardless of
-        whether they voted.
+        All votes will be tallied at the end of the voting period. These results
+        will be tallied up on the <Link to="/results">results page</Link>.
       </Typography>
     </>
   );
