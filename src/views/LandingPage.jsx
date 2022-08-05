@@ -1,18 +1,50 @@
-import homeSVG from "../assets/home.svg";
 import { Typography } from "@mui/material";
+import { Link } from "react-router-dom";
+import CreateIcon from "@mui/icons-material/Create";
+import OutboxIcon from "@mui/icons-material/Outbox";
+import HowToVoteIcon from "@mui/icons-material/HowToVote";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 export default function LandingPage() {
   return (
     <>
-      <Typography variant="h1">Association HQ!</Typography>
-      <Typography variant="p">
-        If there's something being voted on, the person running your elections
-        will email you a link.
+      <Typography variant="h1">Home</Typography>
+      <Typography variant="subtitle1">
+        Welcome to HOA Votes! Here's a quick explanation of how this app works:
       </Typography>
-      <img
-        style={{ width: "inherit" }}
-        src={homeSVG}
-        alt="Three houses in a neighborhood together."
-      />
+      <Typography variant="h2">
+        <CreateIcon />
+        Creating a votable
+      </Typography>
+      <Typography variant="body1">
+        Create a votable by filling out the form found on the{" "}
+        <Link to="/admin">Admin page</Link>.
+      </Typography>
+      <Typography variant="h2">
+        <OutboxIcon />
+        Publishing a votable
+      </Typography>
+      <Typography variant="body1">
+        Votables are automatically published when you publish them from the{" "}
+        <Link to="/admin">Admin page</Link>.
+      </Typography>
+      <Typography variant="h2">
+        <HowToVoteIcon />
+        Voters voting
+      </Typography>
+      <Typography variant="body1">
+        After publishing a votable, voters will receive an email shortly from
+        the app. This email will include a link which is unique to them, letting
+        them cast their allotted votes for whichever votable.
+      </Typography>
+      <Typography variant="h2">
+        <NotificationsActiveIcon />
+        Tallying Votes
+      </Typography>
+      <Typography variant="body1">
+        All votes will be tallied at the end of the voting period, and results
+        will be mailed to all voters who were eligible to vote, regardless of
+        whether they voted.
+      </Typography>
     </>
   );
 }
