@@ -35,9 +35,9 @@ export default function App() {
 const theme = createTheme({
   typography: {
     fontSize: 14,
-    h1: { fontSize: 35 },
-    h2: { fontSize: 25, marginTop: 30 },
-    h3: { fontSize: 20 },
+    h1: { fontSize: 35, fontWeight: 500 },
+    h2: { fontSize: 25, marginTop: 20, fontWeight: 400 },
+    h3: { fontSize: 20, marginTop: 10, marginBottom: 0 },
   },
   palette: {
     primary: {
