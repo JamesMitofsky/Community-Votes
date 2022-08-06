@@ -84,7 +84,32 @@ export default function VoterView() {
     });
   }
 
-  console.log(candidates.length, candidates);
+  function castBallot() {
+    const objOfCandidates = candidates.reduce((acc, current) => {
+      let newObj = { ...acc, [current.id.trim()]: current.votes };
+      return newObj;
+    }, {});
+
+    const candidatesAndVotes = {
+      voterId: urlParams.voterID,
+      // return all candidates mapped into object as key value pairs of id & votes
+      votes: JSON.stringify(objOfCandidates),
+    };
+
+    console.log(candidatesAndVotes);
+
+    const instance = axios.create({
+      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+    });
+    instance
+      .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
 
   // if (voter.name) {
   return (
@@ -105,7 +130,7 @@ export default function VoterView() {
         );
       })}
       {/* <CastVotes candidates={candidates} updateCandidate={updateCandidates} countVotes={} /> */}
-      <Button fullWidth variant="outlined">
+      <Button onClick={castBallot} fullWidth variant="outlined">
         Cast Vote
       </Button>
     </>
