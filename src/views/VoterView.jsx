@@ -95,10 +95,11 @@ export default function VoterView() {
       <Typography variant="h2">
         You have {voter.availableVotes} votes available 🎉
       </Typography>
+      <Typography variant="h3">Candidates</Typography>
       {candidates.map((candidate) => {
         return (
           <Typography variant="h3">
-            {candidate.name} has {candidate.votes} votes
+            {candidate.name}: {candidate.votes} votes
             <PlusMinusCounter candidate={candidate} updateVotes={updateVotes} />
           </Typography>
         );
