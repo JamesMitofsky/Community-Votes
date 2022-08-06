@@ -9,10 +9,10 @@ export default function ResultsView() {
 
   function listItemsFromArray(array) {
     const listElms = array.map((item) => {
-      console.log(item);
       const isCandidate = item.candidateName ? true : false;
+      console.log(item);
       return (
-        <ListItem divider key={item.id}>
+        <ListItem divider key={isCandidate ? item.candidateId : item.id}>
           {isCandidate ? item.candidateName : item.name}{" "}
           {isCandidate
             ? `earned ${item.votes} votes`
@@ -34,7 +34,6 @@ export default function ResultsView() {
     instance
       .get("/votables")
       .then(function (response) {
-        console.log(response);
         setVotablesData(response.data);
       })
       .catch(function (error) {
