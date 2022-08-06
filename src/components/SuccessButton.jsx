@@ -27,7 +27,7 @@ export default function SuccessButton({
         disabled={buttonState}
         onClick={publishToServer}
       >
-        Accept terms
+        Submit votable
       </Button>
       {loading && (
         <CircularProgress
