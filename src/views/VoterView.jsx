@@ -1,7 +1,7 @@
-import NameList from "../components/NameList.jsx";
+import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -23,7 +23,7 @@ export default function VoterView() {
   // create empty state variables
   const [candidates, setCandidates] = useState([]);
   const [voter, setVoter] = useState({
-    availableVotes: 0,
+    availableVotes: "",
     name: "",
   });
   useEffect(() => {
@@ -33,7 +33,12 @@ export default function VoterView() {
     instance
       .get(`/votables/${urlParams.votableID}`)
       .then(function (response) {
-        setCandidates(response.data.candidates);
+        // add vote count property to candidates for presentation to the voter who will cast their votes
+        const candidatesWithVotes = addVoteParamToObjs(
+          response.data.candidates
+        );
+
+        setCandidates(candidatesWithVotes);
         const voter = voterObject(urlParams.voterID, response.data);
         setVoter({ name: voter.name, availableVotes: voter.votes });
       })
@@ -41,6 +46,45 @@ export default function VoterView() {
         console.log(error);
       });
   }, [urlParams.voterID, urlParams.votableID]);
+
+  function addVoteParamToObjs(arrayOfObjs) {
+    return arrayOfObjs.map((obj) => ({ ...obj, votes: 0 }));
+  }
+
+  function updateVotes(id, isPlus) {
+    const incrementDirection = isPlus ? 1 : -1;
+    const hasVotesRemaining = voter.availableVotes > 0;
+    // if voter wants to add votes but doesn't have more votes to add, exit function
+    if (isPlus && !hasVotesRemaining) return;
+    // if the vote would move a candidate below zero, exit function
+    if (
+      !isPlus &&
+      candidates.find((candidate) => candidate.id === id).votes <= 0
+    )
+      return;
+
+    setCandidates((prevCandidates) => {
+      let updatedCandidates = prevCandidates.map((candidate) =>
+        candidate.id !== id
+          ? candidate
+          : { ...candidate, votes: candidate.votes + incrementDirection }
+      );
+      // updatedCandidate.votes = isPlus
+      //   ? updatedCandidate.votes + 1
+      //   : updatedCandidate.votes - 1;
+      return updatedCandidates;
+    });
+    setVoter((prevVoter) => {
+      return {
+        ...prevVoter,
+        availableVotes: isPlus
+          ? prevVoter.availableVotes - 1
+          : prevVoter.availableVotes + 1,
+      };
+    });
+  }
+
+  console.log(candidates.length, candidates);
 
   // if (voter.name) {
   return (
@@ -51,7 +95,18 @@ export default function VoterView() {
       <Typography variant="h2">
         You have {voter.availableVotes} votes available 🎉
       </Typography>
-      <NameList people={candidates} />
+      {candidates.map((candidate) => {
+        return (
+          <Typography variant="h3">
+            {candidate.name} has {candidate.votes} votes
+            <PlusMinusCounter candidate={candidate} updateVotes={updateVotes} />
+          </Typography>
+        );
+      })}
+      {/* <CastVotes candidates={candidates} updateCandidate={updateCandidates} countVotes={} /> */}
+      <Button fullWidth variant="outlined">
+        Cast Vote
+      </Button>
     </>
   );
   // }
