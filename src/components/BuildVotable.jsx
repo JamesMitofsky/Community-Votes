@@ -74,7 +74,7 @@ export default function BuildVotable() {
     candidates,
     name: votable,
     voters,
-    date: "",
+    expiration: "",
   });
 
   function handleVotableExpiration(dateObj) {
@@ -89,7 +89,7 @@ export default function BuildVotable() {
       candidates: candidatesString,
       name: votable,
       voters: votersString,
-      date: votableExpiration ? votableExpiration.toISOString() : "",
+      expiration: votableExpiration ? votableExpiration.toISOString() : "",
     });
   }, [candidates, voters, votable, votableExpiration]);
 
@@ -112,12 +112,10 @@ export default function BuildVotable() {
   // submit button disabled if incomplete form
   const [buttonState, setButtonState] = useState(true);
   useEffect(() => {
-    console.log("use effect", completeVotable);
     const readyToGo = Object.values(completeVotable).every(
       (prop) => prop.length > 0
     );
 
-    console.log("readyToGo", readyToGo);
     if (readyToGo) {
       setButtonState(false);
     }
