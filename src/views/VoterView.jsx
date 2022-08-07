@@ -93,7 +93,7 @@ export default function VoterView() {
     const candidatesAndVotes = {
       voterId: urlParams.voterID,
       // return all candidates mapped into object as key value pairs of id & votes
-      votes: JSON.stringify(objOfCandidates),
+      votes: objOfCandidates,
     };
 
     console.log(candidatesAndVotes);
