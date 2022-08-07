@@ -6,6 +6,7 @@ import Votable from "./Votable.jsx";
 import Voter from "./Voter.jsx";
 import VotersList from "./VotersList.jsx";
 import VotableConfirmation from "../components/VotableConfirmation.jsx";
+import VotableExpiration from "../components/VotableExpiration.jsx";
 import Candidate from "./Candidate.jsx";
 import NameList from "./NameList.jsx";
 // import callRestApi from "../functions/callRestApi.js";
@@ -70,7 +71,13 @@ export default function BuildVotable() {
     candidates,
     name: votable,
     voters,
+    date: new Date(),
   });
+
+  const [votableExpiration, setVotableExpiration] = useState(new Date());
+  function handleVotableExpiration(date) {
+    setVotableExpiration(date);
+  }
 
   useEffect(() => {
     // convert completeVotable object into acceptable data forms
@@ -80,8 +87,9 @@ export default function BuildVotable() {
       candidates: candidatesString,
       name: votable,
       voters: votersString,
+      date: votableExpiration,
     });
-  }, [candidates, voters, votable]);
+  }, [candidates, voters, votable, votableExpiration]);
 
   function convertData(candidates, voters) {
     // convert array of candidate objects into string
@@ -173,6 +181,12 @@ export default function BuildVotable() {
         </Grid>
         <Grid item xs={12}>
           <Votable currentVotable={votable} setCurrentVotable={setVotable} />
+        </Grid>
+        <Grid item xs={12}>
+          <VotableExpiration
+            votableExpiration={votableExpiration}
+            setExpiration={handleVotableExpiration}
+          />
         </Grid>
         <Grid item xs={12}>
           <Candidate
