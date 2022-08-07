@@ -66,17 +66,19 @@ export default function BuildVotable() {
   // VOTABLES state - accepts a string
   const [votable, setVotable] = useState("");
 
+  // expecting ISO format string
+  const [votableExpiration, setVotableExpiration] = useState(new Date());
+
   // COLLECTIVE state
   const [completeVotable, setCompleteVotable] = useState({
     candidates,
     name: votable,
     voters,
-    date: new Date(),
+    date: "",
   });
 
-  const [votableExpiration, setVotableExpiration] = useState(new Date());
-  function handleVotableExpiration(date) {
-    setVotableExpiration(date);
+  function handleVotableExpiration(dateObj) {
+    setVotableExpiration(dateObj);
   }
 
   useEffect(() => {
@@ -87,7 +89,7 @@ export default function BuildVotable() {
       candidates: candidatesString,
       name: votable,
       voters: votersString,
-      date: votableExpiration,
+      date: votableExpiration ? votableExpiration.toISOString() : "",
     });
   }, [candidates, voters, votable, votableExpiration]);
 
@@ -110,11 +112,11 @@ export default function BuildVotable() {
   // submit button disabled if incomplete form
   const [buttonState, setButtonState] = useState(true);
   useEffect(() => {
-    console.log(completeVotable);
-    const readyToGo = Object.values(completeVotable).every((prop) => {
-      console.log(typeof prop, prop);
-      return prop.length > 0 || typeof prop === "object";
-    });
+    console.log("use effect", completeVotable);
+    const readyToGo = Object.values(completeVotable).every(
+      (prop) => prop.length > 0
+    );
+
     console.log("readyToGo", readyToGo);
     if (readyToGo) {
       setButtonState(false);
@@ -188,7 +190,7 @@ export default function BuildVotable() {
         <Grid item xs={12}>
           <VotableExpiration
             votableExpiration={votableExpiration}
-            setExpiration={handleVotableExpiration}
+            handleExpirationChange={handleVotableExpiration}
           />
         </Grid>
         <Grid item xs={12}>

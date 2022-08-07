@@ -5,16 +5,16 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function VotableExpiration({
   votableExpiration,
-  setExpiration,
+  handleExpirationChange,
 }) {
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <DatePicker
-          label="Basic example"
+          label="Votable expiration date"
           value={votableExpiration}
           onChange={(newValue) => {
-            setExpiration(newValue);
+            handleExpirationChange(newValue);
           }}
           renderInput={(params) => <TextField {...params} />}
         />
