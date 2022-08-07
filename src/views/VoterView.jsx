@@ -105,9 +105,11 @@ export default function VoterView() {
       .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
       .then(function (response) {
         console.log(response);
+        alert(response.data);
       })
       .catch(function (error) {
         console.log(error);
+        alert(error.response.data);
       });
   }
 
