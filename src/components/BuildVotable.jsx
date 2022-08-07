@@ -110,9 +110,12 @@ export default function BuildVotable() {
   // submit button disabled if incomplete form
   const [buttonState, setButtonState] = useState(true);
   useEffect(() => {
-    const readyToGo = Object.values(completeVotable).every(
-      (prop) => prop.length > 0
-    );
+    console.log(completeVotable);
+    const readyToGo = Object.values(completeVotable).every((prop) => {
+      console.log(typeof prop, prop);
+      return prop.length > 0 || typeof prop === "object";
+    });
+    console.log("readyToGo", readyToGo);
     if (readyToGo) {
       setButtonState(false);
     }
