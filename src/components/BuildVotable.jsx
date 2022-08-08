@@ -176,22 +176,26 @@ export default function BuildVotable() {
       <Grid
         component="form"
         container
-        rowSpacing={5}
+        rowSpacing={3}
+        direction="column"
         style={{ display: "flex" }}
       >
-        <Grid item xs={12}>
+        <Grid item>
           <Typography variant="h1">Create a votable!</Typography>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h2">Votable title</Typography>
           <Votable currentVotable={votable} setCurrentVotable={setVotable} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h2">Votable expiration date</Typography>
           <VotableExpiration
             votableExpiration={votableExpiration}
             handleExpirationChange={handleVotableExpiration}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h2">Candidates</Typography>
           <Candidate
             addCandidate={addCandidate}
             currentCandidate={currentCandidate}
@@ -199,7 +203,8 @@ export default function BuildVotable() {
           />
           <NameList people={candidates} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h2">Voters</Typography>
           <Voter
             currentVoter={currentVoter}
             updateVoter={updateVoter}
@@ -207,7 +212,7 @@ export default function BuildVotable() {
           />
           <VotersList voters={voters} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
           {votableConfirmation}
           <SuccessButton
             publishToServer={publishToServer}
