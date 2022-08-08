@@ -4,9 +4,14 @@ import CreateIcon from "@mui/icons-material/Create";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { Helmet } from "react-helmet";
+
 export default function LandingPage() {
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <Typography variant="h1">Home</Typography>
       <Typography variant="subtitle1">
         Welcome to HOA Votes! Here's a quick explanation of how this app works:

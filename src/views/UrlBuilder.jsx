@@ -1,6 +1,7 @@
 import { TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function UrlBuilder() {
   const [votableID, setVotableID] = useState("");
@@ -10,6 +11,9 @@ export default function UrlBuilder() {
 
   return (
     <>
+      <Helmet>
+        <title>Voter URL Builder</title>
+      </Helmet>
       <Typography variant="h1">Create Voter Ballot Link</Typography>
       <TextField
         label="Votable ID"

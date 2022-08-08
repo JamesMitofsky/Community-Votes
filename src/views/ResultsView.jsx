@@ -2,6 +2,7 @@ import { Typography, List, ListItem } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import getTotalVotes from "../functions/getTotalVotes.js";
+import { Helmet } from "react-helmet";
 
 export default function ResultsView() {
   const [votablesData, setVotablesData] = useState([]);
@@ -61,6 +62,9 @@ export default function ResultsView() {
         const votersListItems = listItemsFromArray(votable.voters);
         return (
           <>
+            <Helmet>
+              <title>Results</title>
+            </Helmet>
             <Typography variant="h2">Votable: {votableName}</Typography>
             <Typography variant="h3">Candidates</Typography>
             <List>{candidatesListItems}</List>

@@ -2,6 +2,7 @@ import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography, Button, List, ListItem } from "@mui/material";
+import { Helmet } from "react-helmet";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -116,6 +117,9 @@ export default function VoterView() {
   // if (voter.name) {
   return (
     <>
+      <Helmet>
+        <title>Voting</title>
+      </Helmet>
       <Typography variant="h1">
         Welcome to your ballot, {voter.name} 👋
       </Typography>

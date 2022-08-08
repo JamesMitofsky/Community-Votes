@@ -9,6 +9,7 @@ import VotableConfirmation from "../components/VotableConfirmation.jsx";
 import VotableExpiration from "../components/VotableExpiration.jsx";
 import Candidate from "./Candidate.jsx";
 import NameList from "./NameList.jsx";
+import { Helmet } from "react-helmet";
 // import callRestApi from "../functions/callRestApi.js";
 import axios from "axios";
 
@@ -173,6 +174,9 @@ export default function BuildVotable() {
 
   return (
     <>
+      <Helmet>
+        <title>Build Votable</title>
+      </Helmet>
       <Grid
         component="form"
         container
