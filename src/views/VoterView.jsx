@@ -127,6 +127,7 @@ export default function VoterView() {
         {candidates.map((candidate) => {
           return (
             <ListItem
+              divider
               sx={{ justifyContent: "space-between" }}
               key={candidate.id}
             >
