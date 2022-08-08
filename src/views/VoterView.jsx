@@ -68,10 +68,25 @@ export default function VoterView() {
       setCandidates(returnedCandidateVotes);
 
       const voter = voterObject(urlParams.voterID, votableInfo);
-      setVoter({ name: voter.name, availableVotes: voter.votes });
+      const votesMinusVotesCast = calculateAvailableVotes(
+        voter.votes,
+        returnedCandidateVotes
+      );
+      console.log(votesMinusVotesCast);
+      setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
     }
     fetchData();
   }, [urlParams.voterID, urlParams.votableID]);
+
+  function calculateAvailableVotes(numberOfVotesAllowed, arrayOfCandidates) {
+    const votesMinusVotesCast = arrayOfCandidates.reduce(
+      (accumulator, currentCandidate) => {
+        return accumulator - currentCandidate.votes;
+      },
+      numberOfVotesAllowed
+    );
+    return votesMinusVotesCast;
+  }
 
   function updateVotes(id, isPlus) {
     const incrementDirection = isPlus ? 1 : -1;
