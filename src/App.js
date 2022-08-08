@@ -37,7 +37,7 @@ const theme = createTheme({
     headers: {},
     fontSize: 14,
     h1: { fontSize: 35, fontWeight: 500 },
-    h2: { fontSize: 25, marginTop: 20, fontWeight: 500 },
+    h2: { fontSize: 25, marginTop: 10, marginBottom: 10, fontWeight: 500 },
     h3: { fontSize: 20, marginTop: 10, marginBottom: 0 },
   },
   palette: {
