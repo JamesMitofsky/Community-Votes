@@ -4,18 +4,9 @@ import axios from "axios";
 import { Typography, Button, List, ListItem } from "@mui/material";
 import { Helmet } from "react-helmet";
 
-function voterObject(voterID, votableObject) {
-  const allVoters = votableObject.voters;
-  const voter = allVoters.find((voter) => voter.id === voterID);
-  return voter;
-}
-
 export default function VoterView() {
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
-
-  // setSearchParams({ name: "james" });
-  // PLACEHOLDER: get info from url
   const urlParams = {
     votableID: searchParams.get("votableID"),
     voterID: searchParams.get("voterID"),
@@ -27,30 +18,60 @@ export default function VoterView() {
     availableVotes: "",
     name: "",
   });
-  useEffect(() => {
-    const instance = axios.create({
-      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-    });
-    instance
-      .get(`/votables/${urlParams.votableID}`)
-      .then(function (response) {
-        // add vote count property to candidates for presentation to the voter who will cast their votes
-        const candidatesWithVotes = addVoteParamToObjs(
-          response.data.candidates
-        );
 
-        setCandidates(candidatesWithVotes);
-        const voter = voterObject(urlParams.voterID, response.data);
-        setVoter({ name: voter.name, availableVotes: voter.votes });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }, [urlParams.voterID, urlParams.votableID]);
-
-  function addVoteParamToObjs(arrayOfObjs) {
-    return arrayOfObjs.map((obj) => ({ ...obj, votes: 0 }));
+  function voterObject(voterID, votableObject) {
+    const allVoters = votableObject.voters;
+    const voter = allVoters.find((voter) => voter.id === voterID);
+    return voter;
   }
+
+  // FIX: useEffect should not be async. This should be handled inside the useEffect function
+  useEffect(() => {
+    async function fetchData() {
+      // sets baseline url for the server address
+      const instance = axios.create({
+        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+      });
+
+      // returns votable object
+      const votableInfo = await instance
+        .get(`/votables/${urlParams.votableID}`)
+        .then(function (response) {
+          // object of candidate names and IDs
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+      // returns object with three properties: name, id, votes
+      const returnedCandidateVotes = await instance
+        .get(
+          `/votables/${urlParams.votableID}/votes?voterId=${urlParams.voterID}`
+        )
+        .then(function (response) {
+          // get candidate names and ids
+          const candidates = response.data;
+
+          // return all candidates with their votes attached
+          const newArray = candidates.map((candidate) => {
+            return {
+              name: candidate.candidateName,
+              id: candidate.candidateId,
+              votes: candidate.votes,
+            };
+          });
+          return newArray;
+        });
+
+      // add the number of votes each candidate has already received to their object in the array
+      setCandidates(returnedCandidateVotes);
+
+      const voter = voterObject(urlParams.voterID, votableInfo);
+      setVoter({ name: voter.name, availableVotes: voter.votes });
+    }
+    fetchData();
+  }, [urlParams.voterID, urlParams.votableID]);
 
   function updateVotes(id, isPlus) {
     const incrementDirection = isPlus ? 1 : -1;
@@ -96,8 +117,6 @@ export default function VoterView() {
       // return all candidates mapped into object as key value pairs of id & votes
       votes: objOfCandidates,
     };
-
-    console.log(candidatesAndVotes);
 
     const instance = axios.create({
       baseURL: process.env.REACT_APP_SERVER_ADDRESS,
