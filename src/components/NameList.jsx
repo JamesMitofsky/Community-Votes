@@ -9,5 +9,5 @@ export default function NameList({ people }) {
     );
   });
 
-  return <List>{listItems}</List>;
+  return people.length > 0 ? <List>{listItems}</List> : "";
 }
