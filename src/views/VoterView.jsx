@@ -1,7 +1,7 @@
 import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button, List, ListItem } from "@mui/material";
 
 function voterObject(voterID, votableObject) {
   const allVoters = votableObject.voters;
@@ -123,14 +123,22 @@ export default function VoterView() {
         You have {voter.availableVotes} votes available 🎉
       </Typography>
       <Typography variant="h3">Candidates</Typography>
-      {candidates.map((candidate) => {
-        return (
-          <Typography key={candidate.id} variant="h3">
-            {candidate.name}: {candidate.votes} votes
-            <PlusMinusCounter candidate={candidate} updateVotes={updateVotes} />
-          </Typography>
-        );
-      })}
+      <List>
+        {candidates.map((candidate) => {
+          return (
+            <ListItem
+              sx={{ justifyContent: "space-between" }}
+              key={candidate.id}
+            >
+              <Typography variant="h3">{candidate.name}</Typography>
+              <PlusMinusCounter
+                candidate={candidate}
+                updateVotes={updateVotes}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
       {/* <CastVotes candidates={candidates} updateCandidate={updateCandidates} countVotes={} /> */}
       <Button onClick={castBallot} fullWidth variant="outlined">
         Cast Vote
