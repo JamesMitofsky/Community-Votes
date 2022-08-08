@@ -1,4 +1,11 @@
-import { Button, Modal, Typography, Card, CardContent } from "@mui/material";
+import {
+  Box,
+  Button,
+  Modal,
+  Typography,
+  Card,
+  CardContent,
+} from "@mui/material";
 import NameList from "./NameList";
 
 export default function VotableConfirmation({
@@ -20,7 +27,15 @@ export default function VotableConfirmation({
         <Card sx={{ height: "100%" }}>
           <CardContent>
             <Typography id="modal-modal-title" variant="h2">
-              Your votable, "{name}"" was successfully submitted!
+              ✅{" "}
+              <Box
+                component="span"
+                style={{ textDecoration: "underline" }}
+                class="underline"
+              >
+                {name}
+              </Box>{" "}
+              was successfully submitted!
             </Typography>
             <Typography variant="h3">
               {candidates.length} Candidate(s) Registered
