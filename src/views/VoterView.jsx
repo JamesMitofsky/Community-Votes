@@ -125,7 +125,7 @@ export default function VoterView() {
       <Typography variant="h3">Candidates</Typography>
       {candidates.map((candidate) => {
         return (
-          <Typography variant="h3">
+          <Typography key={candidate.id} variant="h3">
             {candidate.name}: {candidate.votes} votes
             <PlusMinusCounter candidate={candidate} updateVotes={updateVotes} />
           </Typography>
