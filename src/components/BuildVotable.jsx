@@ -137,7 +137,6 @@ export default function BuildVotable() {
     instance
       .post("/votables", completeVotable)
       .then(function (response) {
-        console.log(response);
         setVotableData(response);
         setLoading(false);
         setSuccess(true);

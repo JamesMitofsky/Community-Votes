@@ -11,7 +11,6 @@ export default function ResultsView() {
   function listItemsFromArray(array) {
     const listElms = array.map((item) => {
       const isCandidate = item.candidateName ? true : false;
-      console.log(item);
       return (
         <ListItem divider key={isCandidate ? item.candidateId : item.id}>
           {isCandidate ? item.candidateName : item.name}{" "}

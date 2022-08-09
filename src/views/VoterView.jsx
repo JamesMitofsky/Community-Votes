@@ -162,13 +162,10 @@ export default function VoterView() {
     instance
       .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
       .then(function (response) {
-        console.log(response);
-        alert(response.data);
+        alert("Your votes have been submitted!");
       })
       .catch(function (error) {
-        console.log(candidatesAndVotes);
         console.log(error);
-        alert(error.response.data);
       });
   }
 
