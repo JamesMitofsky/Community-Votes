@@ -25,6 +25,17 @@ export default function VoterView() {
     return voter;
   }
 
+  // add zero voting fields to each candidate with map method
+  function handleNewCandidates(candidatesArray) {
+    const candidatesWithVoteField = candidatesArray.map((candidate) => {
+      return {
+        ...candidate,
+        votes: 0,
+      };
+    });
+    return candidatesWithVoteField;
+  }
+
   // FIX: useEffect should not be async. This should be handled inside the useEffect function
   useEffect(() => {
     async function fetchData() {
@@ -64,15 +75,23 @@ export default function VoterView() {
           return newArray;
         });
 
-      // add the number of votes each candidate has already received to their object in the array
-      setCandidates(returnedCandidateVotes);
+      const votesAlreadyExist =
+        returnedCandidateVotes.length > 0 ? true : false;
+
+      // either set candidates by default or add votes field and add those candidates
+      const candidatesWithVotes = votesAlreadyExist
+        ? returnedCandidateVotes
+        : handleNewCandidates(votableInfo.candidates);
+
+      setCandidates(candidatesWithVotes);
 
       const voter = voterObject(urlParams.voterID, votableInfo);
+
       const votesMinusVotesCast = calculateAvailableVotes(
         voter.votes,
-        returnedCandidateVotes
+        candidatesWithVotes
       );
-      console.log(votesMinusVotesCast);
+
       setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
     }
     fetchData();
