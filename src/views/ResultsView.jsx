@@ -1,27 +1,18 @@
-import { Typography, List, ListItem } from "@mui/material";
+import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import getTotalVotes from "../functions/getTotalVotes.js";
 import { Helmet } from "react-helmet";
+import NameList from "../components/NameList.jsx";
 
 export default function ResultsView() {
-  const [votablesData, setVotablesData] = useState([]);
+  // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
 
-  function listItemsFromArray(array) {
-    const listElms = array.map((item) => {
-      const isCandidate = item.candidateName ? true : false;
-      return (
-        <ListItem divider key={isCandidate ? item.candidateId : item.id}>
-          {isCandidate ? item.candidateName : item.name}{" "}
-          {isCandidate
-            ? `earned ${item.votes} votes`
-            : `was allotted ${item.votes} votes`}
-        </ListItem>
-      );
-    });
-    return listElms;
-  }
+  // get search parameters from the url
+  const searchParams = new URLSearchParams(window.location.search);
+  const urlParams = {
+    votableID: searchParams.get("votableID"),
+  };
 
   useEffect(() => {
     const instance = axios.create({
@@ -32,46 +23,32 @@ export default function ResultsView() {
       },
     });
     instance
-      .get("/votables")
+      .get(`/votables/${urlParams.votableID}/tally`)
       .then(function (response) {
-        setVotablesData(response.data);
+        // transform candidate data to later be consumed by NamesList component
+        const candidates = response.data.map((candidate) => {
+          return {
+            ...candidate,
+            name: candidate.candidateName,
+            id: candidate.candidateId,
+          };
+        });
+
+        // create list elements of all candidate votes
+        setCandidates(candidates);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, []);
 
-  useEffect(() => {
-    votablesData.forEach((votable) => {
-      getTotalVotes(votable.id).then((candidates) => {
-        setCandidates(candidates);
-      });
-    });
-  }, [votablesData]);
-
   return (
     <>
-      <Typography variant="h1">Results</Typography>
-      <Typography variant="subtitle1">
-        Here are the results of all votables.
-      </Typography>
-      {votablesData.map((votable) => {
-        const votableName = votable.name;
-        const candidatesListItems = listItemsFromArray(candidates);
-        const votersListItems = listItemsFromArray(votable.voters);
-        return (
-          <>
-            <Helmet>
-              <title>Results</title>
-            </Helmet>
-            <Typography variant="h2">Votable: {votableName}</Typography>
-            <Typography variant="h3">Candidates</Typography>
-            <List>{candidatesListItems}</List>
-            <Typography variant="h3">Voters</Typography>
-            <List>{votersListItems}</List>
-          </>
-        );
-      })}
+      <Helmet>
+        <title>Results</title>
+      </Helmet>
+      <Typography variant="h1">Results for {urlParams.votableID}</Typography>
+      <NameList people={candidates} />
     </>
   );
 }
