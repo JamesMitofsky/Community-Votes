@@ -162,7 +162,9 @@ export default function VoterView() {
     instance
       .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
       .then(function (response) {
-        alert("Your votes have been submitted!");
+        alert(
+          "Your votes have been submitted!\n\nUntil the voting period ends, you may modify how you've cast your votes here."
+        );
       })
       .catch(function (error) {
         console.log(error);
