@@ -55,6 +55,10 @@ export default function VoterView() {
           console.log(error);
         });
 
+      const votableCandidates = votableInfo.candidates.map((thisCandidate) => {
+        return { ...thisCandidate, id: thisCandidate.id };
+      });
+
       // returns object with three properties: name, id, votes
       const returnedCandidateVotes = await instance
         .get(
@@ -81,7 +85,7 @@ export default function VoterView() {
       // either set candidates by default or add votes field and add those candidates
       const candidatesWithVotes = votesAlreadyExist
         ? returnedCandidateVotes
-        : handleNewCandidates(votableInfo.candidates);
+        : handleNewCandidates(votableCandidates);
 
       setCandidates(candidatesWithVotes);
 
@@ -142,7 +146,7 @@ export default function VoterView() {
 
   function castBallot() {
     const objOfCandidates = candidates.reduce((acc, current) => {
-      let newObj = { ...acc, [current.id.trim()]: current.votes };
+      let newObj = { ...acc, [current.id]: current.votes };
       return newObj;
     }, {});
 
@@ -162,6 +166,7 @@ export default function VoterView() {
         alert(response.data);
       })
       .catch(function (error) {
+        console.log(candidatesAndVotes);
         console.log(error);
         alert(error.response.data);
       });
