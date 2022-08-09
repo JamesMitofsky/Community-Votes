@@ -150,13 +150,6 @@ export default function BuildVotable() {
           voterVotes: "",
           id: uuidv4(),
         });
-        const idString = () => {
-          const idArray = response.data.voters.map((voter) => {
-            return voter.id;
-          });
-          return `Voter IDs:\n\n${idArray.toString().replace(/,/g, "\n")}`;
-        };
-        alert(idString());
       })
       .catch(function (error) {
         console.log(error);
