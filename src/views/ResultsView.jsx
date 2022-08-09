@@ -40,7 +40,7 @@ export default function ResultsView() {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
+  }, [urlParams.votableID]);
 
   return (
     <>
