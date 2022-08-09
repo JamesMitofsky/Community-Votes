@@ -35,14 +35,14 @@ export default function VotableConfirmation({
               >
                 {name}
               </Box>{" "}
-              was successfully submitted!
+              was successfully created!
             </Typography>
             <Typography variant="h3">
-              {candidates.length} Candidate(s) Registered
+              {candidates.length} Candidate{candidates.length > 1 ? "s" : "s"}{" "}
             </Typography>
             <NameList people={candidates} />
             <Typography variant="h3">
-              {voters.length} Voters Registered
+              {voters.length} Voter{voters.length > 1 ? "s" : "s"}
             </Typography>
             <NameList people={voters} />
             <Typography variant="h3">Votable ID</Typography>
