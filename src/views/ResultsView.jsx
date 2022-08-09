@@ -48,7 +48,11 @@ export default function ResultsView() {
         <title>Results</title>
       </Helmet>
       <Typography variant="h1">Results for {urlParams.votableID}</Typography>
-      <NameList people={candidates} />
+      {candidates.length > 0 ? (
+        <NameList people={candidates} />
+      ) : (
+        <Typography variant="h3">No votes have been cast.</Typography>
+      )}
     </>
   );
 }
