@@ -22,8 +22,6 @@ export default function App() {
                 marginTop: 2,
                 display: "flex",
                 flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
                 flexGrow: 1,
               }}
               maxWidth="md"

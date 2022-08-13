@@ -185,6 +185,7 @@ export default function VoterView() {
   const pageLoadingElm = (
     <Stack
       display="flex"
+      margin="auto"
       justifyContent="center"
       flexDirection="column"
       alignItems="center"
