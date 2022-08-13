@@ -1,16 +1,9 @@
 import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Typography,
-  Button,
-  List,
-  ListItem,
-  CircularProgress,
-  Stack,
-  Box,
-} from "@mui/material";
+import { Typography, Button, List, ListItem, Stack } from "@mui/material";
 import { Helmet } from "react-helmet";
+import LoadingSpinner from "../components/LoadingSpinner.jsx";
 
 export default function VoterView() {
   // get search parameters from the url
@@ -182,18 +175,6 @@ export default function VoterView() {
   }
 
   const [pageLoading, setPageLoading] = useState(true);
-  const pageLoadingElm = (
-    <Stack
-      display="flex"
-      margin="auto"
-      justifyContent="center"
-      flexDirection="column"
-      alignItems="center"
-      height="100%"
-    >
-      <CircularProgress />
-    </Stack>
-  );
 
   const voterForm = (
     <>
@@ -234,7 +215,7 @@ export default function VoterView() {
       <Helmet>
         <title>Voting</title>
       </Helmet>
-      {pageLoading ? pageLoadingElm : voterForm}
+      {pageLoading ? <LoadingSpinner /> : voterForm}
     </>
   );
 }
