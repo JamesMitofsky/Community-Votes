@@ -175,6 +175,9 @@ export default function VoterView() {
   }
 
   const [success, setSuccess] = useState(false);
+  function endSuccess() {
+    setSuccess(false);
+  }
 
   const [pageLoading, setPageLoading] = useState(true);
 
@@ -218,7 +221,7 @@ export default function VoterView() {
         <title>Voting</title>
       </Helmet>
       {pageLoading ? <LoadingSpinner /> : voterForm}
-      {success ? <Success succeeded={success} /> : null}
+      {success ? <Success endSuccess={endSuccess} succeeded={success} /> : null}
     </>
   );
 }
