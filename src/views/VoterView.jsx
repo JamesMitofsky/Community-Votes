@@ -192,7 +192,7 @@ export default function VoterView() {
         Welcome to your ballot, {voter.name} 👋
       </Typography>
       <Typography variant="h2">
-        You have {voter.availableVotes} votes available 🎉
+        You have {voter.availableVotes} votes available 🗳
       </Typography>
       <Typography variant="h3">Candidates</Typography>
       <List>
