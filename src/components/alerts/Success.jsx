@@ -1,13 +1,16 @@
 import JSConfetti from "js-confetti";
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
+import { useEffect } from "react";
 
 export default function Success({ succeeded }) {
-  // Innitialize confetti object
-  const jsConfetti = new JSConfetti();
+  useEffect(() => {
+    // Innitialize confetti object
+    const jsConfetti = new JSConfetti();
 
-  if (succeeded) {
-    jsConfetti.addConfetti();
-  }
+    if (succeeded) {
+      jsConfetti.addConfetti();
+    }
+  }, [succeeded]);
 
   return (
     <Snackbar open={succeeded} autoHideDuration={6000}>
