@@ -1,7 +1,7 @@
 import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography, Button, List, ListItem, Stack } from "@mui/material";
+import { Typography, Button, List, ListItem } from "@mui/material";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 
