@@ -1,7 +1,15 @@
 import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography, Button, List, ListItem } from "@mui/material";
+import {
+  Typography,
+  Button,
+  List,
+  ListItem,
+  CircularProgress,
+  Stack,
+  Box,
+} from "@mui/material";
 import { Helmet } from "react-helmet";
 
 export default function VoterView() {
@@ -97,6 +105,8 @@ export default function VoterView() {
       );
 
       setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
+
+      setPageLoading(false);
     }
     fetchData();
   }, [urlParams.voterID, urlParams.votableID]);
@@ -171,12 +181,21 @@ export default function VoterView() {
       });
   }
 
-  // if (voter.name) {
-  return (
+  const [pageLoading, setPageLoading] = useState(true);
+  const pageLoadingElm = (
+    <Stack
+      display="flex"
+      justifyContent="center"
+      flexDirection="column"
+      alignItems="center"
+      height="100%"
+    >
+      <CircularProgress />
+    </Stack>
+  );
+
+  const voterForm = (
     <>
-      <Helmet>
-        <title>Voting</title>
-      </Helmet>
       <Typography variant="h1">
         Welcome to your ballot, {voter.name} 👋
       </Typography>
@@ -207,17 +226,14 @@ export default function VoterView() {
       </Button>
     </>
   );
-  // }
-  // else {
-  //   return (
-  //     <>
-  //       <Typography variant="h1">Hi, voter!</Typography>
-  //       <Typography variant="p">
-  //         We can't see who see who you are yet, but if the person running your
-  //         elections has told you something is being voted on, you might want to
-  //         check your email.
-  //       </Typography>
-  //     </>
-  //   );
-  // }
+
+  // if (voter.name) {
+  return (
+    <>
+      <Helmet>
+        <title>Voting</title>
+      </Helmet>
+      {pageLoading ? pageLoadingElm : voterForm}
+    </>
+  );
 }
