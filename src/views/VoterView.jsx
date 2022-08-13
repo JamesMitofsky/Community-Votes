@@ -1,10 +1,12 @@
 import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography, Button, List, ListItem } from "@mui/material";
+import { Typography, List, ListItem } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Success from "../components/alerts/Success.jsx";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function VoterView() {
   // get search parameters from the url
@@ -149,6 +151,7 @@ export default function VoterView() {
   }
 
   function castBallot() {
+    setLoadingState(true);
     const objOfCandidates = candidates.reduce((acc, current) => {
       let newObj = { ...acc, [current.id]: current.votes };
       return newObj;
@@ -168,12 +171,14 @@ export default function VoterView() {
       .then(function (response) {
         // alert success
         setSuccess(true);
+        setLoadingState(false);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
+  const [loadingState, setLoadingState] = useState(false);
   const [success, setSuccess] = useState(false);
   function endSuccess() {
     setSuccess(false);
@@ -208,9 +213,15 @@ export default function VoterView() {
         })}
       </List>
       {/* <CastVotes candidates={candidates} updateCandidate={updateCandidates} countVotes={} /> */}
-      <Button onClick={castBallot} fullWidth variant="outlined">
+      <LoadingButton
+        onClick={castBallot}
+        loading={loadingState}
+        variant="outlined"
+        endIcon={<SendIcon />}
+        loadingIndicator="Casting your vote..."
+      >
         Cast Vote
-      </Button>
+      </LoadingButton>
     </>
   );
 
