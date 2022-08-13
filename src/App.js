@@ -7,7 +7,7 @@ import Navigation from "./components/Navigation.jsx";
 import UrlBuilder from "./views/UrlBuilder.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -15,17 +15,29 @@ export default function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Navigation />
-          <Container sx={{ marginTop: 2 }} maxWidth="md">
-            <Routes>
-              <Route path="/" element={<LandingPage />}></Route>
-              <Route path="/voter" element={<VoterView />}></Route>
-              <Route path="/results" element={<ResultsView />}></Route>
-              <Route path="/admin" element={<AdminView />}></Route>
-              <Route path="/buildURL" element={<UrlBuilder />}></Route>
-              <Route path="*" element={<UnknownAddress />}></Route>
-            </Routes>
-          </Container>
+          <Box display="flex" flexDirection="column" minHeight="100vh">
+            <Navigation />
+            <Container
+              sx={{
+                marginTop: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                flexGrow: 1,
+              }}
+              maxWidth="md"
+            >
+              <Routes>
+                <Route path="/" element={<LandingPage />}></Route>
+                <Route path="/voter" element={<VoterView />}></Route>
+                <Route path="/results" element={<ResultsView />}></Route>
+                <Route path="/admin" element={<AdminView />}></Route>
+                <Route path="/buildURL" element={<UrlBuilder />}></Route>
+                <Route path="*" element={<UnknownAddress />}></Route>
+              </Routes>
+            </Container>
+          </Box>
         </BrowserRouter>
       </ThemeProvider>
     </div>
