@@ -4,6 +4,7 @@ import axios from "axios";
 import { Typography, Button, List, ListItem } from "@mui/material";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import Success from "../components/alerts/Success.jsx";
 
 export default function VoterView() {
   // get search parameters from the url
@@ -165,14 +166,15 @@ export default function VoterView() {
     instance
       .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
       .then(function (response) {
-        alert(
-          "Your votes have been submitted!\n\nUntil the voting period ends, you may modify how you've cast your votes here."
-        );
+        // alert success
+        setSuccess(true);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+
+  const [success, setSuccess] = useState(false);
 
   const [pageLoading, setPageLoading] = useState(true);
 
@@ -216,6 +218,7 @@ export default function VoterView() {
         <title>Voting</title>
       </Helmet>
       {pageLoading ? <LoadingSpinner /> : voterForm}
+      {success ? <Success succeeded={success} /> : null}
     </>
   );
 }
