@@ -2,7 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import SuccessButton from "./SuccessButton.jsx";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Votable from "./Votable.jsx";
+import TextInput from "./TextInput.jsx";
 import Voter from "./Voter.jsx";
 import VotersList from "./VotersList.jsx";
 import VotableConfirmation from "../components/VotableConfirmation.jsx";
@@ -66,6 +66,11 @@ export default function BuildVotable() {
 
   // VOTABLES state - accepts a string
   const [votable, setVotable] = useState("");
+  const [adminEmail, setAdminEmail] = useState("");
+  function handleAdminEmail(newValue) {
+    setAdminEmail(newValue);
+  }
+  console.log(adminEmail);
 
   // expecting ISO format string
   const [votableExpiration, setVotableExpiration] = useState(new Date());
@@ -76,6 +81,7 @@ export default function BuildVotable() {
     name: votable,
     voters,
     expiration: "",
+    adminEmail: adminEmail,
   });
 
   function handleVotableExpiration(dateObj) {
@@ -91,8 +97,9 @@ export default function BuildVotable() {
       name: votable,
       voters: votersString,
       expiration: votableExpiration ? votableExpiration.toISOString() : "",
+      adminEmail: adminEmail,
     });
-  }, [candidates, voters, votable, votableExpiration]);
+  }, [candidates, voters, votable, votableExpiration, adminEmail]);
 
   function convertData(candidates, voters) {
     // convert array of candidate objects into string
@@ -142,6 +149,7 @@ export default function BuildVotable() {
         setSuccess(true);
         // reset all states
         setVotable("");
+        setAdminEmail("");
         setCandidates([]);
         setVoters([]);
         setCurrentVoter({
@@ -150,6 +158,7 @@ export default function BuildVotable() {
           voterVotes: "",
           id: uuidv4(),
         });
+        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -191,7 +200,21 @@ export default function BuildVotable() {
         </Grid>
         <Grid item>
           <Typography variant="h2">Votable title</Typography>
-          <Votable currentVotable={votable} setCurrentVotable={setVotable} />
+          <TextInput
+            currentText={votable}
+            setCurrentText={setVotable}
+            helperText="Enter what's being voted on"
+            label="Votable"
+          />
+        </Grid>
+        <Grid item>
+          <Typography variant="h2">Administrator email</Typography>
+          <TextInput
+            currentText={adminEmail}
+            setCurrentText={handleAdminEmail}
+            helperText="Enter the email of the administrator"
+            label="Email"
+          />
         </Grid>
         <Grid item>
           <Typography variant="h2">Votable expiration date</Typography>
