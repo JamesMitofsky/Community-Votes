@@ -5,8 +5,11 @@ import { Typography, List, ListItem } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
-import Success from "../components/alerts/Success.jsx";
 import SendIcon from "@mui/icons-material/Send";
+
+// import alerts
+import Success from "../components/alerts/Success.jsx";
+import Error from "../components/alerts/Error.jsx";
 
 export default function VoterView() {
   // get search parameters from the url
@@ -175,16 +178,22 @@ export default function VoterView() {
       })
       .catch(function (error) {
         console.log(error);
+        setError({ state: true, response: error });
       });
   }
 
+  // entire page loading
+  const [pageLoading, setPageLoading] = useState(true);
+  // loading of the ballot
   const [loadingState, setLoadingState] = useState(false);
+  // server returned an error
+  const [error, setError] = useState({ state: false, response: "" });
+  // server successfully posted the ballot
   const [success, setSuccess] = useState(false);
+  // function for resetting success state after it's been displayed
   function endSuccess() {
     setSuccess(false);
   }
-
-  const [pageLoading, setPageLoading] = useState(true);
 
   const voterForm = (
     <>
@@ -232,7 +241,12 @@ export default function VoterView() {
         <title>Voting</title>
       </Helmet>
       {pageLoading ? <LoadingSpinner /> : voterForm}
+      {/* display if server succeeds */}
       {success ? <Success endSuccess={endSuccess} succeeded={success} /> : null}
+      {/* display if server has error */}
+      {error.state ? (
+        <Error state={error.state} response={error.response} />
+      ) : null}
     </>
   );
 }
