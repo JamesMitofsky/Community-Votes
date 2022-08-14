@@ -15,7 +15,7 @@ export default function Error({ state, response }) {
       <Alert severity="error" sx={{ width: "100%" }}>
         <AlertTitle>{response.message}</AlertTitle>
         It looks like we couldn't submit your vote.{" "}
-        <a target="_blank" href={constructedHref}>
+        <a rel="noreferrer" target="_blank" href={constructedHref}>
           Click here, and we'll help you out!
         </a>
       </Alert>
