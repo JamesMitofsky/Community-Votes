@@ -9,6 +9,7 @@ import Error from "../components/alerts/Error.jsx";
 export default function ResultsView() {
   // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
+  const [votableData, setVotableData] = useState({});
 
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
@@ -17,6 +18,7 @@ export default function ResultsView() {
   };
 
   useEffect(() => {
+    // request the results from the server
     const instance = axios.create({
       baseURL: process.env.REACT_APP_SERVER_ADDRESS,
       headers: {
@@ -44,17 +46,52 @@ export default function ResultsView() {
         console.log(error);
         setError({ state: true, response: error });
       });
+
+    // request the full votable object
+    const altInstance = axios.create({
+      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+    });
+    altInstance
+      .get(`/votables/${urlParams.votableID}`)
+      .then(function (response) {
+        console.log("full response", response);
+        setVotableData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        setError({ state: true, response: error });
+      });
   }, [urlParams.votableID]);
 
   const [error, setError] = useState({ state: false, response: {} });
   const [pageLoaded, setPageLoaded] = useState(false);
   const votableID = urlParams.votableID;
 
+  function calculateVoteUsage() {
+    const possibleVotes = votableData.voters.reduce((total, voter) => {
+      return total + voter.votes;
+    }, 0);
+
+    const castVotes = candidates.reduce((total, candidate) => {
+      return total + candidate.votes;
+    }, 0);
+    return { possibleVotes, castVotes };
+  }
+
+  const { possibleVotes, castVotes } = calculateVoteUsage();
+
   const mainView = (
     <>
-      <Typography variant="h1">Results for {urlParams.votableID}</Typography>
+      <Typography variant="h1">Results: {votableData.name}</Typography>
       {candidates.length > 0 ? (
-        <NameList people={candidates} />
+        <>
+          <Typography variant="h2">
+            Of the {possibleVotes} votes which could have been cast, {castVotes}{" "}
+            were submitted.
+          </Typography>
+
+          <NameList people={candidates} />
+        </>
       ) : (
         <Typography variant="h3">No votes have been cast.</Typography>
       )}
