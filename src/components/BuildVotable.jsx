@@ -10,7 +10,7 @@ import VotableExpiration from "../components/VotableExpiration.jsx";
 import Candidate from "./Candidate.jsx";
 import NameList from "./NameList.jsx";
 import { Helmet } from "react-helmet";
-// import callRestApi from "../functions/callRestApi.js";
+import Error from "../components/alerts/Error.jsx";
 import axios from "axios";
 
 export default function BuildVotable() {
@@ -153,9 +153,11 @@ export default function BuildVotable() {
       })
       .catch(function (error) {
         console.log(error);
+        setError({ state: true, response: error });
       });
   }
 
+  const [error, setError] = useState({ state: false, response: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   function handleSuccess() {
@@ -224,6 +226,9 @@ export default function BuildVotable() {
             success={success}
             incompleteForm={buttonState}
           />
+          {error.state ? (
+            <Error state={error.state} response={error.response} />
+          ) : null}
         </Grid>
       </Grid>
     </>
