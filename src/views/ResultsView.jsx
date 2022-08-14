@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import NameList from "../components/NameList.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import Error from "../components/alerts/Error.jsx";
 
 export default function ResultsView() {
   // const [candidateElms, setCandidateElms] = useState([]);
@@ -41,9 +42,11 @@ export default function ResultsView() {
       })
       .catch(function (error) {
         console.log(error);
+        setError({ state: true, response: error });
       });
   }, [urlParams.votableID]);
 
+  const [error, setError] = useState({ state: false, response: {} });
   const [pageLoaded, setPageLoaded] = useState(false);
   const votableID = urlParams.votableID;
 
@@ -72,6 +75,9 @@ export default function ResultsView() {
       ) : (
         'There are no results to view. Please make sure there is a "votableID" parameter in the link you used.'
       )}
+      {error.state ? (
+        <Error state={error.state} response={error.response} />
+      ) : null}
     </>
   );
 }
