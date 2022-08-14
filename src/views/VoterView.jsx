@@ -187,7 +187,7 @@ export default function VoterView() {
   // loading of the ballot
   const [loadingState, setLoadingState] = useState(false);
   // server returned an error
-  const [error, setError] = useState({ state: false, response: "" });
+  const [error, setError] = useState({ state: false, response: {} });
   // server successfully posted the ballot
   const [success, setSuccess] = useState(false);
   // function for resetting success state after it's been displayed

@@ -157,7 +157,7 @@ export default function BuildVotable() {
       });
   }
 
-  const [error, setError] = useState({ state: false, response: "" });
+  const [error, setError] = useState({ state: false, response: {} });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   function handleSuccess() {
