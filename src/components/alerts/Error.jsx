@@ -13,10 +13,12 @@ export default function Error({ state, response }) {
     <Snackbar open={state} autoHideDuration={6000}>
       <Alert severity="error" sx={{ width: "100%" }}>
         <AlertTitle>{response.message}</AlertTitle>
-        It looks like we couldn't submit your vote.{" "}
+        It looks like we're having some trouble. Help us get back on track by
+        clicking{" "}
         <a rel="noreferrer" target="_blank" href={constructedHref}>
-          Click here, and we'll help you out!
+          here
         </a>
+        .
       </Alert>
     </Snackbar>
   );
