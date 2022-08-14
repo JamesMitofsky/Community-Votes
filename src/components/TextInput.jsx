@@ -1,8 +1,11 @@
 import { FormControl, TextField } from "@mui/material";
 
-export default function Votable({ currentVotable, setCurrentVotable }) {
-  const helperText = "Enter what's being voted on";
-
+export default function TextInput({
+  currentText,
+  setCurrentText,
+  helperText,
+  label,
+}) {
   return (
     <>
       <FormControl fullWidth>
@@ -11,9 +14,9 @@ export default function Votable({ currentVotable, setCurrentVotable }) {
           required
           fullWidth
           helperText={helperText}
-          label="Votable"
-          value={currentVotable}
-          onChange={(e) => setCurrentVotable(e.target.value)}
+          label={label}
+          value={currentText}
+          onChange={(e) => setCurrentText(e.target.value)}
         ></TextField>
       </FormControl>
     </>
