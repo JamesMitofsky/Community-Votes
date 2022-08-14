@@ -4,12 +4,14 @@ import { useEffect } from "react";
 
 export default function Success({ succeeded, endSuccess }) {
   useEffect(() => {
+    // return if not succeeded
+    if (!succeeded) return;
+
     // Innitialize confetti object
     const jsConfetti = new JSConfetti();
 
-    if (succeeded) {
-      jsConfetti.addConfetti();
-    }
+    // Trigger confetti animation
+    jsConfetti.addConfetti();
   }, [succeeded]);
 
   return (
