@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
-import NameList from "../components/NameList.jsx";
+import TableDisplay from "../components/TableDisplay.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Error from "../components/alerts/Error.jsx";
 
@@ -56,12 +56,15 @@ export default function ResultsView() {
       .then(function (response) {
         console.log("full response", response);
         setVotableData(response.data);
+        setVotesUsageData(calculateVoteUsage());
       })
       .catch(function (error) {
         console.log(error);
         setError({ state: true, response: error });
       });
   }, [urlParams.votableID]);
+
+  const [votesUsageData, setVotesUsageData] = useState({});
 
   const [error, setError] = useState({ state: false, response: {} });
   const [pageLoaded, setPageLoaded] = useState(false);
@@ -78,19 +81,17 @@ export default function ResultsView() {
     return { possibleVotes, castVotes };
   }
 
-  const { possibleVotes, castVotes } = calculateVoteUsage();
-
   const mainView = (
     <>
       <Typography variant="h1">Results: {votableData.name}</Typography>
       {candidates.length > 0 ? (
         <>
           <Typography variant="h2">
-            Of the {possibleVotes} votes which could have been cast, {castVotes}{" "}
-            were submitted.
+            Of the {votesUsageData.possibleVotes} votes which could have been
+            cast, {votesUsageData.castVotes} were submitted.
           </Typography>
 
-          <NameList people={candidates} />
+          <TableDisplay array={candidates} />
         </>
       ) : (
         <Typography variant="h3">No votes have been cast.</Typography>
