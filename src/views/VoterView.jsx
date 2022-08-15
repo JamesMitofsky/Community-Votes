@@ -5,7 +5,6 @@ import { Typography, List, ListItem } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
-import SendIcon from "@mui/icons-material/Send";
 
 // import alerts
 import Success from "../components/alerts/Success.jsx";
@@ -200,13 +199,12 @@ export default function VoterView() {
 
   const voterForm = (
     <>
-      <Typography variant="h1">
+      <Typography variant="h1" sx={{ borderBottom: 1 }}>
         Welcome to your ballot, {voter.name} 👋
       </Typography>
-      <Typography variant="h2">
-        You have {voter.availableVotes} votes available 🗳
+      <Typography variant="h3" fontWeight="bold" sx={{ mt: 6 }}>
+        CANDIDATES
       </Typography>
-      <Typography variant="h3">Candidates</Typography>
       <List>
         {candidates.map((candidate) => {
           return (
@@ -224,14 +222,17 @@ export default function VoterView() {
           );
         })}
       </List>
+      <Typography variant="subtitle" align="right">
+        🗳 You have {voter.availableVotes} votes available
+      </Typography>
       <LoadingButton
         onClick={castBallot}
         loading={loadingState}
-        variant="outlined"
-        endIcon={<SendIcon />}
+        variant="contained"
         loadingIndicator="Casting your vote..."
+        sx={{ mt: 4, fontSize: 25 }}
       >
-        Cast Vote
+        Submit Ballot
       </LoadingButton>
     </>
   );
