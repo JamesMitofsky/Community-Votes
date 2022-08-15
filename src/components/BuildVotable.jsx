@@ -16,7 +16,7 @@ import { LoadingButton } from "@mui/lab";
 export default function BuildVotable() {
   // STATES SECTION
   const [voters, setVoters] = useState([]);
-  function addVoterToArray(voterName, voterEmail, voterVotes) {
+  function addVoter(voterName, voterEmail, voterVotes) {
     let voter = {
       voterName: voterName,
       voterEmail: voterEmail,
@@ -26,21 +26,13 @@ export default function BuildVotable() {
     setVoters((previousVoters) => [...previousVoters, voter]);
   }
 
-  // CANDIDATES (current) state - update current candidate field
-  const [currentCandidate, setCurrentCandidate] = useState("");
-
-  // CANDIDATES state — complete list
   const [candidates, setCandidates] = useState([]);
-  function addCandidate() {
-    setCandidates((prevCandidates) => [
-      { name: currentCandidate, id: uuidv4() },
-      ...prevCandidates,
-    ]);
-    setCurrentCandidate("");
+  function addCandidate(candidateName) {
+    setCandidates((prevCandidates) => [ ...prevCandidates, { name: candidateName, id: uuidv4() } ]);
   }
 
   // VOTABLES state - accepts a string
-  const [votable, setVotable] = useState("");
+  const [title, setTitle] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   function handleAdminEmail(newValue) {
     setAdminEmail(newValue);
@@ -53,7 +45,7 @@ export default function BuildVotable() {
   // COLLECTIVE state
   const [completeVotable, setCompleteVotable] = useState({
     candidates,
-    name: votable,
+    name: title,
     voters,
     expiration: "",
     adminEmail: adminEmail,
@@ -69,12 +61,12 @@ export default function BuildVotable() {
 
     setCompleteVotable({
       candidates: candidatesString,
-      name: votable,
+      name: title,
       voters: votersString,
       expiration: votableExpiration ? votableExpiration.toISOString() : "",
       adminEmail: adminEmail,
     });
-  }, [candidates, voters, votable, votableExpiration, adminEmail]);
+  }, [candidates, voters, title, votableExpiration, adminEmail]);
 
   function convertData(candidates, voters) {
     // convert array of candidate objects into string
@@ -123,7 +115,7 @@ export default function BuildVotable() {
         setLoading(false);
         setSuccess(true);
         // reset all states
-        setVotable("");
+        setTitle("");
         setAdminEmail("");
         setCandidates([]);
         setVoters([]);
@@ -169,8 +161,8 @@ export default function BuildVotable() {
         </Grid>
         <Grid item>
           <TextInput
-            currentText={votable}
-            setCurrentText={setVotable}
+            currentText={title}
+            setCurrentText={setTitle}
             helperText="What's being voted on?"
             label="Title"
           />
@@ -194,15 +186,13 @@ export default function BuildVotable() {
           <NameList people={candidates} />
           <Candidate
             addCandidate={addCandidate}
-            currentCandidate={currentCandidate}
-            setCurrentCandidate={setCurrentCandidate}
           />
         </Grid>
         <Grid item>
           <Typography variant="h2">Voters</Typography>
           <VotersList voters={voters} />
           <Voter
-            submitVoter={addVoterToArray}
+            addVoter={addVoter}
           />
         </Grid>
         <Grid item>

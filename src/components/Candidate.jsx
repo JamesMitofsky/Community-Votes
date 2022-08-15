@@ -1,11 +1,14 @@
 import { FormControl, TextField, Button } from "@mui/material";
+import { useState } from "react";
 
-export default function Candidate({
-  currentCandidate,
-  setCurrentCandidate,
-  addCandidate,
-}) {
-  let formComplete = !currentCandidate;
+export default function Candidate({ addCandidate }) {
+  const [candidateName, setCandidateName] = useState("");
+  let isFormComplete = Boolean(candidateName);
+
+  function onSubmit() {
+    addCandidate(candidateName);
+    setCandidateName("");
+  }
 
   return (
     <>
@@ -15,11 +18,11 @@ export default function Candidate({
           required
           fullWidth
           label="Candidate name"
-          value={currentCandidate}
-          onChange={(e) => setCurrentCandidate(e.target.value)}
+          value={candidateName}
+          onChange={(e) => setCandidateName(e.target.value)}
         ></TextField>
       </FormControl>
-      <Button disabled={formComplete} onClick={addCandidate} fullWidth variant="contained" sx= {{ mt: 2}}>
+      <Button disabled={!isFormComplete} onClick={onSubmit} fullWidth variant="contained" sx= {{ mt: 2}}>
         Add Candidate
       </Button>
     </>

@@ -1,7 +1,7 @@
 import { FormControl, TextField, Button } from "@mui/material";
 import { useState } from "react";
 
-export default function Voter({ submitVoter }) {
+export default function Voter({ addVoter }) {
   const [voterName, setVoterName] = useState("");
   const [voterEmail, setVoterEmail] = useState("");
   const [voterVotes, setVoterVotes] = useState(0);
@@ -9,7 +9,7 @@ export default function Voter({ submitVoter }) {
   let isFormComplete = voterName && voterEmail && voterVotes;
 
   function onSubmit() {
-    submitVoter(voterName, voterEmail, voterVotes);
+    addVoter(voterName, voterEmail, voterVotes);
     setVoterName("");
     setVoterEmail("");
     setVoterVotes(0);
