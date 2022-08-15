@@ -229,7 +229,7 @@ export default function VoterView() {
         onClick={castBallot}
         loading={loadingState}
         variant="contained"
-        loadingIndicator="Casting your vote..."
+        loadingIndicator="Submitting your ballot..."
         sx={{ mt: 4, fontSize: 25 }}
       >
         Submit Ballot
