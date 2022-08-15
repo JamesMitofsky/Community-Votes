@@ -14,7 +14,8 @@ import axios from "axios";
 import { LoadingButton } from "@mui/lab";
 
 export default function BuildVotable() {
-  // STATES SECTION
+  // ------------------------------------------------------------
+  // STATES
   const [voters, setVoters] = useState([]);
   function addVoter(voterName, voterEmail, voterVotes) {
     let voter = {
@@ -31,42 +32,41 @@ export default function BuildVotable() {
     setCandidates((prevCandidates) => [ ...prevCandidates, { name: candidateName, id: uuidv4() } ]);
   }
 
-  // VOTABLES state - accepts a string
   const [title, setTitle] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
-  function handleAdminEmail(newValue) {
-    setAdminEmail(newValue);
-  }
-  console.log(adminEmail);
-
   // expecting ISO format string
   const [votableExpiration, setVotableExpiration] = useState(new Date());
 
-  // COLLECTIVE state
-  const [completeVotable, setCompleteVotable] = useState({
-    candidates,
-    name: title,
-    voters,
-    expiration: "",
-    adminEmail: adminEmail,
-  });
-
-  function handleVotableExpiration(dateObj) {
-    setVotableExpiration(dateObj);
-  }
-
+  // submit button disabled if incomplete form
+  const [submitEnabled, setSubmitEnabled] = useState(false);
   useEffect(() => {
-    // convert completeVotable object into acceptable data forms
+    const readyToGo = [candidates, voters, title, votableExpiration.toISOString(), adminEmail].every(
+      (prop) => prop.length > 0
+    )
+
+    console.log("readyToGo:", readyToGo);
+    console.log(candidates.length);
+    console.log(voters.length);
+    console.log(votableExpiration.toISOString().length);
+    console.log(adminEmail.length);
+    setSubmitEnabled(readyToGo);
+  }, [candidates, voters, title, votableExpiration, adminEmail]);
+
+  // ------------------------------------------------------------
+  // Server
+
+  // Returns a votable in the format expected by the server
+  function getVotable() {
     const { candidatesString, votersString } = convertData(candidates, voters);
 
-    setCompleteVotable({
+    return {
       candidates: candidatesString,
       name: title,
       voters: votersString,
       expiration: votableExpiration ? votableExpiration.toISOString() : "",
       adminEmail: adminEmail,
-    });
-  }, [candidates, voters, title, votableExpiration, adminEmail]);
+    }
+  }
 
   function convertData(candidates, voters) {
     // convert array of candidate objects into string
@@ -83,40 +83,27 @@ export default function BuildVotable() {
       .join("\n");
     return { candidatesString, votersString };
   }
-
-  // submit button disabled if incomplete form
-  const [submitEnabled, setSubmitEnabled] = useState(false);
-  useEffect(() => {
-    const readyToGo = Object.values(completeVotable).every(
-      (prop) => prop.length > 0
-    );
-
-    if (readyToGo) {
-      setSubmitEnabled(true);
-    }
-  }, [completeVotable]);
-
-  const [votableData, setVotableData] = useState({});
+  const [votableResponse, setVotableResponse] = useState({});
 
   function publishToServer(e) {
     e.preventDefault();
     setLoading(true);
 
-    // callRestApi(); <-- eventually want to be calling this as an imported function
     const instance = axios.create({
       baseURL: process.env.REACT_APP_SERVER_ADDRESS,
     });
 
     // all these state sets should be getting batched with useReducer()
     instance
-      .post("/votables", completeVotable)
+      .post("/votables", getVotable())
       .then(function (response) {
-        setVotableData(response);
+        setVotableResponse(response);
         setLoading(false);
         setSuccess(true);
         // reset all states
         setTitle("");
         setAdminEmail("");
+        setVotableExpiration(new Date());
         setCandidates([]);
         setVoters([]);
         console.log(response);
@@ -127,6 +114,9 @@ export default function BuildVotable() {
       });
   }
 
+
+  // ------------------------------------------------------------
+  // UI
   const [error, setError] = useState({ state: false, response: {} });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -138,7 +128,7 @@ export default function BuildVotable() {
     <VotableConfirmation
       isOpen={success}
       handleOpen={handleSuccess}
-      votableData={votableData}
+      votableData={votableResponse}
     />
   ) : (
     ""
@@ -156,7 +146,7 @@ export default function BuildVotable() {
         direction="column"
         style={{ display: "flex" }}
       >
-        <Grid item>
+        <Grid item sx={{ mt: 1}}>
           <Typography variant="h1">Create a votable!</Typography>
         </Grid>
         <Grid item>
@@ -170,7 +160,7 @@ export default function BuildVotable() {
         <Grid item>
           <TextInput
             currentText={adminEmail}
-            setCurrentText={handleAdminEmail}
+            setCurrentText={setAdminEmail}
             helperText="Where do you want the confirmation email sent?"
             label="Administrator Email"
           />
@@ -178,7 +168,7 @@ export default function BuildVotable() {
         <Grid item sx={{ mt: 1}}>
           <VotableExpiration
             votableExpiration={votableExpiration}
-            handleExpirationChange={handleVotableExpiration}
+            handleExpirationChange={setVotableExpiration}
           />
         </Grid>
         <Grid item>
