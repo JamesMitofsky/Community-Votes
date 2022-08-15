@@ -11,6 +11,56 @@ import Success from "../components/alerts/Success.jsx";
 import Error from "../components/alerts/Error.jsx";
 
 export default function VoterView() {
+  // PAGE STATES
+
+  // the current state of the voter page, representing the loading of the voter form
+  const [pageState, setPageState] = useState({
+    loading: true,
+    insufficientParams: false,
+    loaded: false,
+    error: false,
+    messsage: "",
+  });
+
+  const [formState, setFormState] = useState({
+    insufficientParams: false,
+    sending: false,
+    sent: false,
+    error: false,
+    messsage: "",
+  });
+
+  // used by state setting function to ensure only one state is active at a time
+  // state example func:
+  // setPageState(prevState => newState(prevState, "any_state_name"))
+  function newState(prevStateObj, newStateName, message) {
+    try {
+      // retrieve all previous state names
+      const prevStateKeys = Object.keys(prevStateObj);
+      // create a new object setting all states to false
+      const allFalseStates = prevStateKeys.reduce((acc, key) => {
+        // if the current key is set to true, set it as false
+        if (prevStateObj[key] === true) return { ...acc, [key]: false };
+
+        // if message content is being sent, update that
+        if (key === "message") return { ...acc, [key]: message };
+
+        // if the current key is anything other than incoming as true, return whatever was received
+        return { ...acc, [key]: prevStateObj[key] };
+      }, {});
+
+      // add single true object to all the false ones. Since it's the last added, it will be the sole survivor of the useState hook
+      const newActiveStateObj = {
+        ...allFalseStates,
+        [newStateName]: true,
+      };
+
+      return newActiveStateObj;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
   const urlParams = {
@@ -63,7 +113,9 @@ export default function VoterView() {
           return response.data;
         })
         .catch(function (error) {
-          setPageState((prevState) => newState(prevState, "error"));
+          setPageState((prevState) =>
+            newState(prevState, "error", error.message)
+          );
           console.log(error);
         });
 
@@ -89,6 +141,12 @@ export default function VoterView() {
             };
           });
           return newArray;
+        })
+        .catch(function (error) {
+          console.log(error);
+          setPageState((prevState) =>
+            newState(prevState, "error", error.message)
+          );
         });
 
       const votesAlreadyExist =
@@ -112,7 +170,6 @@ export default function VoterView() {
 
       // when async calls are done, set page as loaded
       setPageState((prev) => newState(prev, "loaded"));
-      console.log(newState(pageState, "loaded"));
     }
     fetchData();
   }, [urlParams.voterID, urlParams.votableID]);
@@ -187,51 +244,10 @@ export default function VoterView() {
       })
       .catch(function (error) {
         console.log(error);
-        setPageState((prevState) => newState(prevState, "error"));
+        setPageState((prevState) =>
+          newState(prevState, "error", error.message)
+        );
       });
-  }
-
-  // the current state of the voter page, representing the loading of the voter form
-  const [pageState, setPageState] = useState({
-    loading: true,
-    insufficientParams: false,
-    loaded: false,
-    error: false,
-  });
-
-  const [formState, setFormState] = useState({
-    insufficientParams: false,
-    sending: false,
-    sent: false,
-    error: false,
-  });
-
-  // used by state setting function to ensure only one state is active at a time
-  // state example func:
-  // setPageState(prevState => newState(prevState, "any_state_name"))
-  function newState(prevStateObj, newStateName) {
-    try {
-      // retrieve all previous state names
-      const prevStateKeys = Object.keys(prevStateObj);
-      // create a new object setting all states to false
-      const allFalseStates = prevStateKeys.reduce((acc, key) => {
-        // if the current key is set to true, set it as false
-        if (prevStateObj[key] === true) return { ...acc, [key]: false };
-
-        // if the current key is anything other than incoming as true, return whatever was received
-        return { ...acc, [key]: prevStateObj[key] };
-      }, {});
-
-      // create a new object only setting the received state as active
-      const newActiveStateObj = {
-        ...allFalseStates,
-        [newStateName]: true,
-      };
-
-      return newActiveStateObj;
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   const voterForm = (
@@ -285,7 +301,7 @@ export default function VoterView() {
 
       {formState.sent && <Success succeeded={formState.sent} />}
       {formState.error && (
-        <Error state={formState.error} response={formState.errorMessage} />
+        <Error state={formState.error} response={formState.message} />
       )}
     </>
   );
