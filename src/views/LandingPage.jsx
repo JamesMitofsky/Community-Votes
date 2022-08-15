@@ -18,7 +18,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <CreateIcon />
-        <Typography variant="h2" sx={{mt: 2.3, ml: 1}}>
+        <Typography variant="h2" sx={{ml: 1}}>
           Create
         </Typography>
       </Grid>
@@ -28,7 +28,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <OutboxIcon />
-        <Typography variant="h2" sx={{mt: 2.3, ml: 1}}>
+        <Typography variant="h2" sx={{ml: 1}}>
           Publish
         </Typography>
       </Grid>
@@ -38,7 +38,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <HowToVoteIcon />
-        <Typography variant="h2" sx={{mt: 2.3, ml: 1}}>
+        <Typography variant="h2" sx={{ml: 1}}>
           Vote
         </Typography>
       </Grid>
@@ -50,7 +50,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <NotificationsActiveIcon />
-        <Typography variant="h2" sx={{mt: 2.3, ml: 1}}>
+        <Typography variant="h2" sx={{ml: 1}}>
           Tally
         </Typography>
       </Grid>
