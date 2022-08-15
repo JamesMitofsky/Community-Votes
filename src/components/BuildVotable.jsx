@@ -222,21 +222,21 @@ export default function BuildVotable() {
         </Grid>
         <Grid item>
           <Typography variant="h2">Candidates</Typography>
+          <NameList people={candidates} />
           <Candidate
             addCandidate={addCandidate}
             currentCandidate={currentCandidate}
             setCurrentCandidate={setCurrentCandidate}
           />
-          <NameList people={candidates} />
         </Grid>
         <Grid item>
           <Typography variant="h2">Voters</Typography>
+          <VotersList voters={voters} />
           <Voter
             currentVoter={currentVoter}
             updateVoter={updateVoter}
             submitVoter={addVoterToArray}
           />
-          <VotersList voters={voters} />
         </Grid>
         <Grid item>
           {votableConfirmation}
