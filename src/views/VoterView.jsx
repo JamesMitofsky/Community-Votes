@@ -144,9 +144,6 @@ export default function VoterView() {
           ? candidate
           : { ...candidate, votes: candidate.votes + incrementDirection }
       );
-      // updatedCandidate.votes = isPlus
-      //   ? updatedCandidate.votes + 1
-      //   : updatedCandidate.votes - 1;
       return updatedCandidates;
     });
     setVoter((prevVoter) => {
