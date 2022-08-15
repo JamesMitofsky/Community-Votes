@@ -73,7 +73,7 @@ export default function VoterView() {
 
   useEffect(() => {
     // if all params exist, exit function
-    if (urlParams.VotableID && urlParams.voterID) return;
+    if (urlParams.votableID && urlParams.voterID) return;
 
     // without params, trigger error
     setErrorState({
@@ -81,7 +81,7 @@ export default function VoterView() {
       message: "URL parameters were not provided.",
     });
     setPageState((prevState) => newState(prevState, "error"));
-  }, []);
+  }, [urlParams.voterID, urlParams.votableID]);
 
   function voterObject(voterID, votableObject) {
     const allVoters = votableObject.voters;
@@ -177,7 +177,7 @@ export default function VoterView() {
       }
     }
     fetchData();
-  }, [urlParams.voterID, urlParams.votableID]);
+  }, [urlParams.voterID, urlParams.votableID, errorState]);
 
   function calculateAvailableVotes(numberOfVotesAllowed, arrayOfCandidates) {
     const votesMinusVotesCast = arrayOfCandidates.reduce(
