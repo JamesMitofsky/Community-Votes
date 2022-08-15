@@ -9,7 +9,7 @@ import Error from "../components/alerts/Error.jsx";
 export default function ResultsView() {
   // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
-  const [votableData, setVotableData] = useState({});
+  const [votableName, setVotableName] = useState("");
 
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
@@ -62,6 +62,7 @@ export default function ResultsView() {
           setError({ state: true, response: error });
         });
 
+      setVotableName(completeVotable.name);
       const { possibleVotes, castVotes } = calculateVoteUsage(
         completeVotable.voters,
         tallyCandidates
@@ -93,7 +94,7 @@ export default function ResultsView() {
 
   const mainView = (
     <>
-      <Typography variant="h1">Results: {votableData.name}</Typography>
+      <Typography variant="h1">Results: {votableName}</Typography>
       {candidates.length > 0 ? (
         <>
           <Typography variant="h2">
