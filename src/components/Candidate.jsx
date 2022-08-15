@@ -1,13 +1,14 @@
 import { FormControl, TextField, Button } from "@mui/material";
+import { useState } from "react";
 
-export default function Candidate({
-  currentCandidate,
-  setCurrentCandidate,
-  addCandidate,
-}) {
-  const helperText = "Enter a candidate's name";
+export default function Candidate({ addCandidate }) {
+  const [candidateName, setCandidateName] = useState("");
+  let isFormComplete = Boolean(candidateName);
 
-  let formComplete = !currentCandidate;
+  function onSubmit() {
+    addCandidate(candidateName);
+    setCandidateName("");
+  }
 
   return (
     <>
@@ -16,13 +17,12 @@ export default function Candidate({
           autoComplete="off"
           required
           fullWidth
-          helperText={helperText}
-          label="Candidate"
-          value={currentCandidate}
-          onChange={(e) => setCurrentCandidate(e.target.value)}
+          label="Candidate name"
+          value={candidateName}
+          onChange={(e) => setCandidateName(e.target.value)}
         ></TextField>
       </FormControl>
-      <Button disabled={formComplete} onClick={addCandidate} fullWidth>
+      <Button disabled={!isFormComplete} onClick={onSubmit} fullWidth variant="contained" sx= {{ mt: 2}}>
         Add Candidate
       </Button>
     </>

@@ -1,21 +1,28 @@
 import { FormControl, TextField, Button } from "@mui/material";
+import { useState } from "react";
 
-export default function Voter({ currentVoter, updateVoter, submitVoter }) {
-  let formComplete =
-    currentVoter.voterName &&
-    currentVoter.voterEmail &&
-    currentVoter.voterVotes;
+export default function Voter({ addVoter }) {
+  const [voterName, setVoterName] = useState("");
+  const [voterEmail, setVoterEmail] = useState("");
+  const [voterVotes, setVoterVotes] = useState(0);
 
-  let incompleteForm = !formComplete;
+  let isFormComplete = voterName && voterEmail && voterVotes;
+
+  function onSubmit() {
+    addVoter(voterName, voterEmail, voterVotes);
+    setVoterName("");
+    setVoterEmail("");
+    setVoterVotes(0);
+  }
 
   return (
     <>
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ mb: 2 }}>
         <TextField
           autoComplete="off"
-          onChange={updateVoter}
-          value={currentVoter.voterName}
-          label="Voter's name"
+          onChange={(e) => setVoterName(e.target.value)}
+          value={voterName}
+          label="Voter name"
           name="voterName"
           required
           fullWidth
@@ -24,9 +31,9 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
       <FormControl>
         <TextField
           autoComplete="off"
-          onChange={updateVoter}
           type="number"
-          value={currentVoter.voterVotes}
+          onChange={(e) => setVoterVotes(e.target.value)}
+          value={voterVotes}
           name="voterVotes"
           required
           fullWidth
@@ -36,15 +43,15 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
       <FormControl>
         <TextField
           autoComplete="off"
-          onChange={updateVoter}
-          value={currentVoter.voterEmail}
+          onChange={(e) => setVoterEmail(e.target.value)}
+          value={voterEmail}
           name="voterEmail"
           type="email"
           required
-          label="Voter's email address"
+          label="Voter email address"
         />
       </FormControl>
-      <Button disabled={incompleteForm} onClick={submitVoter} fullWidth>
+      <Button disabled={!isFormComplete} onClick={onSubmit} fullWidth variant="contained" sx={{ mt: 2}}>
         Add Voter
       </Button>
     </>

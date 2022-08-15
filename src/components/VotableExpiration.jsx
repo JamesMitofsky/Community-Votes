@@ -11,7 +11,7 @@ export default function VotableExpiration({
     <>
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <DatePicker
-          label="Votable expiration date"
+          label="Expiration date"
           value={votableExpiration}
           onChange={(newValue) => {
             handleExpirationChange(newValue);
