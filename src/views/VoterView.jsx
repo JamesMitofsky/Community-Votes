@@ -18,6 +18,11 @@ export default function VoterView() {
     voterID: searchParams.get("voterID"),
   };
 
+  // if any URL params are missing return error indicating this
+  if (!urlParams.VotableID && !urlParams.voterID) {
+    setPageState((prevState) => newState(prevState, "error"));
+  }
+
   // create empty state variables
   const [candidates, setCandidates] = useState([]);
   const [voter, setVoter] = useState({
@@ -42,7 +47,7 @@ export default function VoterView() {
     return candidatesWithVoteField;
   }
 
-  // FIX: useEffect should not be async. This should be handled inside the useEffect function
+  // get all votable data
   useEffect(() => {
     async function fetchData() {
       // sets baseline url for the server address
@@ -58,6 +63,7 @@ export default function VoterView() {
           return response.data;
         })
         .catch(function (error) {
+          setPageState((prevState) => newState(prevState, "error"));
           console.log(error);
         });
 
@@ -158,7 +164,7 @@ export default function VoterView() {
   }
 
   function castBallot() {
-    setLoadingState(true);
+    setFormState((prevState) => newState(prevState, "sending"));
     const objOfCandidates = candidates.reduce((acc, current) => {
       let newObj = { ...acc, [current.id]: current.votes };
       return newObj;
@@ -177,40 +183,43 @@ export default function VoterView() {
       .post(`/votables/${urlParams.votableID}/votes`, candidatesAndVotes)
       .then(function (response) {
         // alert success
-        setSuccess(true);
-        setLoadingState(false);
+        setFormState((prevState) => newState(prevState, "sent"));
       })
       .catch(function (error) {
         console.log(error);
-        setError({ state: true, response: error });
+        setPageState((prevState) => newState(prevState, "error"));
       });
   }
 
-  // loading of the ballot
-  const [loadingState, setLoadingState] = useState(false);
-  // server returned an error
-  const [error, setError] = useState({ state: false, response: {} });
-  // server successfully posted the ballot
-  const [success, setSuccess] = useState(false);
-  // function for resetting success state after it's been displayed
-
   // the current state of the voter page, representing the loading of the voter form
   const [pageState, setPageState] = useState({
-    insufficientParams: false,
     loading: true,
+    insufficientParams: false,
     loaded: false,
     error: false,
   });
 
+  const [formState, setFormState] = useState({
+    insufficientParams: false,
+    sending: false,
+    sent: false,
+    error: false,
+  });
+
   // used by state setting function to ensure only one state is active at a time
-  // example: setPageState(prevState => newState(prevState, "any_state_property_name_as_string"))
+  // state example func:
+  // setPageState(prevState => newState(prevState, "any_state_name"))
   function newState(prevStateObj, newStateName) {
     try {
       // retrieve all previous state names
       const prevStateKeys = Object.keys(prevStateObj);
       // create a new object setting all states to false
       const allFalseStates = prevStateKeys.reduce((acc, key) => {
-        return { ...acc, [key]: false };
+        // if the current key is set to true, set it as false
+        if (prevStateObj[key] === true) return { ...acc, [key]: false };
+
+        // if the current key is anything other than incoming as true, return whatever was received
+        return { ...acc, [key]: prevStateObj.key };
       }, {});
 
       // create a new object only setting the received state as active
@@ -223,10 +232,6 @@ export default function VoterView() {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  function endSuccess() {
-    setSuccess(false);
   }
 
   const voterForm = (
@@ -259,9 +264,9 @@ export default function VoterView() {
       </Typography>
       <LoadingButton
         onClick={castBallot}
-        loading={loadingState}
+        loading={formState.sending}
         variant="contained"
-        loadingIndicator="Submitting your ballot..."
+        loadingIndicator="Submitting..."
         sx={{ mt: 4, fontSize: 25 }}
       >
         Submit Ballot
@@ -275,13 +280,13 @@ export default function VoterView() {
       <Helmet>
         <title>Voting</title>
       </Helmet>
-      {pageState.loading ? <LoadingSpinner /> : voterForm}
-      {/* display if server succeeds */}
-      {success ? <Success endSuccess={endSuccess} succeeded={success} /> : null}
-      {/* display if server has error */}
-      {error.state ? (
-        <Error state={error.state} response={error.response} />
-      ) : null}
+      {pageState.loading && <LoadingSpinner />}
+      {pageState.loaded && voterForm}
+
+      {formState.sent && <Success succeeded={formState.sent} />}
+      {formState.error && (
+        <Error state={formState.error} response={formState.errorMessage} />
+      )}
     </>
   );
 }
