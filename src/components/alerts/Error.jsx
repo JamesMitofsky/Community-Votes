@@ -4,21 +4,25 @@ export default function Error({ state, response }) {
   const email = {
     recipient: "jamesmitofsky@gmail.com",
     subject: "HOA Votes: something's not working right",
-    body: `This is an automatically generated report that shares some basic details about your problem with the HOA Votes development team. They'll check this out and get back in touch with you ASAP! %0D%0A%0D%0A`,
+    body: `Can you tell us what you were trying to do when you received this error? Please type directly beneath this text, and we'll get back to you ASAP!`,
+    newlineSpace: "%0D%0A%0D%0A%0D%0A%0D%0A------------------",
     serverResponse: JSON.stringify(response),
   };
 
-  const constructedHref = `mailto:${email.recipient}?subject=${email.subject}&body=${email.body}${email.serverResponse}`;
+  const constructedHref = `mailto:${email.recipient}?subject=${
+    email.subject
+  }&body=${email.body}${
+    email.serverResponse.length > 2 ? email.newlineSpace : ""
+  }${email.serverResponse.length > 2 ? email.serverResponse : ""}`;
   return (
     <Snackbar open={state} autoHideDuration={6000}>
       <Alert severity="error" sx={{ width: "100%" }}>
-        <AlertTitle>{response.message}</AlertTitle>
-        It looks like we're having some trouble. Help us get back on track by
-        clicking{" "}
+        <AlertTitle>Sorry about that, we had a problem. 👷</AlertTitle>
+        Help us get back on track by clicking{" "}
         <a rel="noreferrer" target="_blank" href={constructedHref}>
           here
         </a>
-        .
+        !
       </Alert>
     </Snackbar>
   );
