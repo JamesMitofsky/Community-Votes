@@ -10,12 +10,12 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
 
   return (
     <>
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ mb: 2 }}>
         <TextField
           autoComplete="off"
           onChange={updateVoter}
           value={currentVoter.voterName}
-          label="Voter's name"
+          label="Voter name"
           name="voterName"
           required
           fullWidth
@@ -41,10 +41,10 @@ export default function Voter({ currentVoter, updateVoter, submitVoter }) {
           name="voterEmail"
           type="email"
           required
-          label="Voter's email address"
+          label="Voter email address"
         />
       </FormControl>
-      <Button disabled={incompleteForm} onClick={submitVoter} fullWidth>
+      <Button disabled={incompleteForm} onClick={submitVoter} fullWidth variant="contained" sx={{ mt: 2}}>
         Add Voter
       </Button>
     </>

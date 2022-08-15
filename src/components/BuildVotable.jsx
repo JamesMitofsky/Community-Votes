@@ -199,25 +199,22 @@ export default function BuildVotable() {
           <Typography variant="h1">Create a votable!</Typography>
         </Grid>
         <Grid item>
-          <Typography variant="h2">Votable title</Typography>
           <TextInput
             currentText={votable}
             setCurrentText={setVotable}
-            helperText="Enter what's being voted on"
-            label="Votable"
+            helperText="What's being voted on?"
+            label="Title"
           />
         </Grid>
         <Grid item>
-          <Typography variant="h2">Administrator email</Typography>
           <TextInput
             currentText={adminEmail}
             setCurrentText={handleAdminEmail}
-            helperText="Enter the email of the administrator"
-            label="Email"
+            helperText="Where do you want the confirmation email sent?"
+            label="Administrator Email"
           />
         </Grid>
-        <Grid item>
-          <Typography variant="h2">Votable expiration date</Typography>
+        <Grid item sx={{ mt: 1}}>
           <VotableExpiration
             votableExpiration={votableExpiration}
             handleExpirationChange={handleVotableExpiration}

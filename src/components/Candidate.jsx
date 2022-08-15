@@ -5,8 +5,6 @@ export default function Candidate({
   setCurrentCandidate,
   addCandidate,
 }) {
-  const helperText = "Enter a candidate's name";
-
   let formComplete = !currentCandidate;
 
   return (
@@ -16,13 +14,12 @@ export default function Candidate({
           autoComplete="off"
           required
           fullWidth
-          helperText={helperText}
-          label="Candidate"
+          label="Candidate name"
           value={currentCandidate}
           onChange={(e) => setCurrentCandidate(e.target.value)}
         ></TextField>
       </FormControl>
-      <Button disabled={formComplete} onClick={addCandidate} fullWidth>
+      <Button disabled={formComplete} onClick={addCandidate} fullWidth variant="contained" sx= {{ mt: 2}}>
         Add Candidate
       </Button>
     </>
