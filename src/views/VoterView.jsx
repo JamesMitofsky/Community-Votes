@@ -55,8 +55,6 @@ export default function VoterView() {
         .get(`/votables/${urlParams.votableID}`)
         .then(function (response) {
           // object of candidate names and IDs
-          console.log(pageState);
-          console.log(newStateObj(pageState, "loading")); // TESTING
           return response.data;
         })
         .catch(function (error) {
@@ -106,7 +104,9 @@ export default function VoterView() {
 
       setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
 
-      setPageLoading(false);
+      // when async calls are done, set page as loaded
+      setPageState((prev) => newState(prev, "loaded"));
+      console.log(newState(pageState, "loaded"));
     }
     fetchData();
   }, [urlParams.voterID, urlParams.votableID]);
@@ -186,8 +186,6 @@ export default function VoterView() {
       });
   }
 
-  // entire page loading
-  const [pageLoading, setPageLoading] = useState(true);
   // loading of the ballot
   const [loadingState, setLoadingState] = useState(false);
   // server returned an error
@@ -199,21 +197,29 @@ export default function VoterView() {
   // the current state of the voter page, representing the loading of the voter form
   const [pageState, setPageState] = useState({
     insufficientParams: false,
-    preLoad: false,
-    loading: false,
+    loading: true,
     loaded: false,
     error: false,
   });
 
   // used by state setting function to ensure only one state is active at a time
-  function newStateObj(prevStateObj, newStateName) {
+  // example: setPageState(prevState => newState(prevState, "any_state_property_name_as_string"))
+  function newState(prevStateObj, newStateName) {
     try {
-      const preparedStateObj = {
-        ...prevStateObj,
+      // retrieve all previous state names
+      const prevStateKeys = Object.keys(prevStateObj);
+      // create a new object setting all states to false
+      const allFalseStates = prevStateKeys.reduce((acc, key) => {
+        return { ...acc, [key]: false };
+      }, {});
+
+      // create a new object only setting the received state as active
+      const newActiveStateObj = {
+        ...allFalseStates,
         [newStateName]: true,
       };
 
-      return preparedStateObj;
+      return newActiveStateObj;
     } catch (error) {
       console.log(error);
     }
@@ -269,7 +275,7 @@ export default function VoterView() {
       <Helmet>
         <title>Voting</title>
       </Helmet>
-      {pageLoading ? <LoadingSpinner /> : voterForm}
+      {pageState.loading ? <LoadingSpinner /> : voterForm}
       {/* display if server succeeds */}
       {success ? <Success endSuccess={endSuccess} succeeded={success} /> : null}
       {/* display if server has error */}
