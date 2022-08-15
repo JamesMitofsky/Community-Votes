@@ -55,6 +55,15 @@ export default function VoterView() {
     }
   }
 
+  // Secondary importance states
+  const [candidates, setCandidates] = useState([]);
+  const [voter, setVoter] = useState({
+    availableVotes: "",
+    name: "",
+  });
+
+  //————————————————————————————————————————————————————————————————————————————————————
+
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
   const urlParams = {
@@ -62,17 +71,17 @@ export default function VoterView() {
     voterID: searchParams.get("voterID"),
   };
 
-  // if any URL params are missing return error indicating this
-  if (!urlParams.VotableID && !urlParams.voterID) {
-    setPageState((prevState) => newState(prevState, "error"));
-  }
+  useEffect(() => {
+    // if all params exist, exit function
+    if (urlParams.VotableID && urlParams.voterID) return;
 
-  // create empty state variables
-  const [candidates, setCandidates] = useState([]);
-  const [voter, setVoter] = useState({
-    availableVotes: "",
-    name: "",
-  });
+    // without params, trigger error
+    setErrorState({
+      state: true,
+      message: "URL parameters were not provided.",
+    });
+    setPageState((prevState) => newState(prevState, "error"));
+  }, []);
 
   function voterObject(voterID, votableObject) {
     const allVoters = votableObject.voters;
@@ -93,6 +102,7 @@ export default function VoterView() {
 
   // get all votable data
   useEffect(() => {
+    if (errorState) return;
     async function fetchData() {
       // sets baseline url for the server address
       const instance = axios.create({
@@ -283,7 +293,6 @@ export default function VoterView() {
     </>
   );
 
-  // if (voter.name) {
   return (
     <>
       <Helmet>
