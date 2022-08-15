@@ -200,12 +200,6 @@ export default function VoterView() {
       candidates.find((candidate) => candidate.id === id).votes <= 0
     )
       return;
-    // if the candidate already has 5 votes, exit the function
-    if (
-      isPlus &&
-      candidates.find((candidate) => candidate.id === id).votes >= 5
-    )
-      return;
 
     setCandidates((prevCandidates) => {
       let updatedCandidates = prevCandidates.map((candidate) =>
