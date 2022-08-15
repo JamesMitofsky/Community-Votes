@@ -102,7 +102,7 @@ export default function VoterView() {
 
   // get all votable data
   useEffect(() => {
-    if (errorState) return;
+    if (errorState.state) return;
     async function fetchData() {
       // sets baseline url for the server address
       const instance = axios.create({
