@@ -13,7 +13,5 @@ export default function VotersList({ voters }) {
     );
   });
 
-  return <List>
-    {listItems}
-  </List>;
+  return <List> {listItems} </List>;
 }

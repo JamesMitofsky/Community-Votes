@@ -44,11 +44,6 @@ export default function BuildVotable() {
       (prop) => prop.length > 0
     )
 
-    console.log("readyToGo:", readyToGo);
-    console.log(candidates.length);
-    console.log(voters.length);
-    console.log(votableExpiration.toISOString().length);
-    console.log(adminEmail.length);
     setSubmitEnabled(readyToGo);
   }, [candidates, voters, title, votableExpiration, adminEmail]);
 
