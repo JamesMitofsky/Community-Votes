@@ -18,60 +18,70 @@ export default function ResultsView() {
   };
 
   useEffect(() => {
-    // request the results from the server
-    const instance = axios.create({
-      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-      headers: {
-        "x-access-token":
-          "e40f68b57ced585d79955d151861d2dfe22ca3b96d0a9ccd084690a338138203",
-      },
-    });
-    instance
-      .get(`/votables/${urlParams.votableID}/tally`)
-      .then(function (response) {
-        // transform candidate data to later be consumed by NamesList component
-        const candidates = response.data.map((candidate) => {
-          return {
-            ...candidate,
-            name: candidate.candidateName,
-            id: candidate.candidateId,
-          };
+    async function fetchData() {
+      // request the results from the server
+      const instance = axios.create({
+        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+        headers: {
+          "x-access-token":
+            "e40f68b57ced585d79955d151861d2dfe22ca3b96d0a9ccd084690a338138203",
+        },
+      });
+      const votableTally = await instance
+        .get(`/votables/${urlParams.votableID}/tally`)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+          setError({ state: true, response: error });
         });
 
-        // create list elements of all candidate votes
-        setCandidates(candidates);
-        setPageLoaded(true);
-      })
-      .catch(function (error) {
-        console.log(error);
-        setError({ state: true, response: error });
+      // transform candidate data to later be consumed by NamesList component
+      const tallyCandidates = votableTally.map((candidate) => {
+        return {
+          ...candidate,
+          name: candidate.candidateName,
+          id: candidate.candidateId,
+        };
       });
+      setCandidates(tallyCandidates);
+      setPageLoaded(true);
 
-    // request the full votable object
-    const altInstance = axios.create({
-      baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-    });
-    altInstance
-      .get(`/votables/${urlParams.votableID}`)
-      .then(function (response) {
-        console.log("full response", response);
-        setVotableData(response.data);
-        setVotesUsageData(calculateVoteUsage());
-      })
-      .catch(function (error) {
-        console.log(error);
-        setError({ state: true, response: error });
+      // request the full votable object
+      const altInstance = axios.create({
+        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
       });
+      const completeVotable = await altInstance
+        .get(`/votables/${urlParams.votableID}`)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+          setError({ state: true, response: error });
+        });
+
+      const { possibleVotes, castVotes } = calculateVoteUsage(
+        completeVotable.voters,
+        tallyCandidates
+      );
+      setVotesUsageData({ possibleVotes, castVotes });
+    }
+    fetchData();
   }, [urlParams.votableID]);
 
-  const [votesUsageData, setVotesUsageData] = useState({});
+  const [votesUsageData, setVotesUsageData] = useState({
+    possibleVotes: "—",
+    castVotes: "—",
+  });
 
   const [error, setError] = useState({ state: false, response: {} });
   const [pageLoaded, setPageLoaded] = useState(false);
   const votableID = urlParams.votableID;
 
-  function calculateVoteUsage() {
-    const possibleVotes = votableData.voters.reduce((total, voter) => {
+  function calculateVoteUsage(voters, candidates) {
+    const possibleVotes = voters.reduce((total, voter) => {
       return total + voter.votes;
     }, 0);
 
