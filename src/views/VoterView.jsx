@@ -219,7 +219,7 @@ export default function VoterView() {
         if (prevStateObj[key] === true) return { ...acc, [key]: false };
 
         // if the current key is anything other than incoming as true, return whatever was received
-        return { ...acc, [key]: prevStateObj.key };
+        return { ...acc, [key]: prevStateObj[key] };
       }, {});
 
       // create a new object only setting the received state as active
