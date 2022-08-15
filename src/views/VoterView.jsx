@@ -107,7 +107,7 @@ export default function VoterView() {
           return response.data;
         })
         .catch(function (error) {
-          setErrorState({ state: true, message: error.message });
+          setErrorState({ state: true, message: error });
         });
 
       try {
@@ -138,7 +138,7 @@ export default function VoterView() {
           })
           .catch(function (error) {
             console.log(error);
-            setErrorState({ state: true, message: error.message });
+            setErrorState({ state: true, message: error });
           });
 
         const votesAlreadyExist =
@@ -163,7 +163,7 @@ export default function VoterView() {
         // when async calls are done, set page as loaded
         setPageState((prev) => newState(prev, "loaded"));
       } catch (error) {
-        setErrorState({ state: true, message: error.message });
+        setErrorState({ state: true, message: error });
       }
     }
     fetchData();
@@ -239,7 +239,7 @@ export default function VoterView() {
       })
       .catch(function (error) {
         console.log(error);
-        setErrorState({ state: true, message: error.message });
+        setErrorState({ state: true, message: error });
       });
   }
 
