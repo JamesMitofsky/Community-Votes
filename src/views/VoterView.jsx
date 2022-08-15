@@ -18,35 +18,29 @@ export default function VoterView() {
     loading: true,
     insufficientParams: false,
     loaded: false,
-    error: false,
-    messsage: "",
   });
 
   const [formState, setFormState] = useState({
     insufficientParams: false,
     sending: false,
     sent: false,
-    error: false,
-    messsage: "",
+  });
+
+  const [errorState, setErrorState] = useState({
+    state: false,
+    message: "",
   });
 
   // used by state setting function to ensure only one state is active at a time
   // state example func:
   // setPageState(prevState => newState(prevState, "any_state_name"))
-  function newState(prevStateObj, newStateName, message) {
+  function newState(prevStateObj, newStateName) {
     try {
       // retrieve all previous state names
       const prevStateKeys = Object.keys(prevStateObj);
       // create a new object setting all states to false
       const allFalseStates = prevStateKeys.reduce((acc, key) => {
-        // if the current key is set to true, set it as false
-        if (prevStateObj[key] === true) return { ...acc, [key]: false };
-
-        // if message content is being sent, update that
-        if (key === "message") return { ...acc, [key]: message };
-
-        // if the current key is anything other than incoming as true, return whatever was received
-        return { ...acc, [key]: prevStateObj[key] };
+        return { ...acc, [key]: false };
       }, {});
 
       // add single true object to all the false ones. Since it's the last added, it will be the sole survivor of the useState hook
@@ -113,63 +107,64 @@ export default function VoterView() {
           return response.data;
         })
         .catch(function (error) {
-          setPageState((prevState) =>
-            newState(prevState, "error", error.message)
-          );
-          console.log(error);
+          setErrorState({ state: true, message: error.message });
         });
 
-      const votableCandidates = votableInfo.candidates.map((thisCandidate) => {
-        return { ...thisCandidate, id: thisCandidate.id };
-      });
+      try {
+        const votableCandidates = votableInfo.candidates.map(
+          (thisCandidate) => {
+            return { ...thisCandidate, id: thisCandidate.id };
+          }
+        );
 
-      // returns object with three properties: name, id, votes
-      const returnedCandidateVotes = await instance
-        .get(
-          `/votables/${urlParams.votableID}/votes?voterId=${urlParams.voterID}`
-        )
-        .then(function (response) {
-          // get candidate names and ids
-          const candidates = response.data;
+        // returns object with three properties: name, id, votes
+        const returnedCandidateVotes = await instance
+          .get(
+            `/votables/${urlParams.votableID}/votes?voterId=${urlParams.voterID}`
+          )
+          .then(function (response) {
+            // get candidate names and ids
+            const candidates = response.data;
 
-          // return all candidates with their votes attached
-          const newArray = candidates.map((candidate) => {
-            return {
-              name: candidate.candidateName,
-              id: candidate.candidateId,
-              votes: candidate.votes,
-            };
+            // return all candidates with their votes attached
+            const newArray = candidates.map((candidate) => {
+              return {
+                name: candidate.candidateName,
+                id: candidate.candidateId,
+                votes: candidate.votes,
+              };
+            });
+            return newArray;
+          })
+          .catch(function (error) {
+            console.log(error);
+            setErrorState({ state: true, message: error.message });
           });
-          return newArray;
-        })
-        .catch(function (error) {
-          console.log(error);
-          setPageState((prevState) =>
-            newState(prevState, "error", error.message)
-          );
-        });
 
-      const votesAlreadyExist =
-        returnedCandidateVotes.length > 0 ? true : false;
+        const votesAlreadyExist =
+          returnedCandidateVotes.length > 0 ? true : false;
 
-      // either set candidates by default or add votes field and add those candidates
-      const candidatesWithVotes = votesAlreadyExist
-        ? returnedCandidateVotes
-        : handleNewCandidates(votableCandidates);
+        // either set candidates by default or add votes field and add those candidates
+        const candidatesWithVotes = votesAlreadyExist
+          ? returnedCandidateVotes
+          : handleNewCandidates(votableCandidates);
 
-      setCandidates(candidatesWithVotes);
+        setCandidates(candidatesWithVotes);
 
-      const voter = voterObject(urlParams.voterID, votableInfo);
+        const voter = voterObject(urlParams.voterID, votableInfo);
 
-      const votesMinusVotesCast = calculateAvailableVotes(
-        voter.votes,
-        candidatesWithVotes
-      );
+        const votesMinusVotesCast = calculateAvailableVotes(
+          voter.votes,
+          candidatesWithVotes
+        );
 
-      setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
+        setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
 
-      // when async calls are done, set page as loaded
-      setPageState((prev) => newState(prev, "loaded"));
+        // when async calls are done, set page as loaded
+        setPageState((prev) => newState(prev, "loaded"));
+      } catch (error) {
+        setErrorState({ state: true, message: error.message });
+      }
     }
     fetchData();
   }, [urlParams.voterID, urlParams.votableID]);
@@ -244,9 +239,7 @@ export default function VoterView() {
       })
       .catch(function (error) {
         console.log(error);
-        setPageState((prevState) =>
-          newState(prevState, "error", error.message)
-        );
+        setErrorState({ state: true, message: error.message });
       });
   }
 
@@ -300,8 +293,9 @@ export default function VoterView() {
       {pageState.loaded && voterForm}
 
       {formState.sent && <Success succeeded={formState.sent} />}
-      {formState.error && (
-        <Error state={formState.error} response={formState.message} />
+
+      {errorState && (
+        <Error state={errorState.state} response={errorState?.message} />
       )}
     </>
   );
