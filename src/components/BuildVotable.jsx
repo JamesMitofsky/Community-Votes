@@ -12,6 +12,7 @@ import NameList from "./NameList.jsx";
 import { Helmet } from "react-helmet";
 import Error from "../components/alerts/Error.jsx";
 import axios from "axios";
+import { LoadingButton } from "@mui/lab";
 
 export default function BuildVotable() {
   // STATES SECTION
@@ -118,14 +119,14 @@ export default function BuildVotable() {
   }
 
   // submit button disabled if incomplete form
-  const [buttonState, setButtonState] = useState(true);
+  const [submitEnabled, setSubmitEnabled] = useState(false);
   useEffect(() => {
     const readyToGo = Object.values(completeVotable).every(
       (prop) => prop.length > 0
     );
 
     if (readyToGo) {
-      setButtonState(false);
+      setSubmitEnabled(true);
     }
   }, [completeVotable]);
 
@@ -240,12 +241,17 @@ export default function BuildVotable() {
         </Grid>
         <Grid item>
           {votableConfirmation}
-          <SuccessButton
-            publishToServer={publishToServer}
+          <LoadingButton
+            fullWidth
+            onClick={publishToServer}
             loading={loading}
-            success={success}
-            incompleteForm={buttonState}
-          />
+            variant="contained"
+            // loadingIndicator="Submitting your ballot..."
+            disabled={!submitEnabled}
+            sx={{ mt: 4, fontSize: 25 }}
+          >
+            Submit
+          </LoadingButton>
           {error.state ? (
             <Error state={error.state} response={error.response} />
           ) : null}
