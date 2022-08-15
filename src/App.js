@@ -20,6 +20,7 @@ export default function App() {
             <Container
               sx={{
                 marginTop: 2,
+                marginBottom: 4,
                 display: "flex",
                 flexDirection: "column",
                 flexGrow: 1,
