@@ -55,6 +55,8 @@ export default function VoterView() {
         .get(`/votables/${urlParams.votableID}`)
         .then(function (response) {
           // object of candidate names and IDs
+          console.log(pageState);
+          console.log(newStateObj(pageState, "loading")); // TESTING
           return response.data;
         })
         .catch(function (error) {
@@ -193,6 +195,30 @@ export default function VoterView() {
   // server successfully posted the ballot
   const [success, setSuccess] = useState(false);
   // function for resetting success state after it's been displayed
+
+  // the current state of the voter page, representing the loading of the voter form
+  const [pageState, setPageState] = useState({
+    insufficientParams: false,
+    preLoad: false,
+    loading: false,
+    loaded: false,
+    error: false,
+  });
+
+  // used by state setting function to ensure only one state is active at a time
+  function newStateObj(prevStateObj, newStateName) {
+    try {
+      const preparedStateObj = {
+        ...prevStateObj,
+        [newStateName]: true,
+      };
+
+      return preparedStateObj;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function endSuccess() {
     setSuccess(false);
   }
