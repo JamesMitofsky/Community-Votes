@@ -1,5 +1,4 @@
 import { Grid, Typography } from "@mui/material";
-import SuccessButton from "./SuccessButton.jsx";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import TextInput from "./TextInput.jsx";
@@ -16,40 +15,15 @@ import { LoadingButton } from "@mui/lab";
 
 export default function BuildVotable() {
   // STATES SECTION
-
-  // VOTERS (current) state - currentVoter accepts object, eventually sending to the voters array (State 2)
-  const [currentVoter, setCurrentVoter] = useState({
-    voterName: "",
-    voterEmail: "",
-    voterVotes: "",
-    id: uuidv4(),
-  });
-
-  function updateVoter(event) {
-    const name = event.target.name;
-    // does incoming property exist on object
-    if (currentVoter[name] === undefined)
-      console.log(
-        `HOA Error: ${name} does not exist as a property of the currentVoter object.`
-      );
-
-    const value = event.target.value;
-    setCurrentVoter({
-      ...currentVoter,
-      [name]: value,
-    });
-  }
-
-  // VOTERS (all) state - voters accepts array of objects from State 1
   const [voters, setVoters] = useState([]);
-  function addVoterToArray() {
-    setVoters((prevVoters) => [currentVoter, ...prevVoters]);
-    setCurrentVoter({
-      voterName: "",
-      voterEmail: "",
-      voterVotes: "",
+  function addVoterToArray(voterName, voterEmail, voterVotes) {
+    let voter = {
+      voterName: voterName,
+      voterEmail: voterEmail,
+      voterVotes: voterVotes,
       id: uuidv4(),
-    });
+    };
+    setVoters((previousVoters) => [...previousVoters, voter]);
   }
 
   // CANDIDATES (current) state - update current candidate field
@@ -153,12 +127,6 @@ export default function BuildVotable() {
         setAdminEmail("");
         setCandidates([]);
         setVoters([]);
-        setCurrentVoter({
-          voterName: "",
-          voterEmail: "",
-          voterVotes: "",
-          id: uuidv4(),
-        });
         console.log(response);
       })
       .catch(function (error) {
@@ -234,8 +202,6 @@ export default function BuildVotable() {
           <Typography variant="h2">Voters</Typography>
           <VotersList voters={voters} />
           <Voter
-            currentVoter={currentVoter}
-            updateVoter={updateVoter}
             submitVoter={addVoterToArray}
           />
         </Grid>
