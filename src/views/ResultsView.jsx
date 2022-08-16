@@ -5,11 +5,18 @@ import { Helmet } from "react-helmet";
 import TableDisplay from "../components/TableDisplay.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Error from "../components/alerts/Error.jsx";
+import setState from "../functions/stateManagement.js";
 
 export default function ResultsView() {
   // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const [votableName, setVotableName] = useState("");
+
+  const [pageState, setPageState] = useState({
+    loading: true,
+    insufficientParams: false,
+    loaded: false,
+  });
 
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
@@ -46,7 +53,6 @@ export default function ResultsView() {
         };
       });
       setCandidates(tallyCandidates);
-      setPageLoaded(true);
 
       // request the full votable object
       const altInstance = axios.create({
@@ -68,6 +74,7 @@ export default function ResultsView() {
         tallyCandidates
       );
       setVotesUsageData({ possibleVotes, castVotes });
+      setState(setPageState, "loaded");
     }
     fetchData();
   }, [urlParams.votableID]);
@@ -78,7 +85,6 @@ export default function ResultsView() {
   });
 
   const [error, setError] = useState({ state: false, response: {} });
-  const [pageLoaded, setPageLoaded] = useState(false);
   const votableID = urlParams.votableID;
 
   function calculateVoteUsage(voters, candidates) {
@@ -116,17 +122,13 @@ export default function ResultsView() {
         <title>Results</title>
       </Helmet>
       {/* If votable ID is coming but the page hasn't loaded, show the spinner */}
-      {votableID && !pageLoaded ? (
-        <LoadingSpinner />
-      ) : // If page has loaded, show the main view. If not loaded but there is no ID, print text.
-      pageLoaded ? (
-        mainView
-      ) : (
-        'There are no results to view. Please make sure there is a "votableID" parameter in the link you used.'
-      )}
-      {error.state ? (
-        <Error state={error.state} response={error.response} />
-      ) : null}
+      {pageState.loading && <LoadingSpinner />}
+
+      {/* If page has loaded, show the main view. */}
+      {pageState.loaded && mainView}
+
+      {/* If not loaded but there is no ID, print text. */}
+      {error.state && <Error state={error.state} response={error.response} />}
     </>
   );
 }
