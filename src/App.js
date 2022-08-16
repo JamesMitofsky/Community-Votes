@@ -33,16 +33,14 @@ export default function App() {
                 setDisplayLocation(location);
               }
             }}
-            display="flex"
-            flexDirection="column"
-            minHeight="100vh"
+            minheight="100vh"
             maxWidth="md"
             component="div"
             sx={{
               marginTop: 2,
               marginBottom: 4,
               display: "flex",
-              flexDirection: "column",
+              flexdirection: "column",
               flexGrow: 1,
             }}
           >
