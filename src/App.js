@@ -8,36 +8,54 @@ import UrlBuilder from "./views/UrlBuilder.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { Container, Box } from "@mui/material";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 export default function App() {
+  const location = useLocation();
+  const [displayLocation, setDisplayLocation] = useState(location);
+  const [transitionStage, setTransistionStage] = useState("fadeIn");
+
+  useEffect(() => {
+    if (location !== displayLocation) setTransistionStage("fadeOut");
+  }, [location, displayLocation]);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Box display="flex" flexDirection="column" minHeight="100vh">
-            <Navigation />
-            <Container
-              sx={{
-                marginTop: 2,
-                marginBottom: 4,
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-              }}
-              maxWidth="md"
-            >
-              <Routes>
-                <Route path="/" element={<LandingPage />}></Route>
-                <Route path="/voter" element={<VoterView />}></Route>
-                <Route path="/results" element={<ResultsView />}></Route>
-                <Route path="/admin" element={<AdminView />}></Route>
-                <Route path="/buildURL" element={<UrlBuilder />}></Route>
-                <Route path="*" element={<UnknownAddress />}></Route>
-              </Routes>
-            </Container>
-          </Box>
-        </BrowserRouter>
+        <Box>
+          <Navigation />
+          <Container
+            className={`${transitionStage}`}
+            onAnimationEnd={() => {
+              if (transitionStage === "fadeOut") {
+                setTransistionStage("fadeIn");
+                setDisplayLocation(location);
+              }
+            }}
+            display="flex"
+            flexDirection="column"
+            minHeight="100vh"
+            maxWidth="md"
+            component="div"
+            sx={{
+              marginTop: 2,
+              marginBottom: 4,
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+            }}
+          >
+            <Routes location={displayLocation}>
+              <Route path="/" element={<LandingPage />}></Route>
+              <Route path="/voter" element={<VoterView />}></Route>
+              <Route path="/results" element={<ResultsView />}></Route>
+              <Route path="/admin" element={<AdminView />}></Route>
+              <Route path="/buildURL" element={<UrlBuilder />}></Route>
+              <Route path="*" element={<UnknownAddress />}></Route>
+            </Routes>
+          </Container>
+        </Box>
       </ThemeProvider>
     </div>
   );
