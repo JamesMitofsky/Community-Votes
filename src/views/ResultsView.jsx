@@ -34,77 +34,83 @@ export default function ResultsView() {
   };
 
   useEffect(() => {
-    const paramsPresent = urlParams.votableID.length > 0 ? true : false;
+    try {
+      setPage("loading");
 
-    paramsPresent
-      ? setPage("loading")
-      : setError({
+      if (urlParams.votableID === null) {
+        // set error state if no votableID exists
+        setError({
           state: true,
           message:
             "We couldn't find the votable ID you were looking for based on this link.",
         });
+      }
+      if (error.state === true)
+        throw "exception – we couldn't find the votable ID you were looking for based on this link.";
 
-    if (!paramsPresent) return;
-    async function fetchData() {
-      // request the results from the server
-      const instance = axios.create({
-        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-        headers: {
-          "x-access-token":
-            "e40f68b57ced585d79955d151861d2dfe22ca3b96d0a9ccd084690a338138203",
-        },
-      });
-      const votableTally = await instance
-        .get(`/votables/${urlParams.votableID}/tally`)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-          setError({
-            state: true,
-            message: "We couldn't return the results from our server.",
-          });
+      async function fetchData() {
+        // request the results from the server
+        const instance = axios.create({
+          baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+          headers: {
+            "x-access-token":
+              "e40f68b57ced585d79955d151861d2dfe22ca3b96d0a9ccd084690a338138203",
+          },
         });
-
-      // transform candidate data to later be consumed by NamesList component
-      const tallyCandidates = votableTally.map((candidate) => {
-        return {
-          ...candidate,
-          name: candidate.candidateName,
-          id: candidate.candidateId,
-        };
-      });
-      setCandidates(tallyCandidates);
-
-      // request the full votable object
-      const altInstance = axios.create({
-        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-      });
-      const completeVotable = await altInstance
-        .get(`/votables/${urlParams.votableID}`)
-        .then(function (response) {
-          return response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-          setError({
-            state: true,
-            message:
-              "We couldn't find the votableID included in the link you're using.",
+        const votableTally = await instance
+          .get(`/votables/${urlParams.votableID}/tally`)
+          .then(function (response) {
+            return response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+            setError({
+              state: true,
+              message: "We couldn't return the results from our server.",
+            });
           });
-        });
 
-      setVotableName(completeVotable.name);
-      const { possibleVotes, castVotes } = calculateVoteUsage(
-        completeVotable.voters,
-        tallyCandidates
-      );
-      setVotesUsageData({ possibleVotes, castVotes });
-      setState(setPageState, "loaded");
+        // transform candidate data to later be consumed by NamesList component
+        const tallyCandidates = votableTally.map((candidate) => {
+          return {
+            ...candidate,
+            name: candidate.candidateName,
+            id: candidate.candidateId,
+          };
+        });
+        setCandidates(tallyCandidates);
+
+        // request the full votable object
+        const altInstance = axios.create({
+          baseURL: process.env.REACT_APP_SERVER_ADDRESS,
+        });
+        const completeVotable = await altInstance
+          .get(`/votables/${urlParams.votableID}`)
+          .then(function (response) {
+            return response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+            setError({
+              state: true,
+              message:
+                "We couldn't find the votableID included in the link you're using.",
+            });
+          });
+
+        setVotableName(completeVotable.name);
+        const { possibleVotes, castVotes } = calculateVoteUsage(
+          completeVotable.voters,
+          tallyCandidates
+        );
+        setVotesUsageData({ possibleVotes, castVotes });
+        setState(setPageState, "loaded");
+      }
+      fetchData();
+    } catch (error) {
+      console.log("Catch statement:", error);
     }
-    fetchData();
-  }, [urlParams.votableID, error]);
+  }, [urlParams.votableID, error.state]);
 
   const [votesUsageData, setVotesUsageData] = useState({
     possibleVotes: "—",
