@@ -45,8 +45,12 @@ export default function ResultsView() {
             "We couldn't find the votable ID you were looking for based on this link.",
         });
       }
-      if (error.state === true)
-        throw "exception – we couldn't find the votable ID you were looking for based on this link.";
+      if (error.state === true) {
+        console.log(
+          "Exception: couldn't find the votable ID you were looking for based on this link."
+        );
+        return;
+      }
 
       async function fetchData() {
         // request the results from the server
