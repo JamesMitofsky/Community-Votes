@@ -124,19 +124,11 @@ export default function ResultsView() {
 
   const mainView = (
     <>
-      <Typography variant="h1">Results: {votableName}</Typography>
-      {candidates.length > 0 ? (
-        <>
-          <Typography variant="h2">
-            Of the {votesUsageData.possibleVotes} votes which could have been
-            cast, {votesUsageData.castVotes} were submitted.
-          </Typography>
-
-          <TableDisplay array={candidates} />
-        </>
-      ) : (
-        <Typography variant="h3">No votes have been cast.</Typography>
-      )}
+      <Typography variant="h2">
+        Of the {votesUsageData.possibleVotes} votes which could have been cast,{" "}
+        {votesUsageData.castVotes} were submitted.
+      </Typography>
+      <TableDisplay array={candidates} />
     </>
   );
 
@@ -145,13 +137,18 @@ export default function ResultsView() {
       <Helmet>
         <title>Results</title>
       </Helmet>
-      {/* If votable ID is coming but the page hasn't loaded, show the spinner */}
+      <Typography variant="h1">Results: {votableName}</Typography>
+
+      {pageState.insufficientParams && (
+        <Typography variant="h2">
+          Sorry, we couldn't find the voting results you were looking for.
+        </Typography>
+      )}
+
       {pageState.loading && <LoadingSpinner />}
 
-      {/* If page has loaded, show the main view. */}
       {pageState.loaded && mainView}
 
-      {/* If not loaded but there is no ID, print text. */}
       {error.state && (
         <Error
           state={error.state}
