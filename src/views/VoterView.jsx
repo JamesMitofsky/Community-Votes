@@ -201,6 +201,20 @@ export default function VoterView() {
     )
       return;
 
+    // prevent voter from voting for more than five candidates
+    const individualsVotedFor = candidates.reduce((acc, candidate) => {
+      if (candidate.votes === 0) return acc;
+      return ++acc;
+    }, 0);
+    // how many candidates is the voter allowed to select
+    const voteLimit = 5;
+    if (isPlus && individualsVotedFor >= voteLimit) {
+      alert(
+        `You can vote for a maximum of ${voteLimit} candidates. Please remove your votes for one candidate if you'd like to vote for another.`
+      );
+      return;
+    }
+
     setCandidates((prevCandidates) => {
       let updatedCandidates = prevCandidates.map((candidate) =>
         candidate.id !== id
