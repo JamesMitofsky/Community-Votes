@@ -1,5 +1,7 @@
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
 import { useEffect, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
 
 export default function Error({ state, response, message }) {
   const email = {
@@ -22,8 +24,23 @@ export default function Error({ state, response, message }) {
   }
 
   return (
-    <Snackbar open={alertState} onClose={handleClose} autoHideDuration={6000}>
-      <Alert severity="error" sx={{ width: "100%" }}>
+    <Snackbar open={alertState} onClose={handleClose}>
+      <Alert
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={() => {
+              handleClose();
+            }}
+          >
+            <CloseIcon fontSize="inherit" />
+          </IconButton>
+        }
+        severity="error"
+        sx={{ width: "100%" }}
+      >
         <AlertTitle>Sorry about that, we had a problem. 👷</AlertTitle>
         {message} Help us get back on track:{" "}
         <a rel="noreferrer" target="_blank" href={constructedHref}>
