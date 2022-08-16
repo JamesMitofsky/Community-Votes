@@ -28,7 +28,7 @@ export default function Voter({ addVoter }) {
           fullWidth
         />
       </FormControl>
-      <FormControl>
+      <FormControl sx={{ mr: 2 }}>
         <TextField
           autoComplete="off"
           type="number"
@@ -51,7 +51,13 @@ export default function Voter({ addVoter }) {
           label="Voter email address"
         />
       </FormControl>
-      <Button disabled={!isFormComplete} onClick={onSubmit} fullWidth variant="contained" sx={{ mt: 2}}>
+      <Button
+        disabled={!isFormComplete}
+        onClick={onSubmit}
+        fullWidth
+        variant="contained"
+        sx={{ mt: 2 }}
+      >
         Add Voter
       </Button>
     </>
