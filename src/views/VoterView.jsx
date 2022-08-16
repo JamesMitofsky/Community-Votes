@@ -211,9 +211,14 @@ export default function VoterView() {
     }, []);
 
     const numberVotedFor = candidatesVotedFor.length;
+    const alreadyVotedFor = candidatesVotedFor.includes(id);
+
     // how many candidates is the voter allowed to select
     const voteLimit = 5;
-    if (isPlus && numberVotedFor >= voteLimit) {
+
+    // stop voter if this next vote will put them over the max number of candidates they can vote for
+    // however, allow them to vote if they're just giving one of their five candidates more votes
+    if (isPlus && numberVotedFor >= voteLimit && !alreadyVotedFor) {
       alert(
         `You can vote for a maximum of ${voteLimit} candidates. Please remove your votes for one candidate if you'd like to vote for another.`
       );
