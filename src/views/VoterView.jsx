@@ -71,12 +71,9 @@ export default function VoterView() {
     voterID: searchParams.get("voterID"),
   };
 
-  useEffect(() => {
-    // if all params exist, exit function
-    if (urlParams.votableID && urlParams.voterID) return;
+  // useEffect(() => {
 
-    setPageState((prevState) => newState(prevState, "insufficientParams"));
-  }, [urlParams.voterID, urlParams.votableID]);
+  // }, [urlParams.voterID, urlParams.votableID]);
 
   function voterObject(voterID, votableObject) {
     const allVoters = votableObject.voters;
@@ -97,25 +94,35 @@ export default function VoterView() {
 
   // get all votable data
   useEffect(() => {
-    if (pageState.insufficientParams) return;
-    async function fetchData() {
-      // sets baseline url for the server address
-      const instance = axios.create({
-        baseURL: process.env.REACT_APP_SERVER_ADDRESS,
-      });
+    // if params don't exist or strings aren't there, return from function
+    const correctParams =
+      urlParams.votableID &&
+      urlParams.voterID &&
+      urlParams.votableID.length > 0 &&
+      urlParams.voterID.length > 0;
+    if (!correctParams) {
+      setPageState((prevState) => newState(prevState, "insufficientParams"));
+      return;
+    }
 
-      // returns votable object
-      const votableInfo = await instance
-        .get(`/votables/${urlParams.votableID}`)
-        .then(function (response) {
-          // object of candidate names and IDs
-          return response.data;
-        })
-        .catch(function (error) {
-          setErrorState({ state: true, message: error });
+    async function fetchData() {
+      try {
+        // sets baseline url for the server address
+        const instance = axios.create({
+          baseURL: process.env.REACT_APP_SERVER_ADDRESS,
         });
 
-      try {
+        // returns votable object
+        const votableInfo = await instance
+          .get(`/votables/${urlParams.votableID}`)
+          .then(function (response) {
+            // object of candidate names and IDs
+            return response.data;
+          })
+          .catch(function (error) {
+            setErrorState({ state: true, message: error });
+          });
+
         setVotableContent(votableInfo);
 
         const votableCandidates = votableInfo.candidates.map(
@@ -174,7 +181,7 @@ export default function VoterView() {
       }
     }
     fetchData();
-  }, [urlParams.voterID, urlParams.votableID, pageState.insufficientParams]);
+  }, [urlParams.voterID, urlParams.votableID]);
 
   function calculateAvailableVotes(numberOfVotesAllowed, arrayOfCandidates) {
     const votesMinusVotesCast = arrayOfCandidates.reduce(
