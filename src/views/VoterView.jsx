@@ -55,8 +55,9 @@ export default function VoterView() {
     }
   }
 
-  // Secondary importance states
+  // DATA for rendering out
   const [candidates, setCandidates] = useState([]);
+  const [votableContent, setVotableContent] = useState({});
   const [voter, setVoter] = useState({
     availableVotes: "",
     name: "",
@@ -121,6 +122,8 @@ export default function VoterView() {
         });
 
       try {
+        setVotableContent(votableInfo);
+
         const votableCandidates = votableInfo.candidates.map(
           (thisCandidate) => {
             return { ...thisCandidate, id: thisCandidate.id };
@@ -264,6 +267,9 @@ export default function VoterView() {
   const voterForm = (
     <>
       <Typography variant="h1" sx={{ borderBottom: 1 }}>
+        {votableContent.name}
+      </Typography>
+      <Typography variant="h3" sx={{ color: "#808080" }}>
         Welcome to your ballot, {voter.name} 👋
       </Typography>
       <Typography variant="h3" fontWeight="bold" sx={{ mt: 6 }}>
