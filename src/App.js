@@ -33,14 +33,13 @@ export default function App() {
                 setDisplayLocation(location);
               }
             }}
-            minheight="100vh"
             maxWidth="md"
             component="div"
             sx={{
               marginTop: 2,
               marginBottom: 4,
               display: "flex",
-              flexdirection: "column",
+              flexDirection: "column",
               flexGrow: 1,
             }}
           >
