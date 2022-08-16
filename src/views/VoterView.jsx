@@ -1,10 +1,9 @@
-import PlusMinusCounter from "../components/PlusMinusCounter.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Typography, List, ListItem } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import { Typography } from "@mui/material";
 import { Helmet } from "react-helmet";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
+import VoterForm from "../components/VoterForm.jsx";
 
 // import alerts
 import Success from "../components/alerts/Success.jsx";
@@ -76,12 +75,7 @@ export default function VoterView() {
     // if all params exist, exit function
     if (urlParams.votableID && urlParams.voterID) return;
 
-    // without params, trigger error
-    setErrorState({
-      state: true,
-      message: "URL parameters were not provided.",
-    });
-    setPageState((prevState) => newState(prevState, "error"));
+    setPageState((prevState) => newState(prevState, "insufficientParams"));
   }, [urlParams.voterID, urlParams.votableID]);
 
   function voterObject(voterID, votableObject) {
@@ -103,7 +97,7 @@ export default function VoterView() {
 
   // get all votable data
   useEffect(() => {
-    if (errorState.state) return;
+    if (pageState.insufficientParams) return;
     async function fetchData() {
       // sets baseline url for the server address
       const instance = axios.create({
@@ -180,7 +174,7 @@ export default function VoterView() {
       }
     }
     fetchData();
-  }, [urlParams.voterID, urlParams.votableID, errorState]);
+  }, [urlParams.voterID, urlParams.votableID, pageState.insufficientParams]);
 
   function calculateAvailableVotes(numberOfVotesAllowed, arrayOfCandidates) {
     const votesMinusVotesCast = arrayOfCandidates.reduce(
@@ -271,56 +265,29 @@ export default function VoterView() {
       });
   }
 
-  const voterForm = (
-    <>
-      <Typography variant="h1" sx={{ borderBottom: 1 }}>
-        {votableContent.name}
-      </Typography>
-      <Typography variant="h3" sx={{ color: "#808080" }}>
-        Welcome to your ballot, {voter.name} 👋
-      </Typography>
-      <Typography variant="h3" fontWeight="bold" sx={{ mt: 6 }}>
-        CANDIDATES
-      </Typography>
-      <List>
-        {candidates.map((candidate) => {
-          return (
-            <ListItem
-              divider
-              sx={{ justifyContent: "space-between" }}
-              key={candidate.id}
-            >
-              <Typography variant="h3">{candidate.name}</Typography>
-              <PlusMinusCounter
-                candidate={candidate}
-                updateVotes={updateVotes}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-      <Typography variant="subtitle" align="right">
-        🗳 You have {voter.availableVotes} votes available
-      </Typography>
-      <LoadingButton
-        onClick={castBallot}
-        loading={formState.sending}
-        variant="contained"
-        loadingIndicator="Submitting..."
-        sx={{ mt: 4, fontSize: 25 }}
-      >
-        Submit Ballot
-      </LoadingButton>
-    </>
-  );
-
   return (
     <>
       <Helmet>
         <title>Voting</title>
       </Helmet>
       {pageState.loading && <LoadingSpinner />}
-      {pageState.loaded && voterForm}
+
+      {pageState.insufficientParams && (
+        <Typography variant="h2" component="h1">
+          There's nothing to vote on right now.
+        </Typography>
+      )}
+
+      {pageState.loaded && (
+        <VoterForm
+          votableContent={votableContent}
+          candidates={candidates}
+          voter={voter}
+          updateVotes={updateVotes}
+          formState={formState}
+          castBallot={castBallot}
+        />
+      )}
 
       {formState.sent && <Success succeeded={formState.sent} />}
 
