@@ -1,5 +1,5 @@
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Error({ state, response, message }) {
   const email = {
@@ -13,8 +13,10 @@ export default function Error({ state, response, message }) {
 
   const [alertState, setAlertState] = useState(false);
 
-  // if the incoming state is true, reflect this
-  if (state === true) setAlertState(true);
+  useEffect(() => {
+    // if the incoming state is true, reflect this
+    if (state === true) setAlertState(true);
+  }, [state]);
   function handleClose() {
     setAlertState(false);
   }
