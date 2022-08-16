@@ -1,4 +1,5 @@
 import { Alert, AlertTitle, Snackbar } from "@mui/material";
+import { useState } from "react";
 
 export default function Error({ state, response, message }) {
   const email = {
@@ -9,8 +10,17 @@ export default function Error({ state, response, message }) {
   };
 
   const constructedHref = `mailto:${email.recipient}?subject=${email.subject}&body=${email.body}`;
+
+  const [alertState, setAlertState] = useState(false);
+
+  // if the incoming state is true, reflect this
+  if (state === true) setAlertState(true);
+  function handleClose() {
+    setAlertState(false);
+  }
+
   return (
-    <Snackbar open={state} autoHideDuration={6000}>
+    <Snackbar open={alertState} onClose={handleClose} autoHideDuration={6000}>
       <Alert severity="error" sx={{ width: "100%" }}>
         <AlertTitle>Sorry about that, we had a problem. 👷</AlertTitle>
         {message} Help us get back on track:{" "}
