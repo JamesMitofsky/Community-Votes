@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import signsSVG from "../assets/signs.svg";
 import { Typography } from "@mui/material";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function UnkownAddress() {
   return (

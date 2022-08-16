@@ -4,7 +4,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export default function LandingPage() {
   return (
@@ -18,7 +18,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <CreateIcon />
-        <Typography variant="h2" sx={{ml: 1}}>
+        <Typography variant="h2" sx={{ ml: 1 }}>
           Create
         </Typography>
       </Grid>
@@ -28,17 +28,17 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <OutboxIcon />
-        <Typography variant="h2" sx={{ml: 1}}>
+        <Typography variant="h2" sx={{ ml: 1 }}>
           Publish
         </Typography>
       </Grid>
       <Typography variant="body1">
-        Votables are automatically published when you create them from the
-        Admin page.
+        Votables are automatically published when you create them from the Admin
+        page.
       </Typography>
       <Grid container alignItems="center">
         <HowToVoteIcon />
-        <Typography variant="h2" sx={{ml: 1}}>
+        <Typography variant="h2" sx={{ ml: 1 }}>
           Vote
         </Typography>
       </Grid>
@@ -50,7 +50,7 @@ export default function LandingPage() {
       </Typography>
       <Grid container alignItems="center">
         <NotificationsActiveIcon />
-        <Typography variant="h2" sx={{ml: 1}}>
+        <Typography variant="h2" sx={{ ml: 1 }}>
           Tally
         </Typography>
       </Grid>

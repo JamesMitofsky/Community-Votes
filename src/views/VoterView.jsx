@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Typography } from "@mui/material";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import VoterForm from "../components/VoterForm.jsx";
 

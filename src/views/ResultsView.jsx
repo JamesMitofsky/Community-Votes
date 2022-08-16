@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import TableDisplay from "../components/TableDisplay.jsx";
 import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Error from "../components/alerts/Error.jsx";

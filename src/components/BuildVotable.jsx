@@ -8,7 +8,7 @@ import VotableConfirmation from "../components/VotableConfirmation.jsx";
 import VotableExpiration from "../components/VotableExpiration.jsx";
 import Candidate from "./Candidate.jsx";
 import NameList from "./NameList.jsx";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import Error from "../components/alerts/Error.jsx";
 import axios from "axios";
 import { LoadingButton } from "@mui/lab";
@@ -29,7 +29,10 @@ export default function BuildVotable() {
 
   const [candidates, setCandidates] = useState([]);
   function addCandidate(candidateName) {
-    setCandidates((prevCandidates) => [ ...prevCandidates, { name: candidateName, id: uuidv4() } ]);
+    setCandidates((prevCandidates) => [
+      ...prevCandidates,
+      { name: candidateName, id: uuidv4() },
+    ]);
   }
 
   const [title, setTitle] = useState("");
@@ -40,9 +43,13 @@ export default function BuildVotable() {
   // submit button disabled if incomplete form
   const [submitEnabled, setSubmitEnabled] = useState(false);
   useEffect(() => {
-    const readyToGo = [candidates, voters, title, votableExpiration.toISOString(), adminEmail].every(
-      (prop) => prop.length > 0
-    )
+    const readyToGo = [
+      candidates,
+      voters,
+      title,
+      votableExpiration.toISOString(),
+      adminEmail,
+    ].every((prop) => prop.length > 0);
 
     setSubmitEnabled(readyToGo);
   }, [candidates, voters, title, votableExpiration, adminEmail]);
@@ -60,7 +67,7 @@ export default function BuildVotable() {
       voters: votersString,
       expiration: votableExpiration ? votableExpiration.toISOString() : "",
       adminEmail: adminEmail,
-    }
+    };
   }
 
   function convertData(candidates, voters) {
@@ -109,7 +116,6 @@ export default function BuildVotable() {
       });
   }
 
-
   // ------------------------------------------------------------
   // UI
   const [error, setError] = useState({ state: false, response: {} });
@@ -141,7 +147,7 @@ export default function BuildVotable() {
         direction="column"
         style={{ display: "flex" }}
       >
-        <Grid item sx={{ mt: 1}}>
+        <Grid item sx={{ mt: 1 }}>
           <Typography variant="h1">Create a votable!</Typography>
         </Grid>
         <Grid item>
@@ -160,7 +166,7 @@ export default function BuildVotable() {
             label="Administrator Email"
           />
         </Grid>
-        <Grid item sx={{ mt: 1}}>
+        <Grid item sx={{ mt: 1 }}>
           <VotableExpiration
             votableExpiration={votableExpiration}
             handleExpirationChange={setVotableExpiration}
@@ -169,16 +175,12 @@ export default function BuildVotable() {
         <Grid item>
           <Typography variant="h2">Candidates</Typography>
           <NameList people={candidates} />
-          <Candidate
-            addCandidate={addCandidate}
-          />
+          <Candidate addCandidate={addCandidate} />
         </Grid>
         <Grid item>
           <Typography variant="h2">Voters</Typography>
           <VotersList voters={voters} />
-          <Voter
-            addVoter={addVoter}
-          />
+          <Voter addVoter={addVoter} />
         </Grid>
         <Grid item>
           {votableConfirmation}
