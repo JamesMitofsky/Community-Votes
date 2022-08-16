@@ -11,12 +11,21 @@ export default function ResultsView() {
   // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const [votableName, setVotableName] = useState("");
+  const [error, setError] = useState({
+    state: false,
+    response: {},
+    message: "",
+  });
 
   const [pageState, setPageState] = useState({
-    loading: true,
-    insufficientParams: false,
+    insufficientParams: true,
+    loading: false,
     loaded: false,
   });
+  // briefer way to set page state
+  function setPage(newStateName) {
+    setState(setPageState, newStateName);
+  }
 
   // get search parameters from the url
   const searchParams = new URLSearchParams(window.location.search);
@@ -25,6 +34,17 @@ export default function ResultsView() {
   };
 
   useEffect(() => {
+    const paramsPresent = urlParams.votableID.length > 0 ? true : false;
+
+    paramsPresent
+      ? setPage("loading")
+      : setError({
+          state: true,
+          message:
+            "We couldn't find the votable ID you were looking for based on this link.",
+        });
+
+    if (!paramsPresent) return;
     async function fetchData() {
       // request the results from the server
       const instance = axios.create({
@@ -41,7 +61,10 @@ export default function ResultsView() {
         })
         .catch(function (error) {
           console.log(error);
-          setError({ state: true, response: error });
+          setError({
+            state: true,
+            message: "We couldn't return the results from our server.",
+          });
         });
 
       // transform candidate data to later be consumed by NamesList component
@@ -65,7 +88,11 @@ export default function ResultsView() {
         })
         .catch(function (error) {
           console.log(error);
-          setError({ state: true, response: error });
+          setError({
+            state: true,
+            message:
+              "We couldn't find the votableID included in the link you're using.",
+          });
         });
 
       setVotableName(completeVotable.name);
@@ -77,15 +104,12 @@ export default function ResultsView() {
       setState(setPageState, "loaded");
     }
     fetchData();
-  }, [urlParams.votableID]);
+  }, [urlParams.votableID, error]);
 
   const [votesUsageData, setVotesUsageData] = useState({
     possibleVotes: "—",
     castVotes: "—",
   });
-
-  const [error, setError] = useState({ state: false, response: {} });
-  const votableID = urlParams.votableID;
 
   function calculateVoteUsage(voters, candidates) {
     const possibleVotes = voters.reduce((total, voter) => {
@@ -128,7 +152,13 @@ export default function ResultsView() {
       {pageState.loaded && mainView}
 
       {/* If not loaded but there is no ID, print text. */}
-      {error.state && <Error state={error.state} response={error.response} />}
+      {error.state && (
+        <Error
+          state={error.state}
+          message={error.message}
+          response={error.response}
+        />
+      )}
     </>
   );
 }
