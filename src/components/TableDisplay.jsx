@@ -11,11 +11,11 @@ export default function TableDisplay({ array }) {
 
   return (
     <TableContainer component={Paper}>
-      <Table size="small" sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table size="small" aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell>Votes</TableCell>
+            <TableCell align="center">Votes</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -25,7 +25,7 @@ export default function TableDisplay({ array }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell>{row.candidateName}</TableCell>
-              <TableCell>{row.votes}</TableCell>
+              <TableCell align="center">{row.votes}</TableCell>
             </TableRow>
           ))}
         </TableBody>
