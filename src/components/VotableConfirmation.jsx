@@ -1,60 +1,75 @@
+import { useState, forwardRef } from "react";
 import {
-  Box,
+  Dialog,
   Button,
-  Modal,
+  Container,
+  AppBar,
+  Toolbar,
   Typography,
-  Card,
-  CardContent,
+  Slide,
 } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import NameList from "./NameList";
 
-export default function VotableConfirmation({
-  isOpen,
-  handleOpen,
-  votableData,
-}) {
-  const { candidates, name, voters, id } = votableData.data;
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+export default function VotableConfirmation({ isOpen, votableData }) {
+  const { candidates, name, voters } = votableData.data;
+
+  const [open, setOpen] = useState(isOpen);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <>
-      <Modal
-        sx={{ padding: "2rem" }}
-        open={isOpen}
-        onClose={handleOpen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+    <div>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Open full-screen dialog
+      </Button>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
       >
-        <Card sx={{ height: "100%" }}>
-          <CardContent>
-            <Typography id="modal-modal-title" variant="h2">
-              ✅{" "}
-              <Box
-                component="span"
-                style={{ textDecoration: "underline" }}
-                class="underline"
-              >
-                {name}
-              </Box>{" "}
-              was successfully created!
+        <AppBar
+          // color={theme.palette.primary.dark}
+          sx={{ bgcolor: "primary.success", position: "relative" }}
+        >
+          <Toolbar>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h2">
+              Successfully created: "{name}"
             </Typography>
-            <Typography variant="h3">
-              {candidates.length} Candidate{candidates.length > 1 ? "s" : "s"}{" "}
-            </Typography>
-            <NameList people={candidates} />
-            <Typography variant="h3">
-              {voters.length} Voter{voters.length > 1 ? "s" : "s"}
-            </Typography>
-            <NameList people={voters} />
-            <Typography variant="h3">Votable ID</Typography>
-            <Typography variant="p" sx={{ display: "block" }}>
-              {id}
-            </Typography>
-            <Button sx={{ mt: 5 }} variant="contained" onClick={handleOpen}>
-              Okay
+            <Button
+              startIcon={<CloseIcon />}
+              autoFocus
+              color="inherit"
+              onClick={handleClose}
+            >
+              Close
             </Button>
-          </CardContent>
-        </Card>
-      </Modal>
-    </>
+          </Toolbar>
+        </AppBar>
+        <Container sx={{ mt: 2 }}>
+          <Typography variant="h2">Candidates</Typography>
+          <Typography variant="subtitle1">
+            Added {candidates.length} Candidate{candidates.length > 1 && "s"} 🤵
+          </Typography>
+          <NameList people={candidates} />
+          <Typography variant="h2">Voters</Typography>
+          <Typography variant="subtitle1">
+            Added {voters.length} Voter{voters.length > 1 && "s"} 🧍
+          </Typography>
+          <NameList people={voters} />
+        </Container>
+      </Dialog>
+    </div>
   );
 }

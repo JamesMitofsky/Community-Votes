@@ -126,16 +126,6 @@ export default function BuildVotable() {
     setSuccess((prev) => !prev);
   }
 
-  let votableConfirmation = success ? (
-    <VotableConfirmation
-      isOpen={success}
-      handleOpen={handleSuccess}
-      votableData={votableResponse}
-    />
-  ) : (
-    ""
-  );
-
   return (
     <>
       <Helmet>
@@ -184,21 +174,29 @@ export default function BuildVotable() {
           <Voter addVoter={addVoter} />
         </Grid>
         <Grid item>
-          {votableConfirmation}
           <LoadingButton
             fullWidth
             onClick={publishToServer}
             loading={loading}
             variant="contained"
-            // loadingIndicator="Submitting your ballot..."
+            loadingIndicator="Submitting..."
             disabled={!submitEnabled}
             sx={{ mt: 4, fontSize: 25 }}
           >
             Submit
           </LoadingButton>
-          {error.state ? (
+          {success && (
+            <Grid item>
+              <VotableConfirmation
+                isOpen={success}
+                handleOpen={handleSuccess}
+                votableData={votableResponse}
+              />
+            </Grid>
+          )}
+          {error.state && (
             <Error state={error.state} response={error.response} />
-          ) : null}
+          )}
         </Grid>
       </Grid>
     </>
