@@ -27,16 +27,6 @@ export default function LandingPage() {
         <Link to="/admin">Admin page</Link>.
       </Typography>
       <Grid container alignItems="center">
-        <OutboxIcon />
-        <Typography variant="h2" sx={{ ml: 1 }}>
-          Publish
-        </Typography>
-      </Grid>
-      <Typography variant="body1">
-        Votables are automatically published when you create them from the Admin
-        page.
-      </Typography>
-      <Grid container alignItems="center">
         <HowToVoteIcon />
         <Typography variant="h2" sx={{ ml: 1 }}>
           Vote
