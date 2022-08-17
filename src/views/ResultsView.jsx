@@ -143,7 +143,7 @@ export default function ResultsView() {
       {pageState.insufficientParams && (
         <Typography variant="h2">
           Please click the link in the email you received in order to view the
-          Please click the link in the email you received in order to view the results
+          results.
         </Typography>
       )}
 
