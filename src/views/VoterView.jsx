@@ -175,7 +175,7 @@ export default function VoterView() {
         setVoter({ name: voter.name, availableVotes: votesMinusVotesCast });
 
         // when async calls are done, set page as loaded
-        setPageState((prev) => newState(prev, "loaded"));
+        // setPageState((prev) => newState(prev, "loaded"));
       } catch (error) {
         setErrorState({ state: true, message: error });
       }

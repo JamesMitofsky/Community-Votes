@@ -7,7 +7,7 @@ export default function LoadingSpinner({ isLoading }) {
         display="flex"
         margin="auto"
         justifyContent="center"
-        flexdirection="column"
+        flexDirection="column"
         alignItems="center"
         height="100%"
       >

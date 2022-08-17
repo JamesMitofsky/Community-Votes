@@ -23,40 +23,41 @@ export default function App() {
 
   return (
     <HelmetProvider>
-      <div className="App">
+      <Box
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+        className="App"
+      >
         <ThemeProvider theme={theme}>
-          <Box>
-            <Navigation />
-            <Container
-              className={`${transitionStage}`}
-              onAnimationEnd={() => {
-                if (transitionStage === "fadeOut") {
-                  setTransistionStage("fadeIn");
-                  setDisplayLocation(location);
-                }
-              }}
-              maxWidth="md"
-              component="div"
-              sx={{
-                marginTop: 2,
-                marginBottom: 4,
-                display: "flex",
-                flexDirection: "column",
-                flexGrow: 1,
-              }}
-            >
-              <Routes location={displayLocation}>
-                <Route path="/" element={<LandingPage />}></Route>
-                <Route path="/voter" element={<VoterView />}></Route>
-                <Route path="/results" element={<ResultsView />}></Route>
-                <Route path="/admin" element={<AdminView />}></Route>
-                <Route path="/buildURL" element={<UrlBuilder />}></Route>
-                <Route path="*" element={<UnknownAddress />}></Route>
-              </Routes>
-            </Container>
-          </Box>
+          <Navigation />
+          <Container
+            className={`${transitionStage}`}
+            onAnimationEnd={() => {
+              if (transitionStage === "fadeOut") {
+                setTransistionStage("fadeIn");
+                setDisplayLocation(location);
+              }
+            }}
+            maxWidth="md"
+            component="div"
+            sx={{
+              marginTop: 2,
+              marginBottom: 4,
+              display: "flex",
+              flexDirection: "column",
+              flexGrow: 1,
+            }}
+          >
+            <Routes location={displayLocation}>
+              <Route path="/" element={<LandingPage />}></Route>
+              <Route path="/voter" element={<VoterView />}></Route>
+              <Route path="/results" element={<ResultsView />}></Route>
+              <Route path="/admin" element={<AdminView />}></Route>
+              <Route path="/buildURL" element={<UrlBuilder />}></Route>
+              <Route path="*" element={<UnknownAddress />}></Route>
+            </Routes>
+          </Container>
         </ThemeProvider>
-      </div>
+      </Box>
     </HelmetProvider>
   );
 }
