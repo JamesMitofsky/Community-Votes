@@ -190,7 +190,7 @@ export default function BuildVotable() {
             onClick={publishToServer}
             loading={loading}
             variant="contained"
-            // loadingIndicator="Submitting your ballot..."
+            loadingIndicator="Submitting..."
             disabled={!submitEnabled}
             sx={{ mt: 4, fontSize: 25 }}
           >
