@@ -163,7 +163,12 @@ export default function VoterView() {
           ? returnedCandidateVotes
           : handleNewCandidates(votableCandidates);
 
-        setCandidates(candidatesWithVotes);
+        // set initial value for candidates array
+        const randomizedCandidates = candidatesWithVotes.sort(
+          () => Math.random() - 0.5
+        );
+
+        setCandidates(randomizedCandidates);
 
         const voter = voterObject(urlParams.voterID, votableInfo);
 
@@ -226,6 +231,7 @@ export default function VoterView() {
       return;
     }
 
+    // update the votes for this candidate
     setCandidates((prevCandidates) => {
       let updatedCandidates = prevCandidates.map((candidate) =>
         candidate.id !== id
