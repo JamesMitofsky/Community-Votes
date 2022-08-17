@@ -10,12 +10,6 @@ export default function VoterForm({
   formState,
   castBallot,
 }) {
-  function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-  }
-
-  const randomizedCandidates = shuffleArray(candidates);
-
   return (
     <>
       <Typography variant="h1" sx={{ borderBottom: 1 }}>
@@ -28,7 +22,7 @@ export default function VoterForm({
         CANDIDATES
       </Typography>
       <List>
-        {randomizedCandidates.map((candidate) => {
+        {candidates.map((candidate) => {
           return (
             <ListItem
               divider
