@@ -123,11 +123,11 @@ export default function ResultsView() {
 
   const mainView = (
     <>
-      <Typography variant="h2">
-        Of the {votesUsageData.possibleVotes} votes which could have been cast,{" "}
-        {votesUsageData.castVotes} were submitted.
+      <TableDisplay array={candidates}/>
+      <Typography variant="h2" align="right" sx={{ fontSize: 15 }}>
+        Of the {votesUsageData.possibleVotes} available votes,{" "}
+        {votesUsageData.castVotes} have been cast.
       </Typography>
-      <TableDisplay array={candidates} />
     </>
   );
 
@@ -136,7 +136,7 @@ export default function ResultsView() {
       <Helmet>
         <title>Results</title>
       </Helmet>
-      <Typography variant="h1">Results: {votableName}</Typography>
+      <Typography variant="h1" sx={{ mb: 2 }}>Results: {votableName}</Typography>
 
       {pageState.insufficientParams && (
         <Typography variant="h2">
