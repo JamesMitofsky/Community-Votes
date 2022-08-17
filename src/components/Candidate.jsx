@@ -22,7 +22,13 @@ export default function Candidate({ addCandidate }) {
           onChange={(e) => setCandidateName(e.target.value)}
         ></TextField>
       </FormControl>
-      <Button disabled={!isFormComplete} onClick={onSubmit} fullWidth variant="contained" sx= {{ mt: 2}}>
+      <Button
+        disabled={!isFormComplete}
+        onClick={onSubmit}
+        fullWidth
+        variant="contained"
+        sx={{ mt: 2 }}
+      >
         Add Candidate
       </Button>
     </>
