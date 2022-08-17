@@ -37,7 +37,7 @@ export default function ResultsView() {
     try {
       if (urlParams.votableID === null) {
         setPage("insufficientParams");
-        return
+        return;
       }
 
       async function fetchData() {
@@ -123,7 +123,7 @@ export default function ResultsView() {
 
   const mainView = (
     <>
-      <TableDisplay array={candidates}/>
+      <TableDisplay array={candidates} />
       <Typography variant="h2" align="right" sx={{ fontSize: 15 }}>
         Of the {votesUsageData.possibleVotes} available votes,{" "}
         {votesUsageData.castVotes} have been cast.
@@ -136,10 +136,13 @@ export default function ResultsView() {
       <Helmet>
         <title>Results</title>
       </Helmet>
-      <Typography variant="h1" sx={{ mb: 2 }}>Results: {votableName}</Typography>
+      <Typography variant="h1" sx={{ mb: 2 }}>
+        Results: {votableName}
+      </Typography>
 
       {pageState.insufficientParams && (
         <Typography variant="h2">
+          Please click the link in the email you received in order to view the
           Please click the link in the email you received in order to view the results
         </Typography>
       )}
