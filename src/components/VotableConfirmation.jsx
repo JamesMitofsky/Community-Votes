@@ -12,28 +12,12 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import NameList from "./NameList";
 
-// import  from "@mui/material/Dialog";
-// import  from "@mui/material/ListItemText";
-// import  from "@mui/material/ListItem";
-// import  from "@mui/material/List";
-// import  from "@mui/material/Divider";
-// import  from "@mui/material/AppBar";
-// import  from "@mui/material/Toolbar";
-// import  from "@mui/material/IconButton";
-// import  from "@mui/material/Typography";
-
-// import  from "@mui/material/Slide";
-
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function VotableConfirmation({
-  isOpen,
-  handleOpen,
-  votableData,
-}) {
-  const { candidates, name, voters, id } = votableData.data;
+export default function VotableConfirmation({ isOpen, votableData }) {
+  const { candidates, name, voters } = votableData.data;
 
   const [open, setOpen] = useState(isOpen);
 
