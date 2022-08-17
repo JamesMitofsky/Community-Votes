@@ -67,20 +67,22 @@ export default function VotableConfirmation({
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h2">
-              Success! {name} has been created.
+              Success! "{name}" has been created.
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               Close
             </Button>
           </Toolbar>
         </AppBar>
-        <Container sx={{ mt: 4 }}>
-          <Typography variant="h3">
-            Added {candidates.length} Candidate{candidates.length > 1 && "s"}
+        <Container sx={{ mt: 2 }}>
+          <Typography variant="h2">Candidates</Typography>
+          <Typography variant="subtitle1">
+            Added {candidates.length} Candidate{candidates.length > 1 && "s"} 🤵
           </Typography>
           <NameList people={candidates} />
-          <Typography variant="h3">
-            Added {voters.length} Voter{voters.length > 1 && "s"}
+          <Typography variant="h2">Voters</Typography>
+          <Typography variant="subtitle1">
+            Added {voters.length} Voter{voters.length > 1 && "s"} 🧍
           </Typography>
           <NameList people={voters} />
         </Container>
