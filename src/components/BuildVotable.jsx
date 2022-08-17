@@ -196,9 +196,9 @@ export default function BuildVotable() {
           >
             Submit
           </LoadingButton>
-          {error.state ? (
+          {error.state && (
             <Error state={error.state} response={error.response} />
-          ) : null}
+          )}
         </Grid>
       </Grid>
     </>
