@@ -5,7 +5,6 @@ import {
   Container,
   AppBar,
   Toolbar,
-  IconButton,
   Typography,
   Slide,
 } from "@mui/material";
@@ -40,20 +39,20 @@ export default function VotableConfirmation({ isOpen, votableData }) {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
+        <AppBar
+          // color={theme.palette.primary.dark}
+          sx={{ bgcolor: "primary.success", position: "relative" }}
+        >
           <Toolbar>
-            <IconButton
-              edge="start"
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h2">
+              Successfully created: "{name}"
+            </Typography>
+            <Button
+              startIcon={<CloseIcon />}
+              autoFocus
               color="inherit"
               onClick={handleClose}
-              aria-label="close"
             >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h2">
-              Success! "{name}" has been created.
-            </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
               Close
             </Button>
           </Toolbar>
