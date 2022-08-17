@@ -7,7 +7,7 @@ import LoadingSpinner from "../components/LoadingSpinner.jsx";
 import Error from "../components/alerts/Error.jsx";
 import setState from "../functions/stateManagement.js";
 
-export default function ResultsView() {
+export default function Tally() {
   // const [candidateElms, setCandidateElms] = useState([]);
   const [candidates, setCandidates] = useState([]);
   const [votableName, setVotableName] = useState("");
@@ -134,11 +134,8 @@ export default function ResultsView() {
   return (
     <>
       <Helmet>
-        <title>Results</title>
+        <title>Tally</title>
       </Helmet>
-      <Typography variant="h1" sx={{ mb: 2 }}>
-        Results: {votableName}
-      </Typography>
 
       {pageState.insufficientParams && (
         <Typography variant="h2">
@@ -149,7 +146,14 @@ export default function ResultsView() {
 
       {pageState.loading && <LoadingSpinner />}
 
-      {pageState.loaded && mainView}
+      {pageState.loaded && (
+        <>
+          <Typography variant="h1" sx={{ mb: 2 }}>
+            Tally: {votableName}
+          </Typography>
+          mainView
+        </>
+      )}
 
       {error.state && (
         <Error

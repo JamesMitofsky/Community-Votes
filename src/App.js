@@ -1,6 +1,6 @@
 import AdminView from "./views/AdminView.jsx";
 import VoterView from "./views/VoterView.jsx";
-import ResultsView from "./views/ResultsView.jsx";
+import Tally from "./views/Tally.jsx";
 import LandingPage from "./views/LandingPage.jsx";
 import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
@@ -50,7 +50,7 @@ export default function App() {
             <Routes location={displayLocation}>
               <Route path="/" element={<LandingPage />}></Route>
               <Route path="/voter" element={<VoterView />}></Route>
-              <Route path="/results" element={<ResultsView />}></Route>
+              <Route path="/tally" element={<Tally />}></Route>
               <Route path="/admin" element={<AdminView />}></Route>
               <Route path="/buildURL" element={<UrlBuilder />}></Route>
               <Route path="*" element={<UnknownAddress />}></Route>

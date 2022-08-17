@@ -1,7 +1,6 @@
 import { Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
-import OutboxIcon from "@mui/icons-material/Outbox";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Helmet } from "react-helmet-async";
@@ -45,8 +44,8 @@ export default function LandingPage() {
         </Typography>
       </Grid>
       <Typography variant="body1">
-        All votes will be tallied at the end of the voting period. These results
-        will be tallied up on the <Link to="/results">results page</Link>.
+        All votes will be tallied at the end of the voting period and displayed
+        on the <Link to="/tally">tally page</Link>.
       </Typography>
     </>
   );
