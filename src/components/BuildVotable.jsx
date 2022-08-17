@@ -112,6 +112,7 @@ export default function BuildVotable() {
       })
       .catch(function (error) {
         console.log(error);
+        setLoading(false);
         setError({ state: true, response: error });
       });
   }

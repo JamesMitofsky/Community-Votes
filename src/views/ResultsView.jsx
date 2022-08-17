@@ -35,24 +35,13 @@ export default function ResultsView() {
 
   useEffect(() => {
     try {
-      setPage("loading");
-
       if (urlParams.votableID === null) {
-        // set error state if no votableID exists
-        setError({
-          state: true,
-          message:
-            "We couldn't find the votable ID you were looking for based on this link.",
-        });
-      }
-      if (error.state === true) {
-        console.log(
-          "Exception: couldn't find the votable ID you were looking for based on this link."
-        );
+        setPage("insufficientParams");
         return;
       }
 
       async function fetchData() {
+        setPage("loading");
         // request the results from the server
         const instance = axios.create({
           baseURL: process.env.REACT_APP_SERVER_ADDRESS,
@@ -134,11 +123,11 @@ export default function ResultsView() {
 
   const mainView = (
     <>
-      <Typography variant="h2">
-        Of the {votesUsageData.possibleVotes} votes which could have been cast,{" "}
-        {votesUsageData.castVotes} were submitted.
-      </Typography>
       <TableDisplay array={candidates} />
+      <Typography variant="h2" align="right" sx={{ fontSize: 15 }}>
+        Of the {votesUsageData.possibleVotes} available votes,{" "}
+        {votesUsageData.castVotes} have been cast.
+      </Typography>
     </>
   );
 
@@ -147,11 +136,14 @@ export default function ResultsView() {
       <Helmet>
         <title>Results</title>
       </Helmet>
-      <Typography variant="h1">Results: {votableName}</Typography>
+      <Typography variant="h1" sx={{ mb: 2 }}>
+        Results: {votableName}
+      </Typography>
 
       {pageState.insufficientParams && (
         <Typography variant="h2">
-          Sorry, we couldn't find the voting results you were looking for.
+          Please click the link in the email you received in order to view the
+          results.
         </Typography>
       )}
 

@@ -281,7 +281,7 @@ export default function VoterView() {
 
       {pageState.insufficientParams && (
         <Typography variant="h2" component="h1">
-          There's nothing to vote on right now.
+          Please click the link in the email you received in order to vote.
         </Typography>
       )}
 
