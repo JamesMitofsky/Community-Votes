@@ -35,24 +35,13 @@ export default function ResultsView() {
 
   useEffect(() => {
     try {
-      setPage("loading");
-
       if (urlParams.votableID === null) {
-        // set error state if no votableID exists
-        setError({
-          state: true,
-          message:
-            "We couldn't find the votable ID you were looking for based on this link.",
-        });
-      }
-      if (error.state === true) {
-        console.log(
-          "Exception: couldn't find the votable ID you were looking for based on this link."
-        );
-        return;
+        setPage("insufficientParams");
+        return
       }
 
       async function fetchData() {
+        setPage("loading");
         // request the results from the server
         const instance = axios.create({
           baseURL: process.env.REACT_APP_SERVER_ADDRESS,
@@ -151,7 +140,7 @@ export default function ResultsView() {
 
       {pageState.insufficientParams && (
         <Typography variant="h2">
-          Sorry, we couldn't find the voting results you were looking for.
+          Please click the link in the email you received in order to view the results
         </Typography>
       )}
 
