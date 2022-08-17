@@ -10,6 +10,20 @@ export default function VoterForm({
   formState,
   castBallot,
 }) {
+  function shuffleArray(array) {
+    const randomizedArray = array.map((el, i) => {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    });
+    return randomizedArray;
+    // for (let i = array.length - 1; i > 0; i--) {
+    //   const j = Math.floor(Math.random() * (i + 1));
+    //   [array[i], array[j]] = [array[j], array[i]];
+    // }
+  }
+
+  const randomizedCandidates = shuffleArray(candidates);
+
   return (
     <>
       <Typography variant="h1" sx={{ borderBottom: 1 }}>
@@ -22,7 +36,7 @@ export default function VoterForm({
         CANDIDATES
       </Typography>
       <List>
-        {candidates.map((candidate) => {
+        {randomizedCandidates.map((candidate) => {
           return (
             <ListItem
               divider
