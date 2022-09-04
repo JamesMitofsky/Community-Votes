@@ -1,52 +1,53 @@
 import { Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import CreateIcon from "@mui/icons-material/Create";
-import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Helmet } from "react-helmet-async";
+import NeighborhoodImage from "../assets/community.jpeg";
 
 export default function LandingPage() {
   return (
     <>
       <Helmet>
-        <title>Home</title>
+        <title>Community Votes</title>
       </Helmet>
-      <Typography variant="h1">Home</Typography>
-      <Typography variant="subtitle1">
-        Welcome to HOA Votes! Here's a quick explanation of how this app works:
+      <Typography sx={{ fontWeight: "bold" }} variant="h1">
+        Community Organization Made Easy
       </Typography>
-      <Grid container alignItems="center">
-        <CreateIcon />
-        <Typography variant="h2" sx={{ ml: 1 }}>
-          Create
-        </Typography>
+      <Typography variant="h3">
+        A free, anonymous, & secure solution for voting
+      </Typography>
+      <img src={NeighborhoodImage} alt="Painting of a neighborhood" />
+      <Grid
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+          marginTop: 3,
+          marginBottom: 3,
+        }}
+      >
+        <Grid>
+          <Typography variant="h2">Am I the audience for this app?</Typography>
+          <Typography variant="body1">
+            Community Votes is for groups of any size which need anonymous
+            voting, potentially with weighted votes, as is a common use case
+            with Homeowners Associations in the United States.
+          </Typography>
+        </Grid>
+        <Grid>
+          <Typography variant="h2">Is the app really free?</Typography>
+          <Typography variant="body1">
+            Yes, it's 100% free, and it'll be that way forever. There are no
+            ads, sold data, or fees.
+          </Typography>
+        </Grid>
+        <Grid>
+          <Typography variant="h2">How does Community Votes work?</Typography>
+          <Typography variant="body1">
+            Learn more about how it works by visiting our{" "}
+            <Link to="/FAQ">FAQ page</Link>!
+          </Typography>
+        </Grid>
       </Grid>
-      <Typography variant="body1">
-        Create a votable by filling out the form found on the{" "}
-        <Link to="/admin">Admin page</Link>.
-      </Typography>
-      <Grid container alignItems="center">
-        <HowToVoteIcon />
-        <Typography variant="h2" sx={{ ml: 1 }}>
-          Vote
-        </Typography>
-      </Grid>
-      <Typography variant="body1">
-        After publishing a votable, voters will receive an email shortly from
-        the app. This email will include a link which is unique to them, letting
-        them cast their allotted votes on the{" "}
-        <Link to="/voter">voter page</Link>.
-      </Typography>
-      <Grid container alignItems="center">
-        <NotificationsActiveIcon />
-        <Typography variant="h2" sx={{ ml: 1 }}>
-          Tally
-        </Typography>
-      </Grid>
-      <Typography variant="body1">
-        All votes will be tallied at the end of the voting period. These results
-        will be tallied up on the <Link to="/results">results page</Link>.
-      </Typography>
     </>
   );
 }

@@ -5,6 +5,8 @@ import LandingPage from "./views/LandingPage.jsx";
 import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
 import UrlBuilder from "./views/UrlBuilder.jsx";
+import FAQ from "./views/FAQ.jsx";
+
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { Container, Box } from "@mui/material";
@@ -53,6 +55,7 @@ export default function App() {
               <Route path="/results" element={<ResultsView />}></Route>
               <Route path="/admin" element={<AdminView />}></Route>
               <Route path="/buildURL" element={<UrlBuilder />}></Route>
+              <Route path="/FAQ" element={<FAQ />}></Route>
               <Route path="*" element={<UnknownAddress />}></Route>
             </Routes>
           </Container>

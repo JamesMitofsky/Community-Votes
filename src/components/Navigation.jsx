@@ -6,7 +6,7 @@ export default function Navigation() {
     <AppBar position="static">
       <Toolbar>
         <NavLink style={{ textDecoration: "none", color: "unset" }} to="/">
-          <Typography variant="h1">HOA Votes</Typography>
+          <Typography variant="h1">Community Votes</Typography>
         </NavLink>
       </Toolbar>
     </AppBar>
