@@ -1,4 +1,4 @@
-import { Typography, Grid } from "@mui/material";
+import { Typography, Grid, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import NeighborhoodImage from "../assets/community.jpeg";
@@ -9,12 +9,14 @@ export default function LandingPage() {
       <Helmet>
         <title>Community Votes</title>
       </Helmet>
-      <Typography sx={{ fontWeight: "bold" }} variant="h1">
-        Community Organization Made Easy
-      </Typography>
-      <Typography variant="h3">
-        A free, anonymous, & secure solution for voting
-      </Typography>
+      <Box sx={{ marginBottom: 4 }}>
+        <Typography sx={{ fontWeight: "bold" }} variant="h1">
+          Community Organization Made Easy
+        </Typography>
+        <Typography variant="h3">
+          A free, anonymous, & secure solution for voting
+        </Typography>
+      </Box>
       <img src={NeighborhoodImage} alt="Painting of a neighborhood" />
       <Grid
         sx={{
