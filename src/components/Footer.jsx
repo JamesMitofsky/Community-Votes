@@ -7,11 +7,15 @@ export default function Footer() {
       variant="subtitle1"
     >
       Coded by{" "}
-      <a target="_blank" href="https://github.com/Gregliest">
+      <a rel="noreferrer" target="_blank" href="https://github.com/Gregliest">
         <Link>Greg Lee in 🇺🇸</Link>
       </a>{" "}
       &{" "}
-      <a target="_blank" href="https://github.com/JamesMitofsky">
+      <a
+        rel="noreferrer"
+        target="_blank"
+        href="https://github.com/JamesMitofsky"
+      >
         <Link>James Mitofsky in 🇫🇷</Link>
       </a>
     </Typography>
