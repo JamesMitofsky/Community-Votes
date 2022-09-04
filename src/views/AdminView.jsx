@@ -129,7 +129,7 @@ export default function AdminView() {
   return (
     <>
       <Helmet>
-        <title>Build Votable</title>
+        <title>Create Your Votable</title>
       </Helmet>
       <Grid
         component="form"
@@ -139,7 +139,7 @@ export default function AdminView() {
         style={{ display: "flex" }}
       >
         <Grid item sx={{ mt: 1 }}>
-          <Typography variant="h1">Create a votable!</Typography>
+          <Typography variant="h1">Create Your Votable</Typography>
         </Grid>
         <Grid item>
           <TextInput
