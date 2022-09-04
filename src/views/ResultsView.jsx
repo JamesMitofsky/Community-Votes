@@ -137,7 +137,7 @@ export default function ResultsView() {
         <title>Results</title>
       </Helmet>
       <Typography variant="h1" sx={{ mb: 2 }}>
-        Results: {votableName}
+        Results{votableName && `: ${votableName}`}
       </Typography>
 
       {pageState.insufficientParams && (
