@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { Typography, Grid, Link } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
