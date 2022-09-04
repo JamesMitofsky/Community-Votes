@@ -15,6 +15,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { HelmetProvider } from "react-helmet-async";
 
+import "@fontsource/libre-franklin";
+
 export default function App() {
   const location = useLocation();
   const [displayLocation, setDisplayLocation] = useState(location);
@@ -43,7 +45,7 @@ export default function App() {
             maxWidth="md"
             component="div"
             sx={{
-              marginTop: 2,
+              marginTop: 3,
               marginBottom: 4,
               display: "flex",
               flexDirection: "column",
@@ -69,6 +71,7 @@ export default function App() {
 
 const theme = createTheme({
   typography: {
+    fontFamily: "Libre Franklin",
     headers: {},
     fontSize: 14,
     h1: { fontSize: 35, fontWeight: 500 },
