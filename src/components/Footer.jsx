@@ -6,8 +6,14 @@ export default function Footer() {
       sx={{ textAlign: "center", marginBottom: 2 }}
       variant="subtitle1"
     >
-      Coded by <Link href="https://github.com/Gregliest">Greg Lee in 🇺🇸</Link> &{" "}
-      <Link href="https://github.com/JamesMitofsky">James Mitofsky in 🇫🇷</Link>
+      Coded by{" "}
+      <a target="_blank" href="https://github.com/Gregliest">
+        <Link>Greg Lee in 🇺🇸</Link>
+      </a>{" "}
+      &{" "}
+      <a target="_blank" href="https://github.com/JamesMitofsky">
+        <Link>James Mitofsky in 🇫🇷</Link>
+      </a>
     </Typography>
   );
 }
