@@ -1,6 +1,6 @@
-# HOA-Votes
+# Community Votes
 
-React app to correctly weight votes in a homeowner association.
+React app to correctly weight votes in any group setting, inspired by the common requirement of voting in homeowners associations.
 
 ## Deploy State
 
