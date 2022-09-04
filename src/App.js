@@ -6,6 +6,7 @@ import UnknownAddress from "./views/UnknownAddress.jsx";
 import Navigation from "./components/Navigation.jsx";
 import UrlBuilder from "./views/UrlBuilder.jsx";
 import FAQ from "./views/FAQ.jsx";
+import Footer from "./components/Footer.jsx";
 
 import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
@@ -59,6 +60,7 @@ export default function App() {
               <Route path="*" element={<UnknownAddress />}></Route>
             </Routes>
           </Container>
+          <Footer />
         </ThemeProvider>
       </Box>
     </HelmetProvider>
